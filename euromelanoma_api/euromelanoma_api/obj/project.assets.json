@@ -4527,11 +4527,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\user\\source\\repos\\euromelanoma_api\\euromelanoma_api\\euromelanoma_api.csproj",
+      "projectUniqueName": "C:\\Users\\user\\Desktop\\euromelanoma\\euromelanoma_api\\euromelanoma_api\\euromelanoma_api.csproj",
       "projectName": "euromelanoma_api",
-      "projectPath": "C:\\Users\\user\\source\\repos\\euromelanoma_api\\euromelanoma_api\\euromelanoma_api.csproj",
+      "projectPath": "C:\\Users\\user\\Desktop\\euromelanoma\\euromelanoma_api\\euromelanoma_api\\euromelanoma_api.csproj",
       "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\user\\source\\repos\\euromelanoma_api\\euromelanoma_api\\obj\\",
+      "outputPath": "C:\\Users\\user\\Desktop\\euromelanoma\\euromelanoma_api\\euromelanoma_api\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\user\\AppData\\Roaming\\NuGet\\NuGet.Config",
