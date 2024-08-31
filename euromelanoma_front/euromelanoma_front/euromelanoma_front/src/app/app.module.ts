@@ -1,0 +1,35 @@
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+import { HomeComponent } from './components/home/home.component';
+import { PatientComponent } from './components/patient/patient.component';
+import { LoginComponent } from './components/login/login.component';
+import { DoctorComponent } from './components/doctor/doctor.component';
+import { RegisterComponent } from './components/register/register.component';
+import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
+@NgModule({
+  declarations: [
+    AppComponent,
+    HomeComponent,
+    PatientComponent,
+    LoginComponent,
+    DoctorComponent,
+    RegisterComponent,
+
+   // MaterialModule,
+  ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+  ],
+  providers: [],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }

@@ -1,0 +1,70 @@
+ <!-- 
+    <ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="small" color="#fff" type="square-jelly-box" 
+   
+
+        <p style="color: white"> Učitava se... </p>
+      </ngx-spinner> -->
+
+  <div class="wrapper">
+    <nav class="navbar bg-body-tertiary">
+      <div class="container">
+        <a class="navbar-brand">
+           <img src="../../assets/images/euromelanoma-logo.svg" height="64"> 
+        </a>
+      </div>
+    </nav>
+    <div class="container main">
+      <div class="row">
+        <div class="col-md-6 side-image">
+          <!-------Image-------->
+          <!-- <img src="../../../assets/images/euromelanoma-logo.png" alt="">  -->
+        </div>
+        <div class="col-md-6 right">
+          <div class="input-box">
+            <header>
+               <img src="../../../assets/images/login.png" alt="" > 
+            </header>
+            <form>
+              <div class="input-field">
+                <input type="text" class="input" [formControl]="username" id="username" required>
+                <label for="username">Korisničko ime</label>
+              </div>
+              <div class="input-field">
+                <input [type]="hide ? 'password' : 'text'" [formControl]="password" class="input" id="password" required>
+                <label for="password">Lozinka</label>
+              </div>
+  
+              <div class="checkbox-wrapper-4">
+                <input type="checkbox" (click)="toggleShow()" id="show" class="inp-cbx">
+                <label for="show" class="cbx">
+                  <span><svg height="10px" width="12px"></svg></span>
+                  <span>Prikaži šifru</span>
+                </label>
+                <svg class="inline-svg">
+                  <symbol viewBox="0 0 12 10" id="check-4">
+                    <polyline points="1.5 6 4.5 9 10.5 1"></polyline>
+                  </symbol>
+                </svg>
+              </div>
+              <div class="input-field">
+                <button type="submit" class="submit" (click)="onSubmit()">ULOGUJ SE</button>
+              </div>
+            </form>
+            <figure>
+              <blockquote>
+                <p>
+                    Dobrodošli na Euromelanoma portal, vaše centralno mesto za upravljanje zdravstvenim informacijama i pregledima. 
+                    Prijavite se kako biste pristupili personalizovanom sadržaju i alatima namenjenim vama.
+                </p>
+              </blockquote>
+            </figure>
+          </div>
+        </div>
+      </div>
+    </div>
+    <footer class="footer">
+      <!-- <hr width="80%" /> -->
+      <p>© 2024 - Antonija Vasiljević</p>
+    </footer>
+  </div>
+  
