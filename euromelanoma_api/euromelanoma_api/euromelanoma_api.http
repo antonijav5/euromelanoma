@@ -1,0 +1,6 @@
+@euromelanoma_api_HostAddress = http://localhost:5233
+
+GET {{euromelanoma_api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
