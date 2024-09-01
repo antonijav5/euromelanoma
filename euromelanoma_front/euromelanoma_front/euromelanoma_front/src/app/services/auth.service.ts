@@ -19,7 +19,7 @@ export class AuthService {
   environment:any={
     apiBaseUrl:"http://localhost:21493"
   } 
-  url: string = this.environment.apiBaseUrl + '/api/Users/';
+  url: string = this.environment.apiBaseUrl + '/api/User/';
 
   constructor(
     private router: Router,
@@ -109,6 +109,7 @@ export class AuthService {
     if (username && password) {
       const reqHeader = new HttpHeaders().set('Content-Type', 'application/json').set('Accept', 'application/json');
       this.saveToken(this.token);
+    
       return this.http.post<any>(this.url + 'Login?' + 'username=' + username + '&password=' + password, { headers: reqHeader })
         .pipe(
           tap(() => {

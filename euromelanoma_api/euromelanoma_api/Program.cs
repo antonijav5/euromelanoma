@@ -1,5 +1,9 @@
-﻿using Microsoft.OpenApi.Models;
+﻿using euromelanoma_api.Models.EuromelanomaContext;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.OpenApi.Models;
 using System.Reflection;
+using System.Text.Json.Serialization;
 
 WebApplicationBuilder? builder = WebApplication.CreateBuilder(args);
 
@@ -20,7 +24,9 @@ builder.Services.Configure<IISServerOptions>(options =>
 
 
 // Dodaj servis za koriscenje kontrolera u objekat bilder aplikacije
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddJsonOptions(x =>
+                x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
+;
 
 
 
@@ -35,7 +41,7 @@ builder.Services.AddSwaggerGen(config =>
 });
 
 // Ukljuci bazu podataka u objekat bilder aplikacije
-//builder.Services.AddDbContext<GlobosDbContext>(options => options.UseSqlServer(defaultConnectionString));
+builder.Services.AddDbContext<EUROMELANOMAContext>(options => options.UseSqlServer(defaultConnectionString));
 
 // Dozvoli maksimalnu velicinu fajla koju prima MultipartFormData
 builder.Services.Configure<Microsoft.AspNetCore.Http.Features.FormOptions>(options =>

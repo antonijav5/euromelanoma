@@ -1,0 +1,74 @@
+﻿using euromelanoma_api.Managers;
+using euromelanoma_api.Models.DTOObjects;
+using euromelanoma_api.Models.EuromelanomaContext;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Text;
+
+namespace euromelanoma_api.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class UserController : ControllerBase
+    {
+
+        private EUROMELANOMAContext _context;
+        private IConfiguration _config;
+        private UserManager userManager;
+        public UserController(EUROMELANOMAContext context, IConfiguration config)
+        {
+            _context = context;
+            _config = config;
+            userManager = new UserManager(_context, _config);
+        }
+
+        [HttpPost("Login")]
+        public async Task<RequestResult<UserModel>> Login(string username, string password)
+        {
+            if (username == null || password == null)
+            {
+                return null;
+            }
+
+            try
+            {
+                var user = _context.Users.Where(Users => Users.Username == username).FirstOrDefault();
+                if (user == null)
+                {
+                    return new RequestResult<UserModel>(false, null, "Korisnik sa datim korisničkim imenom ne postoji!", null, null);
+                }
+
+                var result = await userManager.Login(username, password);
+
+                if (result != null)
+                {
+                    List<UserModel> resultList = new List<UserModel>();
+                    resultList.Add(result);
+                    return new RequestResult<UserModel>(true, resultList, "Ok", null, null);
+                }
+                else
+                {
+                    return new RequestResult<UserModel>(false, null, "Neispravna lozinka!", null, null);
+                }
+            }
+            catch (Exception ex)
+            {
+                return new RequestResult<UserModel>(false, null, "Greška: " + ex.Message, null, null);
+            }
+        }
+
+
+        [HttpPost("CreateHash")]
+        public IActionResult GetSha1Hash([FromBody] string input)
+        {
+            return Ok(UserManager.GetHashHex(input));
+
+        }
+
+    }
+
+
+}

@@ -37,7 +37,7 @@ export class LoginComponent implements OnInit {
 
   }
 
-  onSubmit(): void {
+  onSubmit(): void {    
     if (this.username.valid && this.password.valid) {
       this.auth.login(this.username.value?this.username.value:'', this.password.value?this.password.value:'').subscribe(
         (res: any) => {
@@ -51,16 +51,16 @@ export class LoginComponent implements OnInit {
           } else {
             sessionStorage.clear();
             this.password.setValue('');
-            this.toster.error(res.message, 'Globos Osiguranje')
+            this.toster.error(res.message, 'euromelanoma')
           }
         },
         (err: any) => {
-          this.toster.error("User " + err.statusText, 'Globos Osiguranje')
+          this.toster.error("User " + err.statusText, '')
           sessionStorage.clear();
         }
       );
     } else {
-      this.toster.error('Morate popuniti sva polja', 'Globos Osiguranje')
+      this.toster.error('Morate popuniti sva polja', '')
       sessionStorage.clear();
     }
   }
