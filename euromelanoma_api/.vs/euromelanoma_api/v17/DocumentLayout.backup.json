@@ -3,20 +3,20 @@
   "WorkspaceRootPath": "C:\\Users\\user\\Desktop\\euromelanoma\\euromelanoma_api\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{BB64A3E5-E3FD-409D-A4F0-E6CDC32B39B4}|euromelanoma_api\\euromelanoma_api.csproj|c:\\users\\user\\desktop\\euromelanoma\\euromelanoma_api\\euromelanoma_api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{BB64A3E5-E3FD-409D-A4F0-E6CDC32B39B4}|euromelanoma_api\\euromelanoma_api.csproj|solutionrelative:euromelanoma_api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{BB64A3E5-E3FD-409D-A4F0-E6CDC32B39B4}|euromelanoma_api\\euromelanoma_api.csproj|c:\\users\\user\\desktop\\euromelanoma\\euromelanoma_api\\euromelanoma_api\\managers\\usermanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BB64A3E5-E3FD-409D-A4F0-E6CDC32B39B4}|euromelanoma_api\\euromelanoma_api.csproj|solutionrelative:euromelanoma_api\\managers\\usermanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{BB64A3E5-E3FD-409D-A4F0-E6CDC32B39B4}|euromelanoma_api\\euromelanoma_api.csproj|c:\\users\\user\\desktop\\euromelanoma\\euromelanoma_api\\euromelanoma_api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
       "RelativeMoniker": "D:0:0:{BB64A3E5-E3FD-409D-A4F0-E6CDC32B39B4}|euromelanoma_api\\euromelanoma_api.csproj|solutionrelative:euromelanoma_api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{BB64A3E5-E3FD-409D-A4F0-E6CDC32B39B4}|euromelanoma_api\\euromelanoma_api.csproj|c:\\users\\user\\desktop\\euromelanoma\\euromelanoma_api\\euromelanoma_api\\managers\\usermanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{BB64A3E5-E3FD-409D-A4F0-E6CDC32B39B4}|euromelanoma_api\\euromelanoma_api.csproj|solutionrelative:euromelanoma_api\\managers\\usermanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{BB64A3E5-E3FD-409D-A4F0-E6CDC32B39B4}|euromelanoma_api\\euromelanoma_api.csproj|c:\\users\\user\\desktop\\euromelanoma\\euromelanoma_api\\euromelanoma_api\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{BB64A3E5-E3FD-409D-A4F0-E6CDC32B39B4}|euromelanoma_api\\euromelanoma_api.csproj|solutionrelative:euromelanoma_api\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BB64A3E5-E3FD-409D-A4F0-E6CDC32B39B4}|euromelanoma_api\\euromelanoma_api.csproj|c:\\users\\user\\desktop\\euromelanoma\\euromelanoma_api\\euromelanoma_api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BB64A3E5-E3FD-409D-A4F0-E6CDC32B39B4}|euromelanoma_api\\euromelanoma_api.csproj|solutionrelative:euromelanoma_api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -26,17 +26,17 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 0,
               "Title": "UserManager.cs",
               "DocumentMoniker": "C:\\Users\\user\\Desktop\\euromelanoma\\euromelanoma_api\\euromelanoma_api\\Managers\\UserManager.cs",
               "RelativeDocumentMoniker": "euromelanoma_api\\Managers\\UserManager.cs",
               "ToolTip": "C:\\Users\\user\\Desktop\\euromelanoma\\euromelanoma_api\\euromelanoma_api\\Managers\\UserManager.cs",
               "RelativeToolTip": "euromelanoma_api\\Managers\\UserManager.cs",
-              "ViewState": "AgIAACoAAAAAAAAAAAAswDwAAABiAAAAAAAAAA==",
+              "ViewState": "AgIAABEAAAAAAAAAAAAWwCEAAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-08-31T20:33:03.654Z",
               "IsPinned": true,
@@ -50,14 +50,14 @@
               "RelativeDocumentMoniker": "euromelanoma_api\\appsettings.json",
               "ToolTip": "C:\\Users\\user\\Desktop\\euromelanoma\\euromelanoma_api\\euromelanoma_api\\appsettings.json",
               "RelativeToolTip": "euromelanoma_api\\appsettings.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAeAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAuAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
               "WhenOpened": "2024-09-01T13:55:47.676Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 2,
               "Title": "UserController.cs",
               "DocumentMoniker": "C:\\Users\\user\\Desktop\\euromelanoma\\euromelanoma_api\\euromelanoma_api\\Controllers\\UserController.cs",
               "RelativeDocumentMoniker": "euromelanoma_api\\Controllers\\UserController.cs",
@@ -70,12 +70,12 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 3,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\user\\Desktop\\euromelanoma\\euromelanoma_api\\euromelanoma_api\\Program.cs",
               "RelativeDocumentMoniker": "euromelanoma_api\\Program.cs",
-              "ToolTip": "C:\\Users\\user\\Desktop\\euromelanoma\\euromelanoma_api\\euromelanoma_api\\Program.cs*",
-              "RelativeToolTip": "euromelanoma_api\\Program.cs*",
+              "ToolTip": "C:\\Users\\user\\Desktop\\euromelanoma\\euromelanoma_api\\euromelanoma_api\\Program.cs",
+              "RelativeToolTip": "euromelanoma_api\\Program.cs",
               "ViewState": "AgIAAAQAAAAAAAAAAADgvxcAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-08-27T20:14:32.548Z",

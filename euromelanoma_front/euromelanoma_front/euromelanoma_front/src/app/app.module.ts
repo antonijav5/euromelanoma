@@ -10,10 +10,10 @@ import { DoctorComponent } from './components/doctor/doctor.component';
 import { RegisterComponent } from './components/register/register.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
 import { NgxSpinnerModule } from 'ngx-spinner';
-import { ToastrModule } from 'ngx-toastr';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { provideToastr, ToastrModule } from 'ngx-toastr';
+import { BrowserAnimationsModule, provideAnimations } from '@angular/platform-browser/animations';
 @NgModule({
   declarations: [
     AppComponent,
@@ -42,7 +42,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
       preventDuplicates: true
     }),
   ],
-  providers: [],
+  providers: [
+    provideAnimations(), // required animations providers
+    provideToastr(),
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
