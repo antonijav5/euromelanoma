@@ -27,17 +27,10 @@ public partial class UserRequests
     public string Email { get; set; }
 
     [Required]
-    [MaxLength(500)]
-    public byte[] PasswordHash { get; set; }
-
-    [Required]
-    [StringLength(50)]
-    public string UserType { get; set; }
-
-    [Required]
     [StringLength(100)]
     public string Username { get; set; }
 
-    [StringLength(1)]
+    [Required]
+    [StringLength(30)]
     public string Status { get; set; }
 }

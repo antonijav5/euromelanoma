@@ -285,3 +285,8 @@ C:\Users\user\Desktop\euromelanoma\euromelanoma_api\euromelanoma_api\obj\Debug\n
 C:\Users\user\Desktop\euromelanoma\euromelanoma_api\euromelanoma_api\obj\Debug\net8.0\euromelanoma_api.pdb
 C:\Users\user\Desktop\euromelanoma\euromelanoma_api\euromelanoma_api\obj\Debug\net8.0\euromelanoma_api.genruntimeconfig.cache
 C:\Users\user\Desktop\euromelanoma\euromelanoma_api\euromelanoma_api\obj\Debug\net8.0\ref\euromelanoma_api.dll
+C:\Users\user\Desktop\euromelanoma\euromelanoma_api\euromelanoma_api\bin\Debug\net8.0\BouncyCastle.Cryptography.dll
+C:\Users\user\Desktop\euromelanoma\euromelanoma_api\euromelanoma_api\bin\Debug\net8.0\MailKit.dll
+C:\Users\user\Desktop\euromelanoma\euromelanoma_api\euromelanoma_api\bin\Debug\net8.0\MimeKit.dll
+C:\Users\user\Desktop\euromelanoma\euromelanoma_api\euromelanoma_api\bin\Debug\net8.0\SendGrid.dll
+C:\Users\user\Desktop\euromelanoma\euromelanoma_api\euromelanoma_api\bin\Debug\net8.0\StarkbankEcdsa.dll

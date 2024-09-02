@@ -54,6 +54,10 @@
               "target": "Package",
               "version": "[8.1.5, )"
             },
+            "MailKit": {
+              "target": "Package",
+              "version": "[4.7.1.1, )"
+            },
             "Microsoft.AspNet.WebApi.Client": {
               "target": "Package",
               "version": "[6.0.0, )"
@@ -83,6 +87,10 @@
             "Microsoft.Net.Http": {
               "target": "Package",
               "version": "[2.2.29, )"
+            },
+            "SendGrid": {
+              "target": "Package",
+              "version": "[9.29.3, )"
             },
             "Swashbuckle.AspNetCore": {
               "target": "Package",

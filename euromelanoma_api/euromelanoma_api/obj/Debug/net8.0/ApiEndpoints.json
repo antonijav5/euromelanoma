@@ -1,5 +1,79 @@
 [
   {
+    "ContainingType": "euromelanoma_api.Controllers.AdminController",
+    "Method": "CreateDoctorRegisterRequest",
+    "RelativePath": "api/Admin/CreateDoctorRegisterRequest",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "model",
+        "Type": "euromelanoma_api.Models.DTOObjects.AdminClasses\u002BRegisterUserModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "euromelanoma_api.Models.DTOObjects.RequestResult\u00601[[euromelanoma_api.Models.EuromelanomaContext.Users, euromelanoma_api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "euromelanoma_api.Controllers.AdminController",
+    "Method": "RegisterDoctor",
+    "RelativePath": "api/Admin/RegisterDoctor",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "model",
+        "Type": "euromelanoma_api.Models.DTOObjects.AdminClasses\u002BRegisterUserModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "euromelanoma_api.Models.DTOObjects.RequestResult\u00601[[euromelanoma_api.Models.EuromelanomaContext.Users, euromelanoma_api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "euromelanoma_api.Controllers.AdminController",
+    "Method": "RegisterPatient",
+    "RelativePath": "api/Admin/RegisterPatient",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "registerUserModel",
+        "Type": "euromelanoma_api.Models.DTOObjects.AdminClasses\u002BRegisterUserModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "euromelanoma_api.Models.DTOObjects.RequestResult\u00601[[euromelanoma_api.Models.EuromelanomaContext.Users, euromelanoma_api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
     "ContainingType": "euromelanoma_api.Controllers.UserController",
     "Method": "GetSha1Hash",
     "RelativePath": "api/User/CreateHash",
@@ -45,26 +119,5 @@
         "StatusCode": 200
       }
     ]
-  },
-  {
-    "ContainingType": "euromelanoma_api.Controllers.WeatherForecastController",
-    "Method": "Get",
-    "RelativePath": "WeatherForecast",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": [
-      {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[euromelanoma_api.WeatherForecast, euromelanoma_api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ],
-    "EndpointName": "GetWeatherForecast"
   }
 ]

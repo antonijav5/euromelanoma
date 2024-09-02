@@ -9,18 +9,17 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: calc(103vh - 50px);
-    width: 30%;
+    height:70%;
     margin: auto;
-    background-image: url('../../../assets/images/register.jpg');
+    /* background-image: url('../../../assets/images/register.jpg');
     background-repeat: no-repeat;
-    background-size: contain;
+    background-size: contain; */
 }
 
 .registration-content {
     display: flex;
     width: 100%;
-    max-width: 900px;
+    max-width: 708px;
     background: #fff;
     border-radius: 10px;
     box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
@@ -136,6 +135,7 @@ height: 680px;
 .login-link {
     text-align: center;
     margin-top: 10px;
+    margin-bottom: 15px;
 }
 
 .login-link a {
@@ -145,4 +145,8 @@ height: 680px;
 
 .login-link a:hover {
     text-decoration: underline;
+}
+::ng-deep .mat-mdc-form-field {
+    font-size: 15px !important;
+    height: 70px;
 }

@@ -25,30 +25,33 @@ namespace euromelanoma_api.Controllers
         }
 
 
-        [HttpPost("RegisterUser")] 
+        [HttpPost("RegisterPatient")] 
         // Obican insert u bazu. Koristice se u svakom slucaju, ili nakon odobravanja od strane admina ili pri registraciji pacijenta.
-        public RequestResult<Users>RegisterUser(RegisterUserModel registerUserModel)
+        public RequestResult<Users> RegisterPatient([FromBody] RegisterUserModel registerUserModel)
         {
             ArgumentNullException.ThrowIfNull(registerUserModel, nameof(registerUserModel));
             adminManager.RegisterUser(registerUserModel);
-            return new RequestResult<Users>(true, null , "Korisnik sa datim korisničkim imenom ne postoji!", null, null);
+            return new RequestResult<Users>(true, null , "Uspeh.", null, null);
 
         }
 
-        [HttpPost("RegistracijaLekara"), Produces("application/json")]
-        public async Task<IActionResult> RegistracijaLekara(RegisterUserModel model)
+        [HttpPost("RegisterDoctor"), Produces("application/json")]
+        public RequestResult<Users> RegisterDoctor([FromBody] RegisterUserModel model)
         {
-            try
-            {
+         
                 var pass = adminManager.GeneratePassword();
                 model.Password = pass;
                 adminManager.RegisterUser(model);
-                return Ok("uspesno");
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            return new RequestResult<Users>(true, null, "Uspeh.", null, null);
+
+        }
+
+        [HttpPost("CreateDoctorRegisterRequest"), Produces("application/json")]
+        public RequestResult<Users> CreateDoctorRegisterRequest([FromBody] RegisterUserModel model)
+        {
+            adminManager.CreateDoctorRegisterRequest(model);
+            return new RequestResult<Users>(true, null, "Uspeh.", null, null);
+
         }
 
     }

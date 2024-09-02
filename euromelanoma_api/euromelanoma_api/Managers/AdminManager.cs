@@ -137,5 +137,21 @@ namespace euromelanoma_api.Managers
             // Mešanje karaktera da bi se izbegla predvidljivost
             return new string(password.ToString().OrderBy(_ => random.Next()).ToArray());
         }
+
+        public List<UserRequests> CreateDoctorRegisterRequest (RegisterUserModel model)
+        {
+            UserRequests req = new UserRequests
+            {
+                Email = model.Email,
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                Username = model.Username,
+                Status="Pending"
+
+            };
+            _context.Add(req);
+            _context.SaveChanges();
+            return _context.UserRequests.ToList();
+        }
     }
     }

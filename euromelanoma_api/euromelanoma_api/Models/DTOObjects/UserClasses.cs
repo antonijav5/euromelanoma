@@ -5,7 +5,7 @@
         public int Id { get; set; }
         public string Username { get; set; }
         public string NazivUsera { get; set; }
-
+        public string UserType { get; set; }
         public string Token { get; set; }
     }
 
