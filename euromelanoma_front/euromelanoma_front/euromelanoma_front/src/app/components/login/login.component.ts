@@ -8,8 +8,9 @@ import { AuthService } from 'src/app/services/auth.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: ['./login.component.css'],
 })
+
 export class LoginComponent implements OnInit {
   showPassword: boolean=false;
   hide = true;
@@ -51,16 +52,16 @@ export class LoginComponent implements OnInit {
           } else {
             sessionStorage.clear();
             this.password.setValue('');
-            this.toster.error(res.message, 'euromelanoma')
+            this.toster.error(res.message, 'Greška!')
           }
         },
         (err: any) => {
-          this.toster.error("User " + err.statusText, '')
+          this.toster.error("User " + err.statusText, 'Greška!')
           sessionStorage.clear();
         }
       );
     } else {
-      this.toster.error('Morate popuniti sva polja', '')
+      this.toster.error('Morate popuniti sva polja.', 'Greška!')
       sessionStorage.clear();
     }
   }

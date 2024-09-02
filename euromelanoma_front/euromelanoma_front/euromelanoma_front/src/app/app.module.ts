@@ -1,6 +1,17 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule} from '@angular/material/button';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatRadioModule } from '@angular/material/radio';
+import {MatSelectModule} from '@angular/material/select';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
@@ -12,8 +23,9 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
 import { NgxSpinnerModule } from 'ngx-spinner';
-import { provideToastr, ToastrModule } from 'ngx-toastr';
+import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule, provideAnimations } from '@angular/platform-browser/animations';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 @NgModule({
   declarations: [
     AppComponent,
@@ -24,16 +36,31 @@ import { BrowserAnimationsModule, provideAnimations } from '@angular/platform-br
     RegisterComponent,
 
    // MaterialModule,
+
   ],
-  imports: [
+  imports: [AppRoutingModule,
     BrowserModule,
-    AppRoutingModule,
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
     BrowserAnimationsModule,
     NgxSpinnerModule,
+    
+
+    //MATERIAL
+    
+    MatButtonModule,
+    MatCardModule,
+    MatIconModule,
+    MatMenuModule,
+    MatToolbarModule,
+    MatSlideToggleModule,
+    MatInputModule,
+    MatAutocompleteModule,
+  MatFormFieldModule,
+  MatSelectModule,
+   
     ToastrModule.forRoot({
       positionClass: "toast-bottom-right",
       progressBar: true,
@@ -42,10 +69,9 @@ import { BrowserAnimationsModule, provideAnimations } from '@angular/platform-br
       preventDuplicates: true
     }),
   ],
+  bootstrap: [AppComponent],
   providers: [
-    provideAnimations(), // required animations providers
-    provideToastr(),
-  ],
-  bootstrap: [AppComponent]
+    provideAnimationsAsync()
+  ]
 })
 export class AppModule { }

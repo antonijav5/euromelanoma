@@ -1,2 +1,53 @@
-<p>register works!</p>
-f
+  
+  <div class="registration-container">
+    <div class="registration-content">
+      <div class="registration-box">
+        <div class="registration-header">
+          <h2>Registrujte se</h2>
+          <p>Popunite polja da biste kreirali novi nalog.</p>
+        </div>
+        <form class="registration-form">
+            <mat-form-field>
+                <mat-label>Označite da li ste pacijent ili doktor</mat-label>
+                <mat-select  [formControl]="userType">
+               
+                    <mat-option value="patient">Pacijent</mat-option>
+                    <mat-option value="doctor">Doktor</mat-option>
+                </mat-select>
+              </mat-form-field>
+            <mat-form-field class="example-full-width">
+            <mat-label>Ime</mat-label>
+            <input type="text" matInput id="firstName" placeholder="Unesite ime" [formControl]="firstName" required>
+            </mat-form-field>
+          <mat-form-field class="example-full-width">
+            <mat-label>Prezime</mat-label>
+            <input type="text" matInput id="lastName" placeholder="Unesite prezime" [formControl]="lastName" required>
+            </mat-form-field>
+            <mat-form-field class="example-full-width">
+
+                <mat-label>Email</mat-label>
+            <input type="email" id="email"  ngModel [email]="true" matInput  placeholder="Unesite email" [formControl]="email" required>
+                </mat-form-field>
+                <mat-form-field class="example-full-width" *ngIf="this.userType.value=='patient'">
+                    <mat-label>Lozinka</mat-label>
+            <div class="input-wrapper">
+              <input matInput  [type]="hide1 ? 'password' : 'text'" id="password" [formControl]="password" required placeholder="Unesite lozinku">
+              <i class="bi bi-eye-slash" id="togglePassword" (click)="toggleShow(1)"></i>
+            </div>
+                </mat-form-field>
+                <mat-form-field class="example-full-width" *ngIf="this.userType.value=='patient'">
+                    <mat-label>Potvrdite lozinku</mat-label>
+            <div class="input-wrapper">
+              <input matInput [type]="hide2 ? 'password' : 'text'" id="confirmPassword" [formControl]="confirmPassword" required placeholder="Potvrdite lozinku">
+              <i class="bi bi-eye-slash" id="toggleConfirmPassword" (click)="toggleShow(2)"></i>
+            </div>
+                </mat-form-field>
+          <button type="submit" class="registration-button" (click)="onSubmit()">Registrujte se</button>
+          <div class="login-link">
+            <p>Već imate nalog? <a href="login">Prijavite se</a></p>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  

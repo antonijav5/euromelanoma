@@ -17,7 +17,6 @@ public partial class AvailableSlots
 
     [Required]
     [StringLength(100)]
-    [Unicode(false)]
     public string City { get; set; }
 
     [Column(TypeName = "datetime")]

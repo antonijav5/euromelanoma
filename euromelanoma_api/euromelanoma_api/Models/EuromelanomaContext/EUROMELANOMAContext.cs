@@ -21,13 +21,15 @@ public partial class EUROMELANOMAContext : DbContext
 
     public virtual DbSet<ScheduledAppointments> ScheduledAppointments { get; set; }
 
+    public virtual DbSet<UserRequests> UserRequests { get; set; }
+
     public virtual DbSet<Users> Users { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<AvailableSlots>(entity =>
         {
-            entity.HasKey(e => e.SlotID).HasName("PK__Availabl__0A124A4F3B303CD5");
+            entity.HasKey(e => e.SlotID).HasName("PK__Availabl__0A124A4FB8AB7E7D");
 
             entity.HasOne(d => d.Doctor).WithMany(p => p.AvailableSlots)
                 .OnDelete(DeleteBehavior.ClientSetNull)
@@ -36,14 +38,14 @@ public partial class EUROMELANOMAContext : DbContext
 
         modelBuilder.Entity<DoctorPrivileges>(entity =>
         {
-            entity.HasKey(e => new { e.DoctorId, e.PrivilegeLevel }).HasName("PK__DoctorPr__51E18C9900BC9629");
+            entity.HasKey(e => new { e.DoctorId, e.PrivilegeLevel }).HasName("PK__DoctorPr__51E18C99733B3C6F");
 
             entity.HasOne(d => d.Doctor).WithMany(p => p.DoctorPrivileges).HasConstraintName("FK_DoctorPrivileges");
         });
 
         modelBuilder.Entity<Questionnaires>(entity =>
         {
-            entity.HasKey(e => e.QuestionnaireID).HasName("PK__Question__A56EF405A8C92CBE");
+            entity.HasKey(e => e.QuestionnaireID).HasName("PK__Question__A56EF405CEB6CBC5");
 
             entity.Property(e => e.CreatedAt).HasDefaultValueSql("(getdate())");
 
@@ -56,7 +58,7 @@ public partial class EUROMELANOMAContext : DbContext
 
         modelBuilder.Entity<ScheduledAppointments>(entity =>
         {
-            entity.HasKey(e => e.ScheduledAppointmentID).HasName("PK__Schedule__E40D08253728F4F6");
+            entity.HasKey(e => e.ScheduledAppointmentID).HasName("PK__Schedule__E40D0825227A2639");
 
             entity.Property(e => e.CreatedAt).HasDefaultValueSql("(getdate())");
             entity.Property(e => e.UpdatedAt).HasDefaultValueSql("(getdate())");
@@ -70,9 +72,14 @@ public partial class EUROMELANOMAContext : DbContext
                 .HasConstraintName("FK_Slot");
         });
 
+        modelBuilder.Entity<UserRequests>(entity =>
+        {
+            entity.HasKey(e => e.UserID).HasName("PK__UserRequ__1788CCAC60E02A08");
+        });
+
         modelBuilder.Entity<Users>(entity =>
         {
-            entity.HasKey(e => e.UserID).HasName("PK__Users__1788CCACF0D7A451");
+            entity.HasKey(e => e.UserID).HasName("PK__Users__1788CCAC27140219");
         });
 
         OnModelCreatingPartial(modelBuilder);

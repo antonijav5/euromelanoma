@@ -19,7 +19,6 @@ public partial class ScheduledAppointments
 
     [Required]
     [StringLength(50)]
-    [Unicode(false)]
     public string Status { get; set; }
 
     [Column(TypeName = "datetime")]

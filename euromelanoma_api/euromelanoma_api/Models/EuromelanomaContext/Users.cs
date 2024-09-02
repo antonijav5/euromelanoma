@@ -8,25 +8,23 @@ using Microsoft.EntityFrameworkCore;
 
 namespace euromelanoma_api.Models.EuromelanomaContext;
 
-[Index("Email", Name = "UQ__Users__A9D10534DCF07C96", IsUnique = true)]
+[Index("Email", Name = "UQ__Users__A9D10534E5664492", IsUnique = true)]
 public partial class Users
 {
     [Key]
     public int UserID { get; set; }
 
-    [Required]
     [StringLength(100)]
-    [Unicode(false)]
+    public string Username { get; set; }
+
+    [StringLength(100)]
     public string FirstName { get; set; }
 
-    [Required]
     [StringLength(100)]
-    [Unicode(false)]
     public string LastName { get; set; }
 
     [Required]
     [StringLength(100)]
-    [Unicode(false)]
     public string Email { get; set; }
 
     [Required]
@@ -35,13 +33,7 @@ public partial class Users
 
     [Required]
     [StringLength(50)]
-    [Unicode(false)]
     public string UserType { get; set; }
-
-    [Required]
-    [StringLength(100)]
-    [Unicode(false)]
-    public string Username { get; set; }
 
     [InverseProperty("Doctor")]
     public virtual ICollection<AvailableSlots> AvailableSlots { get; set; } = new List<AvailableSlots>();
