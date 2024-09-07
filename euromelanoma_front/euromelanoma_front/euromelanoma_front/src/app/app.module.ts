@@ -11,6 +11,10 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatRadioModule } from '@angular/material/radio';
+
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatDividerModule } from '@angular/material/divider';
+
 import {MatSelectModule} from '@angular/material/select';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -26,6 +30,14 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule, provideAnimations } from '@angular/platform-browser/animations';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { AdminComponent } from './components/admin/admin.component';
+import {TooltipPosition, MatTooltipModule} from '@angular/material/tooltip';
+import { PatientsByCityComponent } from './components/admin/patients-by-city/patients-by-city.component';
+import { PatientsViewAdminComponent } from './components/admin/patients-view-admin/patients-view-admin.component';
+import { AvaliableSlotsInsertComponent } from './components/admin/avaliable-slots-insert/avaliable-slots-insert.component';
+import { ScheduledAppointmentPatientComponent } from './components/patient/scheduled-appointment-patient/scheduled-appointment-patient.component';
+import { QuestionnaireComponent } from './components/patient/questionnaire/questionnaire.component';
+import { AgeDifferenceExposureComponent } from './components/patient/questionnaire/age-difference-exposure/age-difference-exposure.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -34,8 +46,13 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
     LoginComponent,
     DoctorComponent,
     RegisterComponent,
-
-   // MaterialModule,
+    AdminComponent,
+    PatientsByCityComponent,
+    PatientsViewAdminComponent,
+    AvaliableSlotsInsertComponent,
+    ScheduledAppointmentPatientComponent,
+    QuestionnaireComponent,
+    AgeDifferenceExposureComponent
 
   ],
   imports: [AppRoutingModule,
@@ -60,8 +77,13 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
     MatAutocompleteModule,
   MatFormFieldModule,
   MatSelectModule,
-   
-    ToastrModule.forRoot({
+   MatTooltipModule,
+   MatCheckboxModule,
+   MatRadioModule,
+   MatDatepickerModule,
+   MatDividerModule,
+
+   ToastrModule.forRoot({
       positionClass: "toast-bottom-right",
       progressBar: true,
       progressAnimation: "increasing",

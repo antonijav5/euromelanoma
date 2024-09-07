@@ -74,6 +74,32 @@
     ]
   },
   {
+    "ContainingType": "euromelanoma_api.Controllers.PatientController",
+    "Method": "InsertQuestionnaireWithData",
+    "RelativePath": "api/Patient/InsertQuestionnaire",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "model",
+        "Type": "euromelanoma_api.Models.DTOObjects.PatientClasses\u002BQuestionnaireDataPatientInsertModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "euromelanoma_api.Models.DTOObjects.RequestResult\u00601[[System.Boolean, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
     "ContainingType": "euromelanoma_api.Controllers.UserController",
     "Method": "GetSha1Hash",
     "RelativePath": "api/User/CreateHash",

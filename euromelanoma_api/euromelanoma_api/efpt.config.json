@@ -19,7 +19,15 @@
          "ObjectType": 0
       },
       {
+         "Name": "[dbo].[doctor_notes]",
+         "ObjectType": 0
+      },
+      {
          "Name": "[dbo].[DoctorPrivileges]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[QuestionnaireDataPatient]",
          "ObjectType": 0
       },
       {

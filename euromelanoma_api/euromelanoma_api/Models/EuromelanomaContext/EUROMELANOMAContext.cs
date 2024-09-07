@@ -17,6 +17,8 @@ public partial class EUROMELANOMAContext : DbContext
 
     public virtual DbSet<DoctorPrivileges> DoctorPrivileges { get; set; }
 
+    public virtual DbSet<QuestionnaireDataPatient> QuestionnaireDataPatient { get; set; }
+
     public virtual DbSet<Questionnaires> Questionnaires { get; set; }
 
     public virtual DbSet<ScheduledAppointments> ScheduledAppointments { get; set; }
@@ -24,6 +26,8 @@ public partial class EUROMELANOMAContext : DbContext
     public virtual DbSet<UserRequests> UserRequests { get; set; }
 
     public virtual DbSet<Users> Users { get; set; }
+
+    public virtual DbSet<doctor_notes> doctor_notes { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -41,6 +45,15 @@ public partial class EUROMELANOMAContext : DbContext
             entity.HasKey(e => new { e.DoctorId, e.PrivilegeLevel }).HasName("PK__DoctorPr__51E18C99733B3C6F");
 
             entity.HasOne(d => d.Doctor).WithMany(p => p.DoctorPrivileges).HasConstraintName("FK_DoctorPrivileges");
+        });
+
+        modelBuilder.Entity<QuestionnaireDataPatient>(entity =>
+        {
+            entity.HasKey(e => e.id).HasName("PK__Question__3213E83F1C9CA98B");
+
+            entity.HasOne(d => d.questionnaire).WithMany(p => p.QuestionnaireDataPatient)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__Questionn__quest__1EA48E88");
         });
 
         modelBuilder.Entity<Questionnaires>(entity =>
@@ -80,6 +93,15 @@ public partial class EUROMELANOMAContext : DbContext
         modelBuilder.Entity<Users>(entity =>
         {
             entity.HasKey(e => e.UserID).HasName("PK__Users__1788CCAC27140219");
+        });
+
+        modelBuilder.Entity<doctor_notes>(entity =>
+        {
+            entity.HasKey(e => e.id).HasName("PK__doctor_n__3213E83FAE5CB0D9");
+
+            entity.HasOne(d => d.questionnaire).WithMany(p => p.doctor_notes)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__doctor_no__quest__18EBB532");
         });
 
         OnModelCreatingPartial(modelBuilder);

@@ -1,0 +1,79 @@
+.questionnaire-card {
+    max-width: 900px;
+    margin: 20px auto;
+    padding-left: 20px;
+    padding-right: 20px;
+  height: 790px;
+  overflow-y: scroll;
+  position: relative; /* Potrebno za pozicioniranje sticky elemenata unutar mat-card */
+   
+  }
+  
+  mat-form-field {
+    width: 44%;
+    /* margin-bottom: 16px; */
+    padding: 10px;
+  }
+  
+  h1, h2, mat-label {
+    color: #023162
+  }
+  
+  .pagination-buttons {
+    display: flex;
+    justify-content: space-between;
+   margin-top: 5px;
+   position: relative; /* Roditeljski element je relativno pozicioniran */
+   height: 40px; 
+  }
+  
+  button {
+  
+  }
+  
+ .pegice{
+    width: 25%; display: inline-block;  text-align: center;
+}
+  
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #020f5a;
+}
+
+.sticky-footer {
+  position: sticky;
+  bottom: 0;
+  background-color: inherit; /* Nasledi boju pozadine mat-card */
+padding: 5px;
+  text-align: center; /* Poravnava dugme u centru */
+  
+}
+
+mat-label, div,p {
+  font-size: 11pt;
+}
+
+.left-button {
+  position: absolute;
+  left: 0;
+}
+
+.right-button {
+  position: absolute;
+  right: 0;
+}

@@ -3,11 +3,44 @@
 html,
 body {
   /* height: 100%; */
-  background-color: rgb(141, 159, 174);
+  /* background-color: rgb(141, 159, 174); */
+  background-color: #023162;
 }
 
 body {
-  margin: 0;
+  margin: 0 !important;
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
+
+/* ::ng-deep .mat-radio-button.mat-accent .mat-radio-ripple .mat-ripple-element {
+  background-color: blue !important;
+}
+
+::ng-deep .mat-radio-button.mat-accent .mat-radio-inner-circle {
+  background-color: blue!important;   
+}
+
+::ng-deep.mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle {
+ border-color:blue!important; 
+} */
+
+
+.mat-mdc-radio-button.mat-accent {
+  --mdc-radio-disabled-selected-icon-color: black;
+  --mdc-radio-disabled-unselected-icon-color: black;
+  --mdc-radio-unselected-hover-icon-color: #212121;
+  --mdc-radio-unselected-icon-color: rgba(0, 0, 0, 0.54);
+  --mdc-radio-unselected-pressed-icon-color: rgba(0, 0, 0, 0.54);
+  --mdc-radio-selected-focus-icon-color: #023162;
+  --mdc-radio-selected-hover-icon-color: #023162;
+  --mdc-radio-selected-icon-color: #023162;
+  --mdc-radio-selected-pressed-icon-color: #023162;
+  --mat-radio-ripple-color: black;
+  --mat-radio-checked-ripple-color: #023162;
+}
+
+
+.ngx-toastr {
+font-size:12pt !important;  
+}

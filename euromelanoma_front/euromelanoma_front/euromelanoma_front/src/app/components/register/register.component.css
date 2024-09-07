@@ -122,6 +122,7 @@ height: 680px;
     border-radius: 25px;
     color: white;
     cursor: pointer;
+    font-size: 14px;
     transition: background 0.3s;
      /* Aligns the button to the right */
   margin-top: auto;

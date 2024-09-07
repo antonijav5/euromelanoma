@@ -19,12 +19,10 @@ public partial class Questionnaires
 
     public int? Score { get; set; }
 
-    public string BasicExamination { get; set; }
-
-    public string Histopathology { get; set; }
-
     [Column(TypeName = "datetime")]
     public DateTime? CreatedAt { get; set; }
+
+    public bool Consent { get; set; }
 
     [ForeignKey("DoctorID")]
     [InverseProperty("QuestionnairesDoctor")]
@@ -33,4 +31,10 @@ public partial class Questionnaires
     [ForeignKey("PatientID")]
     [InverseProperty("QuestionnairesPatient")]
     public virtual Users Patient { get; set; }
+
+    [InverseProperty("questionnaire")]
+    public virtual ICollection<QuestionnaireDataPatient> QuestionnaireDataPatient { get; set; } = new List<QuestionnaireDataPatient>();
+
+    [InverseProperty("questionnaire")]
+    public virtual ICollection<doctor_notes> doctor_notes { get; set; } = new List<doctor_notes>();
 }

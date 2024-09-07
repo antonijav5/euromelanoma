@@ -1,1 +1,33 @@
-<p>home works!</p>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<a class="navbar-brand" href="#" style="margin-bottom: 10px;">
+    <img src="../../../assets/images/euromelanoma-logo.svg" alt="Euromelanoma" id="navbarlogo" style=" margin-bottom: 5px;">
+</a>
+<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+  <span class="navbar-toggler-icon"></span>
+</button>
+
+<div class="collapse navbar-collapse" id="navbarSupportedContent">
+  <ul class="navbar-nav mr-auto">
+    <li [ngClass]="currentItem=='view'?'nav-item active':'nav-item'" *ngIf="user.userType=='Admin'">
+      <a class="nav-link" href="javascript:void(0)" (click)="goTo('view')">Pregled prijavljenih pacijenata <span class="sr-only">(current)</span></a>
+    </li>
+    <li [ngClass]="currentItem=='cities'?'nav-item active':'nav-item'"  *ngIf="user.userType=='Admin'">
+      <a class="nav-link" href="javascript:void(0)" (click)="goTo('cities')">Pregled pacijenata po gradovima</a>
+    </li>
+    <li [ngClass]="currentItem=='insert'?'nav-item active':'nav-item'"  *ngIf="user.userType=='Admin'">
+      <a class="nav-link" href="javascript:void(0)" (click)="goTo('insert')">Unos slobodnih termina</a>
+    </li>
+  </ul>
+<button type="button" class="btn btn-primary" (click)="logout()" style="font-family: inherit; color: 	#000035; background-color: #ffffff; border: 0; font-size: 12pt;"
+mat-raised-button
+matTooltip="Odjavite se"
+><i class="bi bi-box-arrow-right" style="background-color: #ffffff;"></i></button>
+</div>
+</nav>
+<app-patient *ngIf="user.userType=='Patient'"></app-patient>
+<app-doctor *ngIf="user.userType=='Doctor'" ></app-doctor>
+<app-admin *ngIf="user.userType=='Admin'" [item]="currentItem"></app-admin>
+<!-- <footer>
+    <p>&copy; 2024 Euromelanoma Portal. Sva prava zadržana.</p>
+</footer> -->

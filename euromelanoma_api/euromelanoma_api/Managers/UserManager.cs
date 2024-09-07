@@ -39,7 +39,8 @@ namespace euromelanoma_api.Managers
                 Id =user.UserID,
                 Username = user.Username,
                 NazivUsera = user.FirstName,
-                Token = token
+                Token = token,
+                UserType=user.UserType
             };
         }
 

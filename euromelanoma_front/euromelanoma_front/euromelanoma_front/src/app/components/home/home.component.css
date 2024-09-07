@@ -1,0 +1,22 @@
+
+
+footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+    width: 100%;
+    position: sticky;
+    bottom: 0 !important;
+    left: 0;
+}
+.navbar{
+    width:100% !important; height: 75px; background-color: #D29C5A !important; color: 	#000035; font-size: 12pt;
+
+}
+li{
+    color:	#000035 !important
+}
+#navbarlogo{
+    width: 130px; height: 56px;
+}

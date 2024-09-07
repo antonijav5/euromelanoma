@@ -15,6 +15,7 @@ export class AuthService {
   private token: string="";
   private inactivityDuration: number = 3600 * 1000; // 60min * 60s * 1000ms = 1h neaktivnosti
   private activityTimer: any;
+  private isReloading:boolean=false
   private loggedIn: boolean = false;
   environment:any={
     apiBaseUrl:"http://localhost:21493"
@@ -31,24 +32,30 @@ export class AuthService {
       window.addEventListener(event, this.resetActivityTimer.bind(this));
     });
 
-    window.addEventListener('beforeunload', this.handleBeforeUnload.bind(this));
+    // window.addEventListener('beforeunload', this.handleBeforeUnload.bind(this));
   }
+
+
 
   ngOnDestroy(): void {
     ['mousemove', 'mousedown', 'keypress', 'touchstart'].forEach((event) => {
       window.removeEventListener(event, this.resetActivityTimer.bind(this));
     });
 
-    window.removeEventListener('beforeunload', this.handleBeforeUnload.bind(this));
+    // window.removeEventListener('beforeunload', this.handleBeforeUnload.bind(this));
   }
 
 
-  private handleBeforeUnload(event: BeforeUnloadEvent): void {
-    if (this.loggedIn) {
-      this.signOut();
-    }
-  }
+  // private handleBeforeUnload(event: BeforeUnloadEvent): void {
+  //   if (this.loggedIn) {
+  //     this.signOut();
+  //   }
+  // }
 
+  private setReloadingFlag(event: Event) {
+    // Postavlja zastavicu da je reload u toku
+    this.isReloading = true;
+  }
 
   private resetActivityTimer(): void {
     clearTimeout(this.activityTimer);
@@ -92,13 +99,14 @@ export class AuthService {
     return {};
   }
 
-  public getAuthStatus(): boolean {
-    if (this.getToken()) {
-      return true;
-    } else {
-      sessionStorage.clear();
-      return false;
-    }
+  public (): boolean {
+    // if (this.getToken()) {
+    //   return true;
+    // } else {
+    //   sessionStorage.clear();
+    //   return false;
+    // }
+    return true
   }
 
   isLoggedIn(): boolean {
@@ -130,10 +138,9 @@ export class AuthService {
   }
 
   signOut(): void {
-    this.spinner.show();
-    console.clear();
+  
     this.loggedIn = false;
-    // sessionStorage.clear();
+     sessionStorage.clear();
     this.router.navigate(['login']);
   }
 }

@@ -50,6 +50,7 @@ export class LoginComponent implements OnInit {
             this.spinner.show();
             
           } else {
+            
             sessionStorage.clear();
             this.password.setValue('');
             this.toster.error(res.message, 'Greška!')

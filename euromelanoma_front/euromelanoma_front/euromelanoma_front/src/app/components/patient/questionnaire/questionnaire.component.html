@@ -1,0 +1,702 @@
+<mat-card class="questionnaire-card">
+    <h1>EUSCAP 2022 Upitnik</h1>
+  
+    <!-- Paginacija: Prikazuje se samo trenutna stranica -->
+    <form [formGroup]="questionnaireFormStart">
+      <!-- Prva Stranica: Osnovne Informacije -->
+      <div *ngIf="currentPage === 1">
+        <mat-divider></mat-divider>
+        <br>
+        <h2>Osnovne Informacije</h2>
+       <b>Datum: </b>  {{questionnaireFormStart.get('date').value?questionnaireFormStart.get('date').value:'Nije uneto (Popunjava dermatolog)'}}<br>
+        <!-- <mat-form-field appearance="outline">
+          <mat-label>Datum</mat-label>
+          <input matInput placeholder="DD/MM/YYYY" formControlName="date">
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Ime i prezime dermatologa</mat-label>
+          <input matInput formControlName="dermatologistLastName">
+        </mat-form-field> -->
+<!--  ovo VISE NE TREBA, jer imamo sve po ID lekara 
+        <mat-form-field appearance="outline">
+          <mat-label>Prezime dermatologa</mat-label>
+          <input matInput formControlName="dermatologistLastName">
+        </mat-form-field>
+  
+        <mat-form-field appearance="outline">
+          <mat-label>Ime dermatologa</mat-label>
+          <input matInput formControlName="dermatologistFirstName">
+        </mat-form-field> -->
+        Pozivamo Vas da odlučite o svom učešću u registru kliničkih podataka koji treba da predstavlja epidemiološki i 
+klinički skup podataka o raku kože.
+Studija kojoj predlažemo da se pridružite je opservaciona studija.
+Ovaj projekat će nam omogućiti da prikupimo podatke iz ovog Vašeg medicinskog kartona tako da ih možemo 
+objediniti sa podacima drugih pacijenata i obraditi u istraživačke svrhe.
+Izazov je da se uspostavi registar kako bi se identifikovala učestalost faktora rizika za rak kože i da se pronađe 
+veza između ovih faktora i karcinoma. Ovo će nam omogućiti da bolje razumemo distribuciju faktora rizika i 
+nastalih karcinoma.
+U tom kontekstu, zamolili bismo Vas da odgovorite na EUSCAP upitnik, koji se sastoji od 31 pitanja, od kojih je 
+20 upućeno direktno Vama i koja omogućavaju prikupljanje demografskih podataka i faktora rizika sredine koji se 
+odnose na Vas. Sledećih 11 pitanja popunjava Vaš dermatolog nakon što izvrši pregled kože kako bi pregledao 
+mladeže na Vašem telu i sve sumnjive lezije.
+Ako imate istoriju raka kože, lekar će popuniti komplementarni obrazac za svaki prethodni rak na osnovu 
+podataka u Vašem medicinskom dosijeu. Ovaj upitnik se odnosi na lokalizaciju, datum dijagnoze, stadijum lezije.
+Ovo se sve radi u okviru konsultacija sa dermatologom i trajaće samo nekoliko minuta.
+Za više informacija o Vašem učešću u ovoj studiji, možete pregledati dokument o informisanoj saglasnosti 
+„Informacije koje su bitne za vašu odluku o učešću“ koji možete zatražiti od svog lekara. <br><br>
+
+<mat-checkbox formControlName="consent">Klikom na označeno polje saglasan/a sam da se podaci koriste za kliničko 
+  istraživanje – EUSCAP</mat-checkbox>
+  <br><br>
+<img src="../../../../assets/images/euromelanoma-pic.jpg" style="width: 330px; height: 240px;display: block;
+margin-left: auto;
+margin-right: auto;
+width: 50%;object-fit: cover;">
+
+      </div>
+  
+      <!-- Druga Stranica: Lični Podaci -->
+      <div *ngIf="currentPage === 2">
+     
+        <mat-divider></mat-divider>
+        <br>
+        <h2>Lični Podaci</h2>
+        <mat-radio-group formControlName="gender">
+          <mat-label>Pol</mat-label>
+          <mat-radio-button value="male">Muški</mat-radio-button>
+          <mat-radio-button value="female">Ženski</mat-radio-button>
+        </mat-radio-group>
+  <br>
+        <mat-form-field appearance="outline" style="width: 44%;">
+          <mat-label>Godina rođenja</mat-label>
+          <input matInput type="number" formControlName="birthYear" [min]="1900" [max]="2024">
+        </mat-form-field>
+  
+        <mat-form-field appearance="outline">
+          <mat-label>Mesto rođenja</mat-label>
+          <input matInput formControlName="birthPlace">
+        </mat-form-field>
+  
+        <mat-form-field appearance="outline">
+          <mat-label>Mesto stanovanja</mat-label>
+          <input matInput formControlName="residence">
+        </mat-form-field>
+  
+        <mat-form-field appearance="outline">
+          <mat-label>Težina (Kg)</mat-label>
+          <input matInput type="number" formControlName="weight" [min]="1">
+        </mat-form-field>
+  
+        <mat-form-field appearance="outline">
+          <mat-label>Visina (cm)</mat-label>
+          <input matInput type="number" formControlName="height" [min]="1">
+        </mat-form-field>
+      </div>
+  
+      <!-- Treća Stranica: Etnička Pripadnost -->
+      <div *ngIf="currentPage === 3">
+
+        <mat-divider></mat-divider>
+        <br>
+        <h2>Etnička Pripadnost</h2>
+        <mat-radio-group formControlName="ethnicity">
+          <table>
+            <tr>
+              <td>
+                <mat-radio-button value="belac">Belac</mat-radio-button>
+              </td>
+              <td>
+                <mat-radio-button value="hispano">Hispano ili Latino</mat-radio-button>
+              </td>
+            </tr>
+            <tr>
+              <td> <mat-radio-button value="crnac">Crnac</mat-radio-button></td>
+              <td><mat-radio-button value="severno-afrikanac">Severno-afrikanac</mat-radio-button></td>
+            </tr>
+
+            <tr>
+              <td>  <mat-radio-button value="azijat">Azijat</mat-radio-button></td>
+              <td>  <mat-radio-button value="druga">Druga  
+              </mat-radio-button></td>
+              <td>
+              <mat-form-field appearance="outline" class="ethnicity-other-input" style="margin: auto; width: 100% !important;"
+              *ngIf="
+              questionnaireFormStart.controls['ethnicity'].value=='druga'">
+                <input matInput placeholder="Navesti koja"  formControlName="otherEthnicity"  >
+                <mat-error *ngIf="questionnaireFormStart.get('otherEthnicity')?.hasError('required')">
+                  Ovo polje je obavezno.
+                 </mat-error> 
+              </mat-form-field>
+          
+    
+       
+            </td>
+            </tr>
+          </table>
+
+        
+        </mat-radio-group>
+<br>
+       
+        <!-- Sekcija 4: Obrazovanje i Životni Stil -->
+        <mat-divider></mat-divider>
+        <br>
+        <h2>Obrazovanje i Životni Stil</h2><br>
+        <mat-form-field appearance="outline" style="padding: 0 !important;">
+          <mat-label>Najviši stepen obrazovanja</mat-label>
+          <mat-select formControlName="educationLevel">
+            <mat-option value="primary">Osnovna škola</mat-option>
+            <mat-option value="secondary">Srednja škola</mat-option>
+            <mat-option value="higher">Viša/Visoka škola</mat-option>
+            <mat-option value="university">Fakultet ili viši</mat-option>
+          </mat-select>
+          <!-- <mat-error *ngIf="questionnaireFormStart.get('educationLevel')?.hasError('required') && questionnaireFormStart.get('educationLevel')?.touched">
+            Ovo polje je obavezno. </mat-error> -->
+                 <mat-error *ngIf="questionnaireFormStart.get('educationLevel')?.hasError('required')">
+            Ovo polje je obavezno. </mat-error> 
+        </mat-form-field>
+    
+        <br>
+        <mat-radio-group formControlName="livingAlone">
+          <mat-label>Da li živite sami?</mat-label>
+          <mat-radio-button value="yes">Da</mat-radio-button>
+          <mat-radio-button value="no">Ne</mat-radio-button>
+        </mat-radio-group>
+
+        <h2>Razlog dolaska</h2>
+        <mat-radio-group formControlName="reasonForComing">
+        <mat-radio-button value="many moles">Imam mnogo mladeža</mat-radio-button><br>
+        <mat-radio-button value="earlier skin cancer">Ranije mi je bio dijagnostikovan rak kože</mat-radio-button><br>
+        <mat-radio-button value="want full body exam">Jednostavno želim kompletan pregled kože</mat-radio-button><br>
+        <mat-radio-button value="suspicious change">Imam sumnjivu promenu tj. promenu koja se skoro promenila</mat-radio-button><br>
+        <mat-radio-button value="family member with skin cancer">Imam člana porodice/prijatelja kome je dijagnostikovan rak kože</mat-radio-button><br>
+        <mat-radio-button value="media">Saznao sam za preglede iz medija</mat-radio-button>
+</mat-radio-group>
+      </div>
+  
+      <!-- Četvrta Stranica: Razlog dolaska i dodatna pitanja -->
+      <div *ngIf="currentPage === 4">
+        <mat-divider></mat-divider>
+        <br>
+
+        <h2>Pregled Kože</h2>
+        <mat-radio-group formControlName="fullBodyCheck">
+          <mat-label>Da li Vam je neko do sada obavio kompletan pregled kože?</mat-label>
+          <mat-radio-button value="yes">Da</mat-radio-button>
+          <mat-radio-button value="no">Ne</mat-radio-button>
+        </mat-radio-group>
+    
+        <h2>Prirodna Boja Kose</h2>
+        <mat-radio-group formControlName="hairColor">
+          <mat-radio-button value="crvena">Crvena</mat-radio-button>
+          <mat-radio-button value="plava">Plava</mat-radio-button>
+          <mat-radio-button value="braon">Braon</mat-radio-button>
+          <mat-radio-button value="crna">Crna</mat-radio-button>
+        </mat-radio-group>
+        <br>
+        <h2>Broj Pegica</h2>
+        <img src="../../../assets/images/br_pegica.png" style="width: 100%; height:115px;">
+        <div style="width: 100%;">
+            <mat-radio-group formControlName="freckles" style="width: 100%; display: flex; justify-content: flex-start;">
+                <mat-radio-button value="nijednu" class="pegice">Nijednu</mat-radio-button>
+                <mat-radio-button value="nekoliko" class="pegice">Nekoliko</mat-radio-button>
+                <mat-radio-button value="maliBroj" class="pegice">Mali broj</mat-radio-button>
+                <mat-radio-button value="velikiBroj" class="pegice">Veliki broj</mat-radio-button>
+            </mat-radio-group>
+        </div>
+        <br>
+        <h2>Kako Vaša koža reaguje na sunce u letnjim mesecima posle 30 min nezaštićene izloženosti suncu? Moja koža:</h2>
+        <mat-radio-group formControlName="sunReaction">
+          <mat-radio-button value="alwaysBurns">uvek pocrveni, nikada ne potamni</mat-radio-button><br>
+          <mat-radio-button value="sometimesBurns">ponekad pocrveni pa onda potamni</mat-radio-button><br>
+          <mat-radio-button value="rarelyBurns">veoma retko pocrveni, veoma lako potamni </mat-radio-button><br>
+          <mat-radio-button value="alwaysBurnsMinimalTan">uvek pocrveni, minimalno ili teško potamni</mat-radio-button><br>
+          <mat-radio-button value="rarelyBurnsEasyTan">retko pocrveni, lako potamni</mat-radio-button><br>
+          <mat-radio-button value="neverBurns">nikada ne pocrveni</mat-radio-button>
+
+        </mat-radio-group>
+      </div>
+    </form>
+  <div *ngIf="currentPage === 5 || currentPage === 6 || currentPage === 7 || currentPage === 8 || currentPage === 9 || currentPage === 10" >
+    <app-age-difference-exposure [currPage]="currentPage" (newItemEvent)="addItem($event)" 
+    ></app-age-difference-exposure>
+  </div>
+
+  <div *ngIf="currentPage === 11">
+    <form [formGroup]="questionnaireFormEnd">
+   
+        <mat-label>Koliko ste se puta tokom života izlagali suncu da biste pocrneli?</mat-label><br>
+        <mat-radio-group formControlName="tanningExposure">
+          <mat-radio-button value="1-10">1 do 10 puta</mat-radio-button>
+          <mat-radio-button value="11-25">11 do 25 puta</mat-radio-button>
+          <mat-radio-button value="25+">više od 25 puta</mat-radio-button>
+        </mat-radio-group>
+
+      <!-- Question 18 -->
+      <div formGroupName="sunnyCountryExposure">
+  
+          <mat-label>Da li ste ukupno proveli jednu godinu ili više u državi koja ima mnogo više sunčanih dana od države u kojoj trenutno živite?</mat-label><br>
+          <mat-radio-group formControlName="exposure">
+            <mat-radio-button value="yes">Da</mat-radio-button>
+            <mat-radio-button value="no">Ne</mat-radio-button>
+          </mat-radio-group>
+
+        <mat-form-field appearance="outline" *ngIf="questionnaireFormEnd.get('sunnyCountryExposure.exposure').value === 'yes'">
+          <mat-label>Koliko godina pre 18. godine starosti?</mat-label>
+          <input matInput formControlName="yearsBefore18" type="number">
+          <mat-error *ngIf="questionnaireFormEnd.get('sunnyCountryExposure.yearsBefore18')?.hasError('required')">
+            Ovo polje je obavezno.
+           </mat-error> 
+          <br>
+        </mat-form-field>
+     
+        <mat-form-field appearance="outline" *ngIf="questionnaireFormEnd.get('sunnyCountryExposure.exposure').value === 'yes'">
+          <mat-label>Gde (zemlja i grad) pre 18. godine?</mat-label>
+          <input matInput formControlName="locationBefore18" type="text">
+          <mat-error *ngIf="questionnaireFormEnd.get('sunnyCountryExposure.locationBefore18')?.hasError('required')">
+            Ovo polje je obavezno.
+           </mat-error> 
+          <br>
+        </mat-form-field>
+ 
+        <mat-form-field appearance="outline" *ngIf="questionnaireFormEnd.get('sunnyCountryExposure.exposure').value === 'yes'">
+          <mat-label>Koliko godina posle 18. godine starosti?</mat-label>
+          <input matInput formControlName="yearsAfter18" type="number" [min]="1">
+          <mat-error *ngIf="questionnaireFormEnd.get('sunnyCountryExposure.yearsAfter18')?.hasError('required')">
+            Ovo polje je obavezno.
+           </mat-error> 
+          <br>
+        </mat-form-field>
+        
+        <mat-form-field appearance="outline" *ngIf="questionnaireFormEnd.get('sunnyCountryExposure.exposure').value === 'yes'">
+          <mat-label>Gde (zemlja i grad) posle 18. godine?</mat-label>
+          <input matInput formControlName="locationAfter18" type="text">
+          <mat-error *ngIf="questionnaireFormEnd.get('sunnyCountryExposure.locationAfter18')?.hasError('required')">
+            Ovo polje je obavezno.
+           </mat-error> 
+        </mat-form-field>
+      </div>
+    
+      <!-- Question 19 -->
+      <div formGroupName="solariumUse">
+     
+          <mat-label>Da li ste nekada bili u solarijumu?</mat-label><br>
+          <mat-radio-group formControlName="usedSolarium">
+            <mat-radio-button value="yes">Da</mat-radio-button>
+            <mat-radio-button value="no">Ne</mat-radio-button>
+          </mat-radio-group>
+
+        <mat-form-field appearance="outline" *ngIf="questionnaireFormEnd.get('solariumUse.usedSolarium').value === 'yes'">
+          <mat-label>Ukupan broj odlazaka tokom života:</mat-label>
+          <input matInput formControlName="totalVisits" type="number" [min]="1">
+          <mat-error *ngIf="questionnaireFormEnd.get('solariumUse.totalVisits')?.hasError('required')">
+            Ovo polje je obavezno.
+           </mat-error> 
+        </mat-form-field>
+        <br>
+        <mat-form-field appearance="outline" *ngIf="questionnaireFormEnd.get('solariumUse.usedSolarium').value === 'yes'">
+          <mat-label>Starost prilikom prvog odlaska:</mat-label>
+          <input matInput formControlName="firstVisitAge" type="number" [min]="1">
+          <mat-error *ngIf="questionnaireFormEnd.get('solariumUse.firstVisitAge')?.hasError('required')">
+            Ovo polje je obavezno.
+           </mat-error> 
+        </mat-form-field>
+        <br>
+        <mat-form-field appearance="outline" *ngIf="questionnaireFormEnd.get('solariumUse.usedSolarium').value === 'yes'">
+          <mat-label>Starost prilikom poslednjeg odlaska:</mat-label>
+          <input matInput formControlName="lastVisitAge" type="number" [min]="1">
+          <mat-error *ngIf="questionnaireFormEnd.get('solariumUse.lastVisitAge')?.hasError('required')">
+            Ovo polje je obavezno.
+           </mat-error> 
+        </mat-form-field>
+      </div>
+    
+      <!-- Question 20 -->
+      <div formGroupName="sunburns">
+        <mat-label>Da li ste nekada imali opekotine od sunca?</mat-label><br>
+        <mat-label>Tokom detinjstva:&nbsp;&nbsp;&nbsp;&nbsp;</mat-label>
+        <mat-radio-group formControlName="childhood">
+          <mat-radio-button value="no">Ne</mat-radio-button>
+          <mat-radio-button value="yes">Da</mat-radio-button>
+          <mat-radio-button value="unknown">Ne znam/ne sećam se</mat-radio-button>
+        </mat-radio-group>
+        <br>
+        <mat-label>Tokom adolescencije:</mat-label>
+        <mat-radio-group formControlName="adolescence">
+          <mat-radio-button value="no">Ne</mat-radio-button>
+          <mat-radio-button value="yes">Da</mat-radio-button>
+          <mat-radio-button value="unknown">Ne znam/ne sećam se</mat-radio-button>
+        </mat-radio-group>
+        <br>
+        <mat-label>Između 20-40 godine:</mat-label>
+        <mat-radio-group formControlName="between20and40">
+          <mat-radio-button value="no">Ne</mat-radio-button>
+          <mat-radio-button value="yes">Da</mat-radio-button>
+          <mat-radio-button value="unknown">Ne znam/ne sećam se</mat-radio-button>
+        </mat-radio-group>
+        <br>
+        <mat-label>Između 40-60 godine:</mat-label>
+        <mat-radio-group formControlName="between40and60">
+          <mat-radio-button value="no">Ne</mat-radio-button>
+          <mat-radio-button value="yes">Da</mat-radio-button>
+          <mat-radio-button value="unknown">Ne znam/ne sećam se</mat-radio-button>
+        </mat-radio-group>
+        <br>
+        <mat-label>Između 60-80 godine:</mat-label>
+        <mat-radio-group formControlName="between60and80">
+          <mat-radio-button value="no">Ne</mat-radio-button>
+          <mat-radio-button value="yes">Da</mat-radio-button>
+          <mat-radio-button value="unknown">Ne znam/ne sećam se</mat-radio-button>
+        </mat-radio-group>
+        <br>
+        <mat-label>Posle 80 godine: &nbsp;&nbsp;&nbsp;</mat-label>
+        <mat-radio-group formControlName="after80">
+          <mat-radio-button value="no">Ne</mat-radio-button>
+          <mat-radio-button value="yes">Da</mat-radio-button>
+          <mat-radio-button value="unknown">Ne znam/ne sećam se</mat-radio-button>
+        </mat-radio-group>
+        <br>
+        <!-- Repeat similar structure for other age groups... -->
+      </div>
+</form>
+  </div>
+  <form  [formGroup]="questionnaireFormDoctor">
+  <div *ngIf="currentPage==12">
+  
+     <mat-label>Pacijent dolazi zbog:</mat-label><br>
+      <mat-radio-group formControlName="patientPurpose">
+        <mat-radio-button value="screening">Skrininga/pregleda kože</mat-radio-button><br>
+        <mat-radio-button value="tumorControl">Kontrole posle odstranjenog tumora kože</mat-radio-button><br>
+        <mat-radio-button value="other">Drugo, molim navesti</mat-radio-button>
+      </mat-radio-group>
+      <mat-form-field *ngIf="questionnaireFormDoctor.get('patientPurpose').value === 'other'" appearance="outline">
+      <input matInput formControlName="otherPurpose"  placeholder="Navesti">
+    </mat-form-field>
+<br>
+      <mat-label>Porodična anamneza o melanomu (najbliži srodnici: otac, majka, brat, sestra):</mat-label>
+      <br>
+      <mat-radio-group formControlName="familyHistoryMelanoma">
+        <mat-radio-button value="no">Ne</mat-radio-button><br>
+        <mat-radio-button value="1relative">Da (1 bliski srodnik)</mat-radio-button><br>
+        <mat-radio-button value="2relatives">Da (≥ 2 bliska srodnika)</mat-radio-button><br>
+        <mat-radio-button value="unknown">Pacijent ne zna</mat-radio-button> <br>
+      </mat-radio-group>
+
+
+      <mat-label>Porodična anamneza o nemelanomskim karcinomima kože (najbliži srodnici: otac, majka, brat, sestra):</mat-label>
+      <br>
+      <mat-radio-group formControlName="familyHistoryNonMelanoma">
+        <mat-radio-button value="no">Ne</mat-radio-button><br>
+        <mat-radio-button value="yes">Da</mat-radio-button><br>
+        <mat-radio-button value="unknown">Pacijent ne zna</mat-radio-button>
+      </mat-radio-group>
+
+  
+    <!-- Field 23: Personal history of melanoma -->
+    <div formGroupName="personalHistoryMelanoma">
+ 
+        <mat-label>Lična anamneza o melanomu:</mat-label><br>
+        <mat-radio-group formControlName="history">
+          <mat-radio-button value="no">Ne</mat-radio-button><br>
+          <mat-radio-button value="yes">Da</mat-radio-button><br>
+          <mat-radio-button value="unknown">Pacijent ne zna</mat-radio-button>
+        </mat-radio-group>
+
+      <mat-form-field appearance="outline" *ngIf="questionnaireFormDoctor.get('personalHistoryMelanoma.history').value === 'yes'">
+        <mat-label style="font-style: italic;">Ako da, koliko?</mat-label>
+        <input matInput formControlName="count" type="number" [min]="1">
+      </mat-form-field>
+    </div>
+  
+    <!-- Field 23.2: Personal history of basal/squamous cell carcinoma or others -->
+    <div formGroupName="personalHistoryCarcinoma">
+        <mat-label>Lična anamneza o bazocelularnom i/ili svkamocelularnom karcinomu ili drugi:</mat-label><br>
+        <mat-radio-group formControlName="history">
+          <mat-radio-button value="no">Ne</mat-radio-button><br>
+          <mat-radio-button value="yes">Da</mat-radio-button><br>
+          <mat-radio-button value="other">Drugi</mat-radio-button> <br>
+          <mat-radio-button value="unknown">Pacijent ne zna</mat-radio-button>
+        </mat-radio-group>
+        <br>
+        <mat-label *ngIf="questionnaireFormDoctor.get('personalHistoryCarcinoma.history').value === 'yes'" style="font-style: italic;">Ako da, koliko </mat-label>
+      <mat-form-field appearance="outline" *ngIf="questionnaireFormDoctor.get('personalHistoryCarcinoma.history').value === 'yes'">
+        <mat-label>BCC:</mat-label>
+        <input matInput formControlName="bccCount" type="number" [min]="1">
+      </mat-form-field>
+      <mat-form-field appearance="outline" *ngIf="questionnaireFormDoctor.get('personalHistoryCarcinoma.history').value === 'yes'">
+        <mat-label>SCC:</mat-label>
+        <input matInput formControlName="sccCount" type="number" [min]="1">
+      </mat-form-field>
+      <mat-form-field appearance="outline" *ngIf="questionnaireFormDoctor.get('personalHistoryCarcinoma.history').value === 'other'">
+        <mat-label>Ako je drugi, molim navesti:</mat-label>
+        <input matInput formControlName="otherDescription" type="text">
+      </mat-form-field>
+    </div>
+  
+
+      <mat-label>Pregled kože učinjen danas:</mat-label> <br>
+      <mat-radio-group formControlName="skinExaminationToday">
+        <mat-radio-button value="complete">Kompletan</mat-radio-button> <br>
+        <mat-radio-button value="partial">Parcijalan</mat-radio-button>
+      </mat-radio-group>
+<br>
+  
+
+      <mat-label>Učinjena je dermoskopija tokom pregleda:</mat-label> <br>
+      <mat-radio-group formControlName="dermoscopyPerformed">
+        <mat-radio-button value="yes">Da</mat-radio-button> 
+        <mat-radio-button value="no">Ne</mat-radio-button> <br>
+      </mat-radio-group>
+      
+  
+    <!-- Field 26: Number of nevi on the whole body -->
+
+      <mat-label>Broj nevusa na koži celog tela:</mat-label> <br>
+      <mat-radio-group formControlName="nevusCount">
+        <mat-radio-button value="<25">Manje od 25</mat-radio-button> <br>
+        <mat-radio-button value="25-50">25-50</mat-radio-button> <br>
+        <mat-radio-button value="50-100">50-100</mat-radio-button> <br>
+        <mat-radio-button value=">100">Više od 100</mat-radio-button><br>
+      </mat-radio-group>
+
+  
+  
+
+      <mat-label>Prisustvo > 20 nevusa na obe ruke:</mat-label> <br>
+      <mat-radio-group formControlName="nevusOnHands">
+        <mat-radio-button value="yes">Da</mat-radio-button> 
+        <mat-radio-button value="no">Ne</mat-radio-button>
+      </mat-radio-group>
+
+  
+    <!-- Field 27: Presence of clinically atypical nevi -->
+    <div formGroupName="atypicalNeviPresence">
+ 
+        <mat-label>Prisustvo klinički atipičnih nevusa:</mat-label> <br>
+        <mat-radio-group formControlName="presence">
+          <mat-radio-button value="no">Ne</mat-radio-button> 
+          <mat-radio-button value="yes">Da</mat-radio-button>
+        </mat-radio-group>
+
+      <mat-form-field appearance="outline" *ngIf="questionnaireFormDoctor.get('atypicalNeviPresence.presence').value === 'yes'">
+        <mat-label style="font-style: italic;">Ako da, koliko?</mat-label>
+        <input matInput formControlName="count" type="number" [min]="1">
+      </mat-form-field>
+    </div>
+  </div>
+<div *ngIf="currentPage==13">
+    <div formGroupName="congenitalNevi" >
+    
+        <mat-label>Kongenitalni nevusi srednje veličine (>1.5–40 cm):</mat-label> <br>
+        <mat-radio-group formControlName="mediumSize">
+          <mat-radio-button value="no">Ne</mat-radio-button> 
+          <mat-radio-button value="yes">Da</mat-radio-button>
+        </mat-radio-group>
+      
+      <mat-form-field appearance="outline" *ngIf="questionnaireFormDoctor.get('congenitalNevi.mediumSize').value === 'yes'">
+        <mat-label>Lokacija:</mat-label>
+        <input matInput formControlName="mediumLocation" type="text">
+      </mat-form-field>
+  <br>
+
+        <mat-label>Gigantski kongenitalni nevusi (≥40 cm):</mat-label> <br>
+        <mat-radio-group formControlName="giantSize">
+          <mat-radio-button value="no">Ne</mat-radio-button>
+          <mat-radio-button value="yes">Da</mat-radio-button>
+        </mat-radio-group>
+
+      <mat-form-field appearance="outline" *ngIf="questionnaireFormDoctor.get('congenitalNevi.giantSize').value === 'yes'">
+        <mat-label>Lokacija:</mat-label>
+        <input matInput formControlName="giantLocation" type="text">
+      </mat-form-field>
+ 
+    </div>
+      <mat-label>Prisustvo solarnog lentiga:</mat-label> <br>
+      <mat-radio-group formControlName="solarLentigo">
+        <mat-radio-button value="no">Ne</mat-radio-button> 
+        <mat-radio-button value="yes">Da</mat-radio-button>
+      </mat-radio-group>
+  
+    <div formGroupName="suspiciousLesions">
+      <h2>Klinički suspektne lezije:</h2> 
+    <mat-label style="font-weight: bold;">Melanom:</mat-label> <br>
+  <mat-radio-group formControlName="melanoma">
+    <mat-radio-button value="no">Ne</mat-radio-button> 
+    <mat-radio-button value="yes">Da</mat-radio-button>
+  </mat-radio-group> 
+ 
+    <mat-form-field appearance="outline" *ngIf="questionnaireFormDoctor.get('suspiciousLesions.melanoma').value === 'yes'">
+      <input matInput placeholder="Ako da, broj" formControlName="melanomaCount" style="font-style: italic;">
+    </mat-form-field>
+
+    <mat-label *ngIf="questionnaireFormDoctor.get('suspiciousLesions.melanoma').value === 'yes'" style="font-style: italic;"><br>Ako da, detektovao:</mat-label> <br>
+    <mat-radio-group formControlName="melanomaDetectedBy" *ngIf="questionnaireFormDoctor.get('suspiciousLesions.melanoma').value === 'yes'">
+      <mat-radio-button value="patient">Pacijent</mat-radio-button> <br>
+      <mat-radio-button value="dermatologist">Dermatolog</mat-radio-button> <br>
+      <mat-radio-button value="otherHealthcare">Drugi zdravstveni radnik</mat-radio-button> <br>
+      <mat-radio-button value="partner">Supružnik/partner</mat-radio-button> <br>
+      <mat-radio-button value="otherPerson">Druga osoba</mat-radio-button>
+      <br>
+    </mat-radio-group>
+
+
+  <!-- 30.2 BCC -->
+  <mat-label style="font-weight: bold;">BCC:</mat-label> <br>
+  <mat-radio-group formControlName="bcc">
+    <mat-radio-button value="no">Ne</mat-radio-button> 
+    <mat-radio-button value="yes">Da</mat-radio-button>
+  </mat-radio-group>
+
+    <mat-form-field appearance="outline" *ngIf="questionnaireFormDoctor.get('suspiciousLesions.bcc').value === 'yes'">
+      <input matInput placeholder="Ako da, broj" formControlName="bccCount">
+    </mat-form-field>
+    
+    <mat-label  *ngIf="questionnaireFormDoctor.get('suspiciousLesions.bcc').value === 'yes'" style="font-style: italic;"><br>Ako da, detektovao:</mat-label> <br>
+    <mat-radio-group formControlName="bccDetectedBy"  *ngIf="questionnaireFormDoctor.get('suspiciousLesions.bcc').value === 'yes'">
+      <mat-radio-button value="patient">Pacijent</mat-radio-button> <br>
+      <mat-radio-button value="dermatologist">Dermatolog</mat-radio-button> <br>
+      <mat-radio-button value="otherHealthcare">Drugi zdravstveni radnik</mat-radio-button> <br>
+      <mat-radio-button value="partner">Supružnik/partner</mat-radio-button> <br>
+      <mat-radio-button value="otherPerson">Druga osoba</mat-radio-button>
+      <br>
+    </mat-radio-group>
+
+  
+  <!-- 30.3 SCC -->
+  <mat-label style="font-weight: bold;">SCC:</mat-label> <br>
+  <mat-radio-group formControlName="scc">
+    <mat-radio-button value="no">Ne</mat-radio-button> 
+    <mat-radio-button value="yes">Da</mat-radio-button>
+  </mat-radio-group>
+ 
+    <mat-form-field *ngIf="questionnaireFormDoctor.get('suspiciousLesions.scc').value === 'yes'" appearance="outline">
+      <input matInput placeholder="Ako da, broj" formControlName="sccCount" style="font-style: italic;">
+    </mat-form-field>
+ 
+    <mat-label *ngIf="questionnaireFormDoctor.get('suspiciousLesions.scc').value === 'yes'" style="font-style: italic;"><br>Ako da, detektovao:</mat-label> <br>
+    <mat-radio-group formControlName="sccDetectedBy" *ngIf="questionnaireFormDoctor.get('suspiciousLesions.scc').value === 'yes'" >
+      <mat-radio-button value="patient">Pacijent</mat-radio-button> <br>
+      <mat-radio-button value="dermatologist">Dermatolog</mat-radio-button> <br>
+      <mat-radio-button value="otherHealthcare">Drugi zdravstveni radnik</mat-radio-button> <br>
+      <mat-radio-button value="partner">Supružnik/partner</mat-radio-button> <br>
+      <mat-radio-button value="otherPerson">Druga osoba</mat-radio-button>
+      <br>
+    </mat-radio-group>
+  
+
+  <!-- 30.4 Aktinične keratoze -->
+  <mat-label style="font-weight: bold;">Aktinične keratoze:</mat-label> <br>
+  <mat-radio-group formControlName="actinicKeratosis">
+    <mat-radio-button value="no">Ne</mat-radio-button> 
+    <mat-radio-button value="yes">Da</mat-radio-button>
+  </mat-radio-group>
+  <br>
+  <div *ngIf="questionnaireFormDoctor.get('suspiciousLesions.actinicKeratosis').value === 'yes'">
+    <mat-label style="font-style: italic;">Ako da, koliko:</mat-label> <br>
+    <mat-radio-group formControlName="actinicKeratosisCount">
+      <mat-radio-button value="<10">&lt;10</mat-radio-button>
+      <mat-radio-button value="10-20">10-20</mat-radio-button>
+      <mat-radio-button value=">20">&gt;20</mat-radio-button>
+    </mat-radio-group>
+    <mat-form-field *ngIf="questionnaireFormDoctor.get('suspiciousLesions.actinicKeratosisCount').value === '<10'">
+      <input matInput placeholder="Ako je <10, broj:" formControlName="exactActinicKeratosisCount" [max]="9" type="number">
+    </mat-form-field>
+    <br>
+    <mat-label style="font-style: italic;">Ako da, detektovao:</mat-label> <br>
+    <mat-radio-group formControlName="actinicKeratosisDetectedBy">
+      <mat-radio-button value="patient">Pacijent</mat-radio-button> <br>
+      <mat-radio-button value="dermatologist">Dermatolog</mat-radio-button> <br>
+      <mat-radio-button value="otherHealthcare">Drugi zdravstveni radnik</mat-radio-button> <br>
+      <mat-radio-button value="partner">Supružnik/partner</mat-radio-button> <br>
+      <mat-radio-button value="otherPerson">Druga osoba</mat-radio-button>
+    </mat-radio-group>
+  </div>
+  <br>
+  <!-- 30.5 Drugi ili klinički nedefinisani -->
+  <mat-label style="font-weight: bold;">Drugi ili klinički nedefinisani:</mat-label> <br>
+  <mat-radio-group formControlName="otherLesions">
+    <mat-radio-button value="no">Ne</mat-radio-button> 
+    <mat-radio-button value="yes">Da</mat-radio-button>
+  </mat-radio-group>
+
+
+    <mat-form-field *ngIf="questionnaireFormDoctor.get('suspiciousLesions.otherLesions').value === 'yes'" appearance="outline">
+      <input matInput placeholder="Ako da, molimo navesti" formControlName="otherLesionsDescription" style="font-style: italic;">
+    </mat-form-field>
+
+  
+    </div>
+    <h2>Prethodna/udružena oboljenja: </h2>
+    <!-- Field 32: Other conditions -->
+    <div formGroupName="otherConditions">
+
+        <mat-label>Hematološka:</mat-label> <br>
+        <mat-radio-group formControlName="hematological">
+          <mat-radio-button value="no">Ne</mat-radio-button> 
+          <mat-radio-button value="yes">Da</mat-radio-button>
+        </mat-radio-group>
+<br>
+
+        <mat-label>HIV:</mat-label> <br>
+        <mat-radio-group formControlName="hiv">
+          <mat-radio-button value="no">Ne</mat-radio-button> 
+          <mat-radio-button value="yes">Da</mat-radio-button>
+        </mat-radio-group>
+    
+<br>
+        <mat-label>Drugi razlozi za imunosupresiju:</mat-label> <br>
+        <mat-radio-group formControlName="immunosuppression">
+          <mat-radio-button value="no">Ne</mat-radio-button>
+          <mat-radio-button value="yes">Da</mat-radio-button>
+        </mat-radio-group>
+        
+
+      <mat-form-field appearance="outline" *ngIf="questionnaireFormDoctor.get('otherConditions.immunosuppression').value === 'yes'">
+        <mat-label>Molim, navesti:</mat-label>
+        <input matInput formControlName="immunosuppressionOther" type="text">
+      </mat-form-field>
+      <br>
+      <mat-label>Druga značajna prethodna oboljenja:</mat-label> <br>
+      <mat-radio-group formControlName="otherSignificantConditions">
+        <mat-radio-button value="no">Ne</mat-radio-button>
+        <mat-radio-button value="yes">Da</mat-radio-button>
+      </mat-radio-group>
+     
+    <mat-form-field appearance="outline" *ngIf="questionnaireFormDoctor.get('otherConditions.otherSignificantConditions').value === 'yes'">
+      <mat-label>Molim, navesti:</mat-label>
+      <input matInput formControlName="otherSignificantConditionsOther" type="text">
+    </mat-form-field>
+    </div>
+  
+
+      <mat-label>Da li pušite?</mat-label> <br>
+      <mat-radio-group formControlName="smoking">
+        <mat-radio-button value="no">Ne</mat-radio-button> 
+        <mat-radio-button value="yes">Da</mat-radio-button>
+      </mat-radio-group>
+      <br>
+    <div *ngIf="questionnaireFormDoctor.get('smoking').value === 'no'">
+      <mat-label>Ako ne, da li ste bivši pušač?</mat-label> <br>
+      <mat-radio-group formControlName="exSmoker">
+        <mat-radio-button value="no">Ne</mat-radio-button>
+        <mat-radio-button value="yes">Da</mat-radio-button>
+      </mat-radio-group>
+    </div>
+    <br>
+  </div>
+
+</form>
+  <div class="sticky-footer" style="width:98%; bottom:0;">
+      <!-- Navigaciona dugmad za paginaciju -->
+      <mat-divider></mat-divider>
+      <div class="pagination-buttons" style="width: 100%;">
+        <button mat-button (click)="prevPage()" [disabled]="currentPage === 1" class="left">Prethodna</button>
+        <button mat-button (click)="nextPage()" [disabled]="currentPage === totalPages"  class="right">Sledeća</button>
+      </div>
+  
+      <!-- Dugme za slanje forme, vidljivo samo na poslednjoj stranici -->
+      <button mat-raised-button  style="background-color: #023162; color:white" type="submit" *ngIf="currentPage === totalPages" (click)="onSubmit()">Pošalji</button>
+    <button type="button" class="btn btn-info" (click)="krajForme()">Kraj</button>  
+    </div>
+  </mat-card>
+  
