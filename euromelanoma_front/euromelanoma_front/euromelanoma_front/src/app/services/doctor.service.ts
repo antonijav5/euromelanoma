@@ -19,5 +19,13 @@ environment:any={
     const headers = new HttpHeaders().set('Content-Type', 'application/json')
     return this.http.post(this.url + "AddDoctorNotes", model);
   }
+
+  GetPatientsForDoctor(doctorId:number){
+        return this.http.get(this.url + "GetPatientsForDoctor/"+doctorId);
+  }
+  GetQuestionnairesForPatients(patientId:number){
+    return this.http.get(this.url + "GetQuestionnairesForPatient/"+patientId);
+
+}
 }
 

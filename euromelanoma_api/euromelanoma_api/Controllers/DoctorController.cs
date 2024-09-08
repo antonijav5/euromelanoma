@@ -25,11 +25,26 @@ namespace euromelanoma_api.Controllers
 
 
 
-[HttpPost("AddDoctorNotes")]
-public RequestResult<string> AddDoctorNotes([FromBody] DoctorNotesDto dto)
+       [HttpPost("AddDoctorNotes")]
+       public RequestResult<string> AddDoctorNotes([FromBody] DoctorNotesDto dto)
         {
           return new RequestResult<string>(true, doctorManager.AddDoctorNotes(dto), "All good.");
 
+        }
+
+
+        [HttpGet("GetPatientsForDoctor/{doctorId}")]
+        public RequestResult<Users> GetPatientsForDoctor(int doctorId)
+        {
+            var patients = doctorManager.GetPatientsForDoctor(doctorId); // Pretpostavljamo da imate odgovarajući servis.
+            return new RequestResult<Users>(true,patients, "All good.", null,null);
+        }
+        [HttpGet("GetQuestionnairesForPatient/{patientId}")]
+        public RequestResult<Questionnaires> GetQuestionnairesForPatient(int patientId)
+        {
+
+            var questionnaires = doctorManager.GetQuestionnairesForPatient(patientId); // Pretpostavljamo da imate odgovarajući servis.
+            return new RequestResult<Questionnaires>(true, questionnaires, "All good.", null, null);
         }
     }
     }

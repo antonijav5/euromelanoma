@@ -1,1 +1,38 @@
-<p>doctor works!</p>
+<mat-card class="mat-card">
+    <mat-form-field appearance="fill">
+        <mat-label>Pretraži pacijenta po ID-u, imenu ili prezimenu</mat-label>
+      <input matInput (keyup)="searchPatient()" (onBlur)="searchPatient()" [(ngModel)]="patientId"/>
+    </mat-form-field>
+    
+    <mat-table [dataSource]="filteredPatients">
+      
+      <ng-container matColumnDef="id">
+        <mat-header-cell *matHeaderCellDef>ID</mat-header-cell>
+        <mat-cell *matCellDef="let patientObject">{{patientObject.patient.userID}}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="ime">
+        <mat-header-cell *matHeaderCellDef>Ime</mat-header-cell>
+        <mat-cell *matCellDef="let patientObject">{{patientObject.patient.firstName}}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="prezime">
+        <mat-header-cell *matHeaderCellDef>Prezime</mat-header-cell>
+        <mat-cell *matCellDef="let patientObject">{{patientObject.patient.lastName}}</mat-cell>
+      </ng-container>
+  
+      <ng-container matColumnDef="upitnici">
+        <mat-header-cell *matHeaderCellDef>Upitnici</mat-header-cell>
+        <mat-cell *matCellDef="let patientObject">
+            <div *ngFor="let q of patientObject.questionnaires">
+                <button mat-button (click)="openQuestionnaire(patientObject.patient.userID, q.questionnaireID)"
+                style="background-color:none; color:#023162" ><i class="bi bi-journal-medical"></i></button>
+            </div>
+           </mat-cell>
+        
+      </ng-container>
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+  </mat-card>
+  

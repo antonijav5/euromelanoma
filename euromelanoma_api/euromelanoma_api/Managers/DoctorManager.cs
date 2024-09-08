@@ -78,5 +78,19 @@ namespace euromelanoma_api.Managers
             return "Doctor notes added successfully.";
         }
 
+        public List<Users> GetPatientsForDoctor(int doctorId)
+        {
+            List<int> listaPacijenata = _context.Questionnaires.Where(a => a.DoctorID == doctorId).Select(b=>b.PatientID).ToList();
+            return _context.Users.Where(a => listaPacijenata.Contains(a.UserID)).ToList();
+        }
+
+        public List<Questionnaires> GetQuestionnairesForPatient(int patientId)
+        {
+            
+            return _context.Questionnaires.Where(a => a.PatientID==patientId).ToList();
+        }
+
+        
+
     }
 }
