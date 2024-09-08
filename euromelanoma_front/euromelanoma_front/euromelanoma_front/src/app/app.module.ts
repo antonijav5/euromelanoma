@@ -38,6 +38,25 @@ import { AvaliableSlotsInsertComponent } from './components/admin/avaliable-slot
 import { ScheduledAppointmentPatientComponent } from './components/patient/scheduled-appointment-patient/scheduled-appointment-patient.component';
 import { QuestionnaireComponent } from './components/patient/questionnaire/questionnaire.component';
 import { AgeDifferenceExposureComponent } from './components/patient/questionnaire/age-difference-exposure/age-difference-exposure.component';
+import { ProposeSlotComponent } from './components/patient/propose-slot/propose-slot.component';
+import {MatDialogModule} from '@angular/material/dialog';
+import { MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { provideMomentDateAdapter } from '@angular/material-moment-adapter';
+import { NgxMatDatetimePickerModule, NgxMatTimepickerModule, NgxMatNativeDateModule } from '@angular-material-components/datetime-picker';
+import { MatTableModule } from '@angular/material/table';
+
+const MY_DATE_FORMATS = {
+  parse: {
+    dateInput: 'DD.MM.YYYY', // Format za unos datuma
+  },
+  display: {
+    dateInput: 'DD.MM.YYYY',
+    monthYearLabel: 'MMMM YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'MMMM YYYY',
+  },
+};
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -52,8 +71,8 @@ import { AgeDifferenceExposureComponent } from './components/patient/questionnai
     AvaliableSlotsInsertComponent,
     ScheduledAppointmentPatientComponent,
     QuestionnaireComponent,
-    AgeDifferenceExposureComponent
-
+    AgeDifferenceExposureComponent,
+    ProposeSlotComponent
   ],
   imports: [AppRoutingModule,
     BrowserModule,
@@ -82,6 +101,11 @@ import { AgeDifferenceExposureComponent } from './components/patient/questionnai
    MatRadioModule,
    MatDatepickerModule,
    MatDividerModule,
+MatDialogModule,
+NgxMatDatetimePickerModule,
+NgxMatTimepickerModule,
+NgxMatNativeDateModule,
+MatTableModule,
 
    ToastrModule.forRoot({
       positionClass: "toast-bottom-right",
@@ -93,7 +117,10 @@ import { AgeDifferenceExposureComponent } from './components/patient/questionnai
   ],
   bootstrap: [AppComponent],
   providers: [
-    provideAnimationsAsync()
+    provideAnimationsAsync(),
+    provideMomentDateAdapter(), // Obezbedi Moment adapter
+    { provide: MAT_DATE_LOCALE, useValue: 'sr' }, // Podesi lokalizaciju na srpski
+    { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS }, // Podesi formate da
   ]
 })
 export class AppModule { }

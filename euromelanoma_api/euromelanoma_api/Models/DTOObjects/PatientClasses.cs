@@ -1,4 +1,6 @@
-﻿namespace euromelanoma_api.Models.DTOObjects
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace euromelanoma_api.Models.DTOObjects
 {
     public class PatientClasses
     {
@@ -14,11 +16,11 @@
             public decimal Weight { get; set; }
             public decimal Height { get; set; }
             public string Ethnicity { get; set; }
-            public string OtherEthnicity { get; set; }
+            public string? OtherEthnicity { get; set; }
             public string EducationLevel { get; set; }
-            public bool LivingAlone { get; set; }
+            public string LivingAlone { get; set; }
             public string ReasonForComing { get; set; }
-            public bool FullBodyCheck { get; set; }
+            public string FullBodyCheck { get; set; }
             public string HairColor { get; set; }
             public string Freckles { get; set; }
             public string SunReaction { get; set; }
@@ -30,20 +32,38 @@
             public Sunburns Sunburns { get; set; }
 
 
+
+            public string SunExposureFromAge0to12 { get; set; }
+
+
+            public string SunExposureFromAge13to19 { get; set; }
+
+            public string SunExposureFromAge20to40 { get; set; }
+
+            public string SunExposureFromAge40to60 { get; set; }
+
+
+            public string SunExposureFromAge60to80 { get; set; }
+
+            public string SunExposureAfterAge80
+            {
+                get; set;
+
+            }
         }
 
         public class SunnyCountryExposure
         {
-            public bool Exposure { get; set; }
+            public string Exposure { get; set; }
             public int? YearsBefore18 { get; set; }
-            public string LocationBefore18 { get; set; }
+            public string? LocationBefore18 { get; set; }
             public int? YearsAfter18 { get; set; }
-            public string LocationAfter18 { get; set; }
+            public string? LocationAfter18 { get; set; }
         }
 
         public class SolariumUse
         {
-            public bool UsedSolarium { get; set; }
+            public string UsedSolarium { get; set; }
             public int? TotalVisits { get; set; }
             public int? FirstVisitAge { get; set; }
             public int? LastVisitAge { get; set; }

@@ -22,9 +22,9 @@ namespace euromelanoma_api.Controllers
         }
 
         [HttpPost("InsertQuestionnaire")]
-        public RequestResult<bool> InsertQuestionnaireWithData(QuestionnaireDataPatientInsertModel model) { 
-        
-            return null; 
+        public RequestResult<Questionnaires> InsertQuestionnaireWithData(QuestionnaireDataPatientInsertModel model) {
+
+            return new RequestResult<Questionnaires>(true, patientManager.InsertQuestionnaireWithData(model), "Ok");  
         }
     }
 }

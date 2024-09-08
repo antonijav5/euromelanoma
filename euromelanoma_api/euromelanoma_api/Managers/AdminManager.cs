@@ -10,6 +10,8 @@ using System.Text;
 using static euromelanoma_api.Models.DTOObjects.AdminClasses;
 using Org.BouncyCastle.Utilities.Encoders;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc;
 
 namespace euromelanoma_api.Managers
 {
@@ -152,6 +154,22 @@ namespace euromelanoma_api.Managers
             _context.Add(req);
             _context.SaveChanges();
             return _context.UserRequests.ToList();
+        }
+
+        public string AddAppointment(AppointmentDto appointmentDto)
+        {
+            var appointment = new AvailableSlots
+            {
+                DoctorID = appointmentDto.DoctorId,
+                CityID = appointmentDto.CityId,
+                StartTime =appointmentDto.StartTime,
+                EndTime = appointmentDto.EndTime,
+                MaxPatients = appointmentDto.MaxPatients
+            };
+
+            _context.AvailableSlots.Add(appointment);
+             _context.SaveChanges();
+            return "Ok";
         }
     }
     }

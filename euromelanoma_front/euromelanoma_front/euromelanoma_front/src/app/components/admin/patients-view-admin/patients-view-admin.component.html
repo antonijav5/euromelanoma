@@ -1,2 +1,37 @@
-<p>patients-view-admin works!</p>
-hhhhhhhhhhhhhhhhhhh
+<mat-card class="mat-card">
+    <mat-card-header>
+      <mat-card-title>Pregled Pacijenata</mat-card-title>
+    </mat-card-header>
+    <mat-card-content style="   margin-top: 10px;">
+      <mat-table [dataSource]="patients" class="mat-elevation-z8" style="text-align: center;">
+        <ng-container matColumnDef="firstname">
+          <mat-header-cell *matHeaderCellDef> Ime </mat-header-cell>
+          <mat-cell *matCellDef="let patient">{{ patient.firstName }}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="lastname">
+            <mat-header-cell *matHeaderCellDef> Prezime </mat-header-cell>
+            <mat-cell *matCellDef="let patient">{{ patient.lastName }}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="mail">
+            <mat-header-cell *matHeaderCellDef> E-mail adresa </mat-header-cell>
+            <mat-cell *matCellDef="let patient">{{ patient.email }}</mat-cell>
+          </ng-container>
+  
+        <ng-container matColumnDef="action">
+          <mat-header-cell *matHeaderCellDef>Pregledajte upitnik </mat-header-cell>
+          <mat-cell *matCellDef="let patient">
+            <button mat-button (click)="openQuestionnairesDialog(patient)" style="background-color:none; color:#023162" ><i class="bi bi-journal-medical"></i></button>
+          </mat-cell>
+        </ng-container>
+  
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+      </mat-table>
+    </mat-card-content>
+    <mat-card-actions style="text-align: center; align-items: center; justify-content: center; ">
+      <button mat-raised-button (click)="exportToExcel()" style="background-color: #023162; color: white;">Izvezi u Excel</button>
+    </mat-card-actions>
+  </mat-card>
+  

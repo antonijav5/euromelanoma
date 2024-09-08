@@ -1,0 +1,23 @@
+.appointment-card {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+  }
+  
+  .form-field {
+    width: 100%;
+    margin-bottom: 16px;
+  }
+  
+  mat-card-header {
+    background-color: #023162;
+    color: white;
+    border-radius: 5px;
+  }
+  
+  button {
+    background-color: #023162 !important;
+    display: block;
+    margin: 20px auto 0;
+  }
+  

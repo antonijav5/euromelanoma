@@ -27,6 +27,11 @@ public partial class ScheduledAppointments
     [Column(TypeName = "datetime")]
     public DateTime? UpdatedAt { get; set; }
 
+    [StringLength(15)]
+    public string PhoneNumber { get; set; }
+
+    public int? CityID { get; set; }
+
     [ForeignKey("PatientID")]
     [InverseProperty("ScheduledAppointments")]
     public virtual Users Patient { get; set; }

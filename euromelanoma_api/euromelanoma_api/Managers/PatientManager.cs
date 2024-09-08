@@ -1,5 +1,6 @@
 ﻿using euromelanoma_api.Models.EuromelanomaContext;
 using System.Text;
+using static euromelanoma_api.Models.DTOObjects.PatientClasses;
 
 namespace euromelanoma_api.Managers
 {
@@ -14,19 +15,23 @@ namespace euromelanoma_api.Managers
             _config = config;
         }
 
-
-        public void InsertQuestionnaireWithData(QuestionnaireDataPatient model, int patientID)
+        public int getFreeDoctor()
+        {
+            return 1;
+        }
+        public Questionnaires InsertQuestionnaireWithData(QuestionnaireDataPatientInsertModel model)
         {
            
             int score = CalculateRiskScore(model);
+            int doctorId = getFreeDoctor();
             // 1. Kreiranje novog Questionnaire zapisa
             var questionnaire = new Questionnaires
                 {
-                    PatientID = patientID,
-              
+                    PatientID = model.PatientId,
+                    DoctorID=doctorId,
                     Score = score,          // Može biti inicijalni rezultat (0)
                     CreatedAt = DateTime.Now,
-                    //Consent = model.con        // Saglasnost pacijenta
+                    Consent = model. Consent     // Saglasnost pacijenta
                 };
 
                // Dodajemo questionnaire zapis u bazu
@@ -40,21 +45,21 @@ namespace euromelanoma_api.Managers
                 var questionnaireData = new QuestionnaireDataPatient
                 {
                     questionnaireID = questionnaireID,
-                    gender = model.gender,
-                    birth_year = model.birth_year,
-                    birth_place = model.birth_place,
-                    residence = model.residence,
-                    weight = model.weight,
-                    height = model.height,
-                    ethnicity = model.ethnicity,
-                    other_ethnicity = model.other_ethnicity,
-                    education_level = model.education_level,
-                    living_alone = model.living_alone,
-                    reason_exam = model.reason_exam,
-                    full_body_check_done = model.full_body_check_done,
-                    hair_color = model.hair_color,
-                    how_much_freckles = model.how_much_freckles,
-                    sun_reaction = model.sun_reaction,
+                    gender = model.Gender,
+                    birth_year = model.BirthYear,
+                    birth_place = model.BirthPlace,
+                    residence = model.Residence,
+                    weight = model.Weight,
+                    height = model.Height,
+                    ethnicity = model.Ethnicity,
+                    other_ethnicity = model.OtherEthnicity,
+                    education_level = model.EducationLevel,
+                    living_alone = model.LivingAlone,
+                    reason_exam = model.ReasonForComing,
+                    full_body_check_done = model.FullBodyCheck,
+                    hair_color = model.HairColor,
+                    how_much_freckles = model.Freckles,
+                    sun_reaction = model.SunReaction,
 
                     // Sun exposure data
                     SunExposureFromAge0to12 = model.SunExposureFromAge0to12,
@@ -65,31 +70,32 @@ namespace euromelanoma_api.Managers
                     SunExposureAfterAge80 = model.SunExposureAfterAge80,
 
                     // Other fields
-                    tanning_exposure = model.tanning_exposure,
-                    sunny_country_exposure = model.sunny_country_exposure,
-                    years_before_18 = model.years_before_18,
-                    location_before_18 = model.location_before_18,
-                    years_after_18 = model.years_after_18,
-                    location_after_18 = model.location_after_18,
+                    tanning_exposure = model.TanningExposure,
+                    sunny_country_exposure = model.SunnyCountryExposure.Exposure,
+                    years_before_18 = model.SunnyCountryExposure.YearsBefore18,
+                    location_before_18 = model.SunnyCountryExposure.LocationBefore18,
+                    years_after_18 = model.SunnyCountryExposure.YearsAfter18,
+                    location_after_18 = model.SunnyCountryExposure.LocationAfter18,
 
-                    used_solarium = model.used_solarium,
-                    total_visits = model.total_visits,
-                    first_visit_age = model.first_visit_age,
-                    last_visit_age = model.last_visit_age,
+                    used_solarium = model.SolariumUse.UsedSolarium,
+                    total_visits = model.SolariumUse.TotalVisits,
+                    first_visit_age = model.SolariumUse.FirstVisitAge,
+                    last_visit_age = model.SolariumUse.LastVisitAge,
 
                     // Burns
-                    had_childhood_burns = model.had_childhood_burns,
-                    had_adolescence_burns = model.had_adolescence_burns,
-                    had_burns_between_20_40 = model.had_burns_between_20_40,
-                    had_burns_between_40_60 = model.had_burns_between_40_60,
-                    had_burns_between_60_80 = model.had_burns_between_60_80,
-                    had_burns_after_80 = model.had_burns_after_80
+                    had_childhood_burns = model.Sunburns.Childhood,
+                    had_adolescence_burns = model.Sunburns.Adolescence,
+                    had_burns_between_20_40 = model.Sunburns.Between20and40,
+                    had_burns_between_40_60 = model.Sunburns.Between40and60,
+                    had_burns_between_60_80 = model.Sunburns.Between60and80,
+                    had_burns_after_80 = model.Sunburns.After80
                 };
 
             // Dodajemo podatke u QuestionnaireDataPatient tabelu
             _context.QuestionnaireDataPatient.Add(questionnaireData);
             _context.SaveChanges(); // Čuvamo sve podatke
-            
+       
+            return questionnaire;   
         }
 
 
@@ -97,28 +103,28 @@ namespace euromelanoma_api.Managers
 
 
 
-        public int CalculateRiskScore(QuestionnaireDataPatient model)
+        public int CalculateRiskScore(QuestionnaireDataPatientInsertModel model)
         {
             int score = 0;
 
             // 1. Provera izloženosti sunčanju (tanning exposure)
-            if (model.tanning_exposure == "frequent")
+            if (model.TanningExposure == "frequent")
             {
                 score += 5; // Visok rizik zbog čestog sunčanja
             }
-            else if (model.tanning_exposure == "occasional")
+            else if (model.TanningExposure == "occasional")
             {
                 score += 2; // Srednji rizik
             }
 
             // 2. Korišćenje solarijuma
-            if (model.used_solarium)
+            if (model.SolariumUse.UsedSolarium=="yes")
             {
-                if (model.total_visits > 20)
+                if (model.SolariumUse.TotalVisits > 20)
                 {
                     score += 5; // Visok rizik
                 }
-                else if (model.total_visits > 10)
+                else if (model.SolariumUse.TotalVisits > 10)
                 {
                     score += 3; // Srednji rizik
                 }
@@ -129,33 +135,33 @@ namespace euromelanoma_api.Managers
             }
 
             // 3. Provera opekotina (burns)
-            if (model.had_childhood_burns == "yes")
+            if (model.Sunburns.Childhood == "yes")
             {
                 score += 3; // Opekotine u detinjstvu
             }
-            if (model.had_adolescence_burns == "yes")
+            if (model.Sunburns.Adolescence == "yes")
             {
                 score += 3; // Opekotine u adolescenciji
             }
-            if (model.had_burns_between_20_40 == "yes")
+            if (model.Sunburns.Between20and40 == "yes")
             {
                 score += 2; // Opekotine između 20-40 godina
             }
-            if (model.had_burns_between_40_60 == "yes")
+            if (model.Sunburns.Between40and60 == "yes")
             {
                 score += 1; // Opekotine između 40-60 godina
             }
-            if (model.had_burns_between_60_80 == "yes")
+            if (model.Sunburns.Between60and80 == "yes")
             {
                 score += 1; // Opekotine između 60-80 godina
             }
-            if (model.had_burns_after_80 == "yes")
+            if (model.Sunburns.After80 == "yes")
             {
                 score += 1; // Opekotine posle 80 godina
             }
 
             // 4. Provera izloženosti suncu pre 18 godina
-            if (model.sunny_country_exposure)
+            if (model.SunnyCountryExposure.Exposure == "yes")
             {
                 score += 4; // Veći rizik zbog boravka u sunčanim zemljama
             }

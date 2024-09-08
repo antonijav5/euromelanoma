@@ -14,21 +14,38 @@ export class AdminService {
 
   url: string = this.environment.apiBaseUrl + '/api/Admin/';
 
-    // getAneksZaposlenog(idZaposlenog: number): Observable<any> {
-    //   return this.http.get<any>(this.urlAneks + 'GetAneksiZaposlenog/' + idZaposlenog)
-    // }
-
-    RegisterPatient(model:any): Observable<any> {
+     RegisterPatient(model:any): Observable<any> {
       const headers = new HttpHeaders().set('Content-Type', 'application/json')
       return this.http.post(this.url + "RegisterPatient", model);
     }
-    RegisterDoctor(model:any): Observable<any> {
+     RegisterDoctor(model:any): Observable<any> {
         const headers = new HttpHeaders().set('Content-Type', 'application/json')
         return this.http.post(this.url + "RegisterDoctor", model);
       }
 
-    CreateDoctorRegisterRequest(model:any): Observable<any> {
+     CreateDoctorRegisterRequest(model:any): Observable<any> {
         const headers = new HttpHeaders().set('Content-Type', 'application/json')
         return this.http.post(this.url + "CreateDoctorRegisterRequest", model);
       }
-}
+
+
+      AddAppointment(model:any): Observable<any> {
+        const headers = new HttpHeaders().set('Content-Type', 'application/json')
+        return this.http.post(this.url + "AddAppointment", model);
+      }
+
+      GetDoctors() {
+        return this.http.get(this.url + "GetDoctors");
+      }
+
+      GetCities(){
+        return this.http.get(this.url + "GetCities");
+      }
+
+      GetPatients() {
+        return this.http.get(this.url + "GetPatients");
+      }
+      ExportExcel(): Observable<Blob> {
+        return this.http.post(this.url + 'ExportExcel', {}, { responseType: 'blob' });
+      }
+ }

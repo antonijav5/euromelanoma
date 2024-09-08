@@ -15,6 +15,8 @@ public partial class EUROMELANOMAContext : DbContext
 
     public virtual DbSet<AvailableSlots> AvailableSlots { get; set; }
 
+    public virtual DbSet<Cities> Cities { get; set; }
+
     public virtual DbSet<DoctorPrivileges> DoctorPrivileges { get; set; }
 
     public virtual DbSet<QuestionnaireDataPatient> QuestionnaireDataPatient { get; set; }
@@ -35,9 +37,18 @@ public partial class EUROMELANOMAContext : DbContext
         {
             entity.HasKey(e => e.SlotID).HasName("PK__Availabl__0A124A4FB8AB7E7D");
 
+            entity.HasOne(d => d.City).WithMany(p => p.AvailableSlots)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_AvailableSlots_City");
+
             entity.HasOne(d => d.Doctor).WithMany(p => p.AvailableSlots)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_DoctorSlot");
+        });
+
+        modelBuilder.Entity<Cities>(entity =>
+        {
+            entity.HasKey(e => e.CityID).HasName("PK__Cities__F2D21A96A24CD157");
         });
 
         modelBuilder.Entity<DoctorPrivileges>(entity =>

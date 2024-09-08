@@ -1,5 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 @import 'node_modules/ngx-toastr/toastr.css';
+
 html,
 body {
   /* height: 100%; */
@@ -11,7 +12,36 @@ body {
   margin: 0 !important;
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
+.mat-calendar-body-disabled {
+  opacity: 0.5; /* Smanjuje vidljivost onemogućenih datuma */
+  color: rgba(0, 0, 0, 0.38); /* Postavlja boju teksta onemogućenih datuma */
+  cursor: not-allowed; /* Promenjen kursor za disabled datume */
+}
 
+.mat-calendar-body-disabled:hover {
+  background-color: transparent; /* Onemogućava hover efekat na disabled datumima */
+}
+
+.mat-datepicker-content-container {
+  box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
+  display: block;
+  border-radius: 4px;
+  background-color: var(--mat-datepicker-calendar-container-background-color);
+  color: var(--mat-datepicker-calendar-container-text-color);
+}
+
+.mat-calendar {
+  background-color: var(--mat-datepicker-calendar-background-color);
+  color: var(--mat-datepicker-calendar-text-color);
+}
+
+.mat-calendar-body-cell {
+  border-radius: 50%; /* Daje zaobljene ivice datumima */
+}
+
+.mat-calendar-body-cell:hover:not(.mat-calendar-body-disabled) {
+  background-color: rgba(0, 0, 0, 0.1); /* Blagi hover efekat za datume koji nisu disabled */
+}
 
 /* ::ng-deep .mat-radio-button.mat-accent .mat-radio-ripple .mat-ripple-element {
   background-color: blue !important;

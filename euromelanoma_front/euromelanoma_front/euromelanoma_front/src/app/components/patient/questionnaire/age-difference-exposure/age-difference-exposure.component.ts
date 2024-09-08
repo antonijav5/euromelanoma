@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChange, SimpleChanges } from '@angular/core';
-import { AbstractControl, FormBuilder, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
@@ -21,7 +21,7 @@ questionnaireForm6080: any;
 questionnaireForm80plus: any;
 
 
-
+user:any={}
 
 @Input() currPage:number=5
 
@@ -215,18 +215,30 @@ constructor(
     shadeFrequencyIntentional: ['', Validators.required]
     })
 
-
-//     this.questionnaireForm012=this.form012
-//     this.questionnaireForm1319=this.form1319
-//     this.questionnaireForm2040=this.form2040
-// this.questionnaireForm4060=this.form4060
-// this.questionnaireForm6080=this.form6080
-// this.questionnaireForm80plus=this.form80plus
   }
 
+  disableFormFields(formGroup: FormGroup): void {
+    Object.keys(formGroup.controls).forEach(key => {
+      formGroup.get(key)?.disable();
+    });
+  }
 
   ngOnInit() {
+    let user_help=sessionStorage.getItem("auth-user")
+    if (user_help) {
+      this.user=JSON.parse(user_help);
+    }
 
+    if (this.user.userType=='Doctor' || this.user.userType=='Admin' ) {
+this.disableFormFields(this.questionnaireForm012)
+this.disableFormFields(this.questionnaireForm1319)
+this.disableFormFields(this.questionnaireForm2040)
+this.disableFormFields(this.questionnaireForm4060)
+this.disableFormFields(this.questionnaireForm6080)
+this.disableFormFields(this.questionnaireForm80plus)
+    }
+
+    
     let f012=sessionStorage.getItem("012")
 
     if (f012) 

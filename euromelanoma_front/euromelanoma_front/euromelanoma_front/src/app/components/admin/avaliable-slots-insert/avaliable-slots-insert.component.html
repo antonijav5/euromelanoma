@@ -1,1 +1,76 @@
-<p>avaliable-slots-insert works!</p>
+<mat-card class="appointment-card">
+  <mat-card-header>
+    <mat-card-title>Unos slobodnih termina</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <form [formGroup]="appointmentForm" (ngSubmit)="onSubmit()">
+      <mat-form-field appearance="outline" class="form-field" style="margin-top: 10px;">
+        <mat-label>Lekar</mat-label>
+        <mat-select formControlName="doctorId">
+          <mat-option *ngFor="let doctor of doctors" [value]="doctor.userID">{{ doctor.firstName }} {{ doctor.lastName }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="form-field">
+        <mat-label>Grad</mat-label>
+        <mat-select formControlName="cityId">
+          <mat-option *ngFor="let city of cities" [value]="city.cityID">{{ city.name }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="form-field">
+        <mat-label>Početak termina</mat-label>
+        <input 
+          matInput 
+          [ngxMatDatetimePicker]="startPicker" 
+          formControlName="startTime" 
+          placeholder="dd.mm.yyyy hh:mm" 
+          [min]="minStartDate" 
+          (dateChange)="onStartDateChange($event)" />
+        <mat-datepicker-toggle matSuffix [for]="$any(startPicker)"></mat-datepicker-toggle>
+        <ngx-mat-datetime-picker 
+          #startPicker 
+          [showSpinners]="true" 
+          [showSeconds]="false" 
+          [stepHour]="1" 
+          [stepMinute]="1" 
+          [stepSecond]="1" 
+          [touchUi]="false" 
+          [enableMeridian]="false" 
+          [disableMinute]="false" 
+          [hideTime]="false">
+        </ngx-mat-datetime-picker>
+      </mat-form-field>
+      
+      <mat-form-field appearance="outline" class="form-field">
+        <mat-label>Kraj termina</mat-label>
+        <input 
+          matInput 
+          [ngxMatDatetimePicker]="endPicker" 
+          formControlName="endTime" 
+          placeholder="dd.mm.yyyy hh:mm" 
+          [min]="minEndDate" />
+        <mat-datepicker-toggle matSuffix [for]="$any(endPicker)"></mat-datepicker-toggle>
+        <ngx-mat-datetime-picker 
+          #endPicker 
+          [showSpinners]="true" 
+          [showSeconds]="false" 
+          [stepHour]="1" 
+          [stepMinute]="1" 
+          [stepSecond]="1" 
+          [touchUi]="false" 
+          [enableMeridian]="false" 
+          [disableMinute]="false" 
+          [hideTime]="false">
+        </ngx-mat-datetime-picker>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="form-field">
+        <mat-label>Maksimalan broj pacijenata</mat-label>
+        <input matInput type="number" formControlName="maxPatients" />
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" type="submit">Sačuvaj termin</button>
+    </form>
+  </mat-card-content>
+</mat-card>

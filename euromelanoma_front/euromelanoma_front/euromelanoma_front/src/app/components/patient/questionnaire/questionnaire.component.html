@@ -360,7 +360,7 @@ width: 50%;object-fit: cover;">
       </div>
 </form>
   </div>
-  <form  [formGroup]="questionnaireFormDoctor">
+  <form  [formGroup]="questionnaireFormDoctor" *ngIf="user.userType!='Patient'">
   <div *ngIf="currentPage==12">
   
      <mat-label>Pacijent dolazi zbog:</mat-label><br>
@@ -484,7 +484,7 @@ width: 50%;object-fit: cover;">
       </mat-form-field>
     </div>
   </div>
-<div *ngIf="currentPage==13">
+<div *ngIf="currentPage==13" style="width: 100% !important;">
     <div formGroupName="congenitalNevi" >
     
         <mat-label>Kongenitalni nevusi srednje veličine (>1.5–40 cm):</mat-label> <br>

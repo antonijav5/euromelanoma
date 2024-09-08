@@ -290,3 +290,10 @@ C:\Users\user\Desktop\euromelanoma\euromelanoma_api\euromelanoma_api\bin\Debug\n
 C:\Users\user\Desktop\euromelanoma\euromelanoma_api\euromelanoma_api\bin\Debug\net8.0\MimeKit.dll
 C:\Users\user\Desktop\euromelanoma\euromelanoma_api\euromelanoma_api\bin\Debug\net8.0\SendGrid.dll
 C:\Users\user\Desktop\euromelanoma\euromelanoma_api\euromelanoma_api\bin\Debug\net8.0\StarkbankEcdsa.dll
+C:\Users\user\Desktop\euromelanoma\euromelanoma_api\euromelanoma_api\bin\Debug\net8.0\ClosedXML.dll
+C:\Users\user\Desktop\euromelanoma\euromelanoma_api\euromelanoma_api\bin\Debug\net8.0\DocumentFormat.OpenXml.dll
+C:\Users\user\Desktop\euromelanoma\euromelanoma_api\euromelanoma_api\bin\Debug\net8.0\ExcelNumberFormat.dll
+C:\Users\user\Desktop\euromelanoma\euromelanoma_api\euromelanoma_api\bin\Debug\net8.0\Irony.dll
+C:\Users\user\Desktop\euromelanoma\euromelanoma_api\euromelanoma_api\bin\Debug\net8.0\SixLabors.Fonts.dll
+C:\Users\user\Desktop\euromelanoma\euromelanoma_api\euromelanoma_api\bin\Debug\net8.0\System.IO.Packaging.dll
+C:\Users\user\Desktop\euromelanoma\euromelanoma_api\euromelanoma_api\bin\Debug\net8.0\XLParser.dll

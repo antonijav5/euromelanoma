@@ -15,10 +15,6 @@ public partial class AvailableSlots
 
     public int DoctorID { get; set; }
 
-    [Required]
-    [StringLength(100)]
-    public string City { get; set; }
-
     [Column(TypeName = "datetime")]
     public DateTime StartTime { get; set; }
 
@@ -26,6 +22,12 @@ public partial class AvailableSlots
     public DateTime EndTime { get; set; }
 
     public int MaxPatients { get; set; }
+
+    public int CityID { get; set; }
+
+    [ForeignKey("CityID")]
+    [InverseProperty("AvailableSlots")]
+    public virtual Cities City { get; set; }
 
     [ForeignKey("DoctorID")]
     [InverseProperty("AvailableSlots")]

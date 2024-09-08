@@ -1,0 +1,22 @@
+<h2 mat-dialog-title>Zakazivanje pregleda</h2>
+<mat-dialog-content>
+  <p>Želite li zakazati pregled u dostupnom terminu?</p>
+  <form [formGroup]="appointmentForm">
+    <mat-form-field appearance="fill">
+      <mat-label>Odaberite grad</mat-label>
+      <mat-select formControlName="city">
+        <mat-option *ngFor="let city of cities" [value]="city.id">{{ city.name }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Unesite broj telefona</mat-label>
+      <input matInput formControlName="phone" placeholder="06X1234567" />
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">Otkaži</button>
+  <button mat-button color="primary" (click)="onConfirm()">Potvrdi</button>
+</mat-dialog-actions>

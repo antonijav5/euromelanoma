@@ -12,5 +12,15 @@
             public string UserType { get; set; }
           
         }
+        public class AppointmentDto
+        {
+            public int DoctorId { get; set; }
+            public int CityId { get; set; }
+            public DateTime StartTime { get; set; }
+            public DateTime EndTime { get; set; }
+            public int MaxPatients { get; set; }
+        }
+
+
     }
 }

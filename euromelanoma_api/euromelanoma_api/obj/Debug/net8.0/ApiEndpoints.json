@@ -2,7 +2,7 @@
   {
     "ContainingType": "euromelanoma_api.Controllers.AdminController",
     "Method": "CreateDoctorRegisterRequest",
-    "RelativePath": "api/Admin/CreateDoctorRegisterRequest",
+    "RelativePath": "api/Admin",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -18,6 +18,128 @@
         "Type": "euromelanoma_api.Models.DTOObjects.RequestResult\u00601[[euromelanoma_api.Models.EuromelanomaContext.Users, euromelanoma_api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "application/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "euromelanoma_api.Controllers.AdminController",
+    "Method": "AddAppointment",
+    "RelativePath": "api/Admin/AddAppointment",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "appointmentDto",
+        "Type": "euromelanoma_api.Models.DTOObjects.AdminClasses\u002BAppointmentDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "euromelanoma_api.Models.DTOObjects.RequestResult\u00601[[System.String, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "euromelanoma_api.Controllers.AdminController",
+    "Method": "ExportExcel",
+    "RelativePath": "api/Admin/ExportExcel",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "euromelanoma_api.Controllers.AdminController",
+    "Method": "GetCities",
+    "RelativePath": "api/Admin/GetCities",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "euromelanoma_api.Models.DTOObjects.RequestResult\u00601[[System.Collections.Generic.List\u00601[[euromelanoma_api.Models.EuromelanomaContext.Cities, euromelanoma_api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "euromelanoma_api.Controllers.AdminController",
+    "Method": "GetDoctors",
+    "RelativePath": "api/Admin/GetDoctors",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "euromelanoma_api.Models.DTOObjects.RequestResult\u00601[[System.Collections.Generic.List\u00601[[euromelanoma_api.Models.EuromelanomaContext.Users, euromelanoma_api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "euromelanoma_api.Controllers.AdminController",
+    "Method": "GetPatients",
+    "RelativePath": "api/Admin/GetPatients",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "euromelanoma_api.Models.DTOObjects.RequestResult\u00601[[System.Collections.Generic.List\u00601[[euromelanoma_api.Models.EuromelanomaContext.Users, euromelanoma_api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "euromelanoma_api.Controllers.AdminController",
+    "Method": "GetQuestionnairesByPatient",
+    "RelativePath": "api/Admin/GetQuestionnairesByPatient/{patientId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "patientId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "euromelanoma_api.Models.DTOObjects.RequestResult\u00601[[System.Collections.Generic.List\u00601[[euromelanoma_api.Models.EuromelanomaContext.Questionnaires, euromelanoma_api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
         ],
         "StatusCode": 200
       }
@@ -74,6 +196,32 @@
     ]
   },
   {
+    "ContainingType": "euromelanoma_api.Controllers.DoctorController",
+    "Method": "AddDoctorNotes",
+    "RelativePath": "api/Doctor/AddDoctorNotes",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "euromelanoma_api.Models.DTOObjects.DoctorClasses\u002BDoctorNotesDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "euromelanoma_api.Models.DTOObjects.RequestResult\u00601[[System.String, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
     "ContainingType": "euromelanoma_api.Controllers.PatientController",
     "Method": "InsertQuestionnaireWithData",
     "RelativePath": "api/Patient/InsertQuestionnaire",
@@ -89,7 +237,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "euromelanoma_api.Models.DTOObjects.RequestResult\u00601[[System.Boolean, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "Type": "euromelanoma_api.Models.DTOObjects.RequestResult\u00601[[euromelanoma_api.Models.EuromelanomaContext.Questionnaires, euromelanoma_api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",

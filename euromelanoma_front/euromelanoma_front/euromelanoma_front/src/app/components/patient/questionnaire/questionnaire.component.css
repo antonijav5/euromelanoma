@@ -6,7 +6,6 @@
   height: 790px;
   overflow-y: scroll;
   position: relative; /* Potrebno za pozicioniranje sticky elemenata unutar mat-card */
-   
   }
   
   mat-form-field {
@@ -25,10 +24,6 @@
    margin-top: 5px;
    position: relative; /* Roditeljski element je relativno pozicioniran */
    height: 40px; 
-  }
-  
-  button {
-  
   }
   
  .pegice{

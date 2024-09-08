@@ -19,6 +19,10 @@
          "ObjectType": 0
       },
       {
+         "Name": "[dbo].[Cities]",
+         "ObjectType": 0
+      },
+      {
          "Name": "[dbo].[doctor_notes]",
          "ObjectType": 0
       },
@@ -45,6 +49,14 @@
       {
          "Name": "[dbo].[Users]",
          "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[GetAvailableSlots]",
+         "ObjectType": 1
+      },
+      {
+         "Name": "[dbo].[SchedulePatientAppointment]",
+         "ObjectType": 1
       }
    ],
    "UiHint": null,

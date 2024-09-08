@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import * as moment from 'moment';
+import 'moment/locale/sr';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +9,8 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'euromelanoma_front';
+
+  constructor() {
+    moment.locale('sr'); // Podesi lokalizaciju na srpski u konstruktoru
+  }
 }

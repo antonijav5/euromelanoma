@@ -1,6 +1,8 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Inject, Input, OnInit, Optional } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
+import { DoctorService } from 'src/app/services/doctor.service';
 import { PatientService } from 'src/app/services/patient.service';
 
 
@@ -27,13 +29,14 @@ form6080:any={}
 form80plus:any={}
 
 
+questionnaireId:number=0
+
 addItem(forma:any){
   //ovo dobijamo od deteta
   //console.log(forma);
   let name=forma.get('name').value
   switch (name) {
-    case '012': this.form012=forma; console.log('f');
-     break;
+    case '012': this.form012=forma; break;
     case '1319': this.form1319=forma; break;
     case '2040': this.form2040=forma; break;
     case '4060': this.form4060=forma; break;
@@ -43,9 +46,14 @@ addItem(forma:any){
 
   
 }
-constructor(private fbStart: FormBuilder,
+constructor(
+  @Optional() public dialogRef: MatDialogRef<QuestionnaireComponent>,
+  @Optional() @Inject(MAT_DIALOG_DATA) public data:any,
+  private fbStart: FormBuilder,
             private toster:ToastrService,  
-            private patientService:PatientService
+            private patientService:PatientService,
+            private doctorService:DoctorService
+            
 ){
 
   this.form012 = this.fbStart.group({
@@ -544,7 +552,11 @@ prevPage() {
   }
 }
 
-
+disableFormFields(formGroup: FormGroup): void {
+  Object.keys(formGroup.controls).forEach(key => {
+    formGroup.get(key)?.disable();
+  });
+}
 
 ngOnInit(){
   let user_help=sessionStorage.getItem("auth-user")
@@ -558,8 +570,19 @@ if (sessionStorage.getItem("012")) sessionStorage.removeItem("012")
     {
       this.user=JSON.parse(user_help);
       if (this.user.userType=='Patient') {
+        //takodje, sakrivamo onaj deo koji popunjava doktor
        this.questionnaireFormStart.get('date').clearValidators()
        this.questionnaireFormStart.get('date').updateValueAndValidity()
+       this.totalPages=11;
+      }
+      else {
+this.disableFormFields(this.questionnaireFormStart)
+this.disableFormFields(this.questionnaireFormEnd)
+if (this.user.userType=='Admin') {
+  this.disableFormFields(this.questionnaireFormDoctor)
+}
+        //prikazujemo deo koji popunjava doktor.
+
       }
     }
   else this.user={}
@@ -571,17 +594,18 @@ onSubmit() {
   this.questionnaireFormEnd.markAllAsTouched();
   this.questionnaireFormDoctor.markAllAsTouched();
 
+  this.form012.markAllAsTouched();
+  this.form1319.markAllAsTouched();
+  this.form2040.markAllAsTouched();
+  this.form4060.markAllAsTouched();
+  this.form6080.markAllAsTouched();
+  this.form80plus.markAllAsTouched();
 
   if (this.user.userType=='Patient') {
     if  (!this.questionnaireFormStart.valid || !this.questionnaireFormEnd.valid  || !this.form012.valid || !this.form1319.valid 
       || !this.form2040.valid ||!this.form4060.valid || !this.form6080.valid || !this.form80plus.valid
     ) 
-    {
-      console.log(this.questionnaireFormStart);
-      console.log(this.questionnaireFormEnd);
-      console.log(this.form012);
-      
-      
+    {      
       this.toster.error("Niste popunili sva polja!"); 
       return
     }
@@ -639,14 +663,16 @@ onSubmit() {
       sunExposureFromAge60to80: this.convertToExposureArray(this.form6080),
       sunExposureAfterAge80: this.convertToExposureArray(this.form80plus),
   };
-console.log(formData);
 
   // Slanje podataka backend-u
   this.patientService.insertPatientData(formData).subscribe((response:any) => {
-      console.log('Podaci uspešno poslati', response);
-  }, (error:any) => {
-      console.error('Greška pri slanju podataka', error);
-  });
+      if (response.success) {
+        this.toster.success("Podaci uspešno uneti!")
+      }
+      else {
+        this.toster.error('Greška pri slanju podataka', "Oprez!");
+      }
+  }, );
   
     }
   }
@@ -659,6 +685,74 @@ console.log(formData);
     else {
       //salji za doktora
         //kreira se doctor_notes
+        let model={
+
+            questionnaireID: this.questionnaireId, // Pretpostavljam da ovaj ID dolazi iz forme ili nekog drugog izvora
+            patientPurpose: this.questionnaireFormDoctor.get('patientPurpose'),
+            familyHistoryMelanoma: this.questionnaireFormDoctor.get('familyHistoryMelanoma'),
+            familyHistoryNonMelanoma: this.questionnaireFormDoctor.get('familyHistoryNonMelanoma'),
+            personalHistoryMelanoma: {
+              history: this.questionnaireFormDoctor.get('personalHistoryMelanoma.history'),
+              count: this.questionnaireFormDoctor.get('personalHistoryMelanoma.count'),
+            },
+            personalHistoryCarcinoma: {
+              history: this.questionnaireFormDoctor.get('personalHistoryCarcinoma.history'),
+              bccCount: this.questionnaireFormDoctor.get('personalHistoryCarcinoma.bccCount'),
+              sccCount: this.questionnaireFormDoctor.get('personalHistoryCarcinoma.sccCount'),
+              otherDescription: this.questionnaireFormDoctor.get('personalHistoryCarcinoma.otherDescription')
+            },
+            skinExaminationToday: this.questionnaireFormDoctor.get('skinExaminationToday'),
+            dermoscopyPerformed: this.questionnaireFormDoctor.get('dermoscopyPerformed'),
+            nevusCount: this.questionnaireFormDoctor.get('nevusCount'),
+            moreThanTwentyNevusOnHands: this.questionnaireFormDoctor.get('nevusOnHands'),
+            atypicalNeviPresence: {
+              presence: this.questionnaireFormDoctor.get('atypicalNeviPresence.presence'),
+              count: this.questionnaireFormDoctor.get('atypicalNeviPresence.count'),
+            },
+            congenitalNevi: {
+              mediumSize: this.questionnaireFormDoctor.get('congenitalNevi.mediumSize'),
+              mediumLocation: this.questionnaireFormDoctor.get('congenitalNevi.mediumLocation'),
+              giantSize: this.questionnaireFormDoctor.get('congenitalNevi.giantSize'),
+              giantLocation: this.questionnaireFormDoctor.get('congenitalNevi.giantLocation'),
+            },
+            solarLentigo: this.questionnaireFormDoctor.get('solarLentigo'),
+            suspiciousLesions: {
+              melanoma: this.questionnaireFormDoctor.get('suspiciousLesions.melanoma'),
+              melanomaCount: this.questionnaireFormDoctor.get('suspiciousLesions.melanomaCount'),
+              melanomaDetectedBy: this.questionnaireFormDoctor.get('suspiciousLesions.melanomaDetectedBy'),
+              bcc: this.questionnaireFormDoctor.get('suspiciousLesions.bcc'),
+              bccCount: this.questionnaireFormDoctor.get('suspiciousLesions.bccCount'),
+              bccDetectedBy: this.questionnaireFormDoctor.get('suspiciousLesions.bccDetectedBy'),
+              scc: this.questionnaireFormDoctor.get('suspiciousLesions.scc'),
+              sccCount: this.questionnaireFormDoctor.get('suspiciousLesions.sccCount'),
+              sccDetectedBy: this.questionnaireFormDoctor.get('suspiciousLesions.sccDetectedBy'),
+              actinicKeratosis: this.questionnaireFormDoctor.get('suspiciousLesions.actinicKeratosis'),
+              actinicKeratosisCount: this.questionnaireFormDoctor.get('suspiciousLesions.actinicKeratosisCount'),
+              actinicKeratosisDetectedBy: this.questionnaireFormDoctor.get('suspiciousLesions.actinicKeratosisDetectedBy'),
+              exactActinicKeratosisCount: this.questionnaireFormDoctor.get('suspiciousLesions.exactActinicKeratosisCount'),
+              otherLesions: this.questionnaireFormDoctor.get('suspiciousLesions.otherLesions'),
+              otherLesionsDescription: this.questionnaireFormDoctor.get('suspiciousLesions.otherLesionsDescription'),
+            },
+            otherConditions: {
+              hematological: this.questionnaireFormDoctor.get('otherConditions.hematological'),
+              hiv: this.questionnaireFormDoctor.get('otherConditions.hiv'),
+              immunosuppression: this.questionnaireFormDoctor.get('otherConditions.immunosuppression'),
+              immunosuppressionOther: this.questionnaireFormDoctor.get('otherConditions.immunosuppressionOther'),
+              otherSignificantConditions: this.questionnaireFormDoctor.get('otherConditions.otherSignificantConditions'),
+              otherSignificantConditionsOther: this.questionnaireFormDoctor.get('otherConditions.otherSignificantConditionsOther'),
+            },
+            smoking: this.questionnaireFormDoctor.get('smoking'),
+            exSmoker: this.questionnaireFormDoctor.get('exSmoker'),
+          
+
+        }
+        console.log(model);
+        
+        this.doctorService.AddDoctorNotes(model).subscribe((res:any)=>{
+          if (res.success) {
+            this.toster.success("Podaci su uspešno uneti.", "Čestitke!")
+          }
+        })
     }
   }
  
