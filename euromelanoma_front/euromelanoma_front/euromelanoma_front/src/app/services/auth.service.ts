@@ -22,6 +22,7 @@ export class AuthService {
   } 
   url: string = this.environment.apiBaseUrl + '/api/User/';
 
+
   constructor(
     private router: Router,
     private http: HttpClient,
@@ -46,16 +47,7 @@ export class AuthService {
   }
 
 
-  // private handleBeforeUnload(event: BeforeUnloadEvent): void {
-  //   if (this.loggedIn) {
-  //     this.signOut();
-  //   }
-  // }
 
-  private setReloadingFlag(event: Event) {
-    // Postavlja zastavicu da je reload u toku
-    this.isReloading = true;
-  }
 
   private resetActivityTimer(): void {
     clearTimeout(this.activityTimer);
@@ -100,12 +92,12 @@ export class AuthService {
   }
 
   public (): boolean {
-    // if (this.getToken()) {
-    //   return true;
-    // } else {
-    //   sessionStorage.clear();
-    //   return false;
-    // }
+    if (this.getToken()) {
+      return true;
+    } else {
+      sessionStorage.clear();
+      return false;
+    }
     return true
   }
 
@@ -137,10 +129,35 @@ export class AuthService {
     return throwError(new Error('Failed to reset'));
   }
 
+
+  resetPasswordRequest(email:string) {
+return {}
+  }
+  
   signOut(): void {
   
     this.loggedIn = false;
      sessionStorage.clear();
     this.router.navigate(['login']);
+  }
+
+  getUsers() {
+    return this.http.get(this.url+"GetUsers");
+  }
+
+  getUserRequests() {
+    return this.http.get("GetUserRequests");
+  }
+
+  forgotPassword(email: string) {
+    return this.http.post(this.url+'ForgotPassword', { email:email });
+  }
+
+  resetPassword( token: string, newPassword: string) {
+    console.log(token);
+    console.log(newPassword);
+    
+    
+    return this.http.post(this.url+"ResetPassword", { token:token, newPassword:newPassword });
   }
 }

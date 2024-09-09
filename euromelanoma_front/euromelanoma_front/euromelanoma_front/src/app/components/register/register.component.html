@@ -44,14 +44,14 @@ object-fit: cover;">
                       <mat-label>Email</mat-label>
                   <input type="email" id="email"  ngModel [email]="true" matInput  placeholder="Unesite email" [formControl]="email" required>
                       </mat-form-field>
-                      <mat-form-field class="example-full-width" *ngIf="this.userType.value=='patient'">
+                      <mat-form-field class="example-full-width" *ngIf="this.userType.value=='Patient'">
                           <mat-label>Lozinka</mat-label>
                   <div class="input-wrapper">
                     <input matInput  [type]="hide1 ? 'password' : 'text'" id="password" [formControl]="password" required placeholder="Unesite lozinku">
                     <i class="bi bi-eye-slash" id="togglePassword" (click)="toggleShow(1)"></i>
                   </div>
                       </mat-form-field>
-                      <mat-form-field class="example-full-width" *ngIf="this.userType.value=='patient'">
+                      <mat-form-field class="example-full-width" *ngIf="this.userType.value=='Patient'">
                           <mat-label>Potvrdite lozinku</mat-label>
                   <div class="input-wrapper">
                     <input matInput [type]="hide2 ? 'password' : 'text'" id="confirmPassword" [formControl]="confirmPassword" required placeholder="Potvrdite lozinku">

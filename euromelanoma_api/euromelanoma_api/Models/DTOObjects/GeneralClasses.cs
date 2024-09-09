@@ -1,7 +1,14 @@
-﻿namespace euromelanoma_api.Models.DTOObjects
+﻿using euromelanoma_api.Models.EuromelanomaContext;
+
+namespace euromelanoma_api.Models.DTOObjects
 {
     public class RequestResult<T>
     {
+        private bool v;
+        private List<Users> users;
+        private object value1;
+        private object value2;
+
         public bool Success { get; set; }
         public T Result { get; set; }
         public List<T>? ResultList { get; set; }
@@ -39,5 +46,12 @@
             RecordsTotal = rt;
         }
 
+        public RequestResult(bool v, List<Users> users, object value1, object value2)
+        {
+            this.v = v;
+            this.users = users;
+            this.value1 = value1;
+            this.value2 = value2;
+        }
     }
 }

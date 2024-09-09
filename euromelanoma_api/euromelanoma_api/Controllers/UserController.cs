@@ -1,6 +1,7 @@
 ﻿using euromelanoma_api.Managers;
 using euromelanoma_api.Models.DTOObjects;
 using euromelanoma_api.Models.EuromelanomaContext;
+using Irony.Parsing;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
@@ -67,6 +68,33 @@ namespace euromelanoma_api.Controllers
             return Ok(UserManager.GetHashHex(input));
 
         }
+
+        [HttpGet("GetUsers")]
+       public RequestResult<Users> GetUsers()
+        {
+            return new RequestResult<Users>(true, userManager.GetUsers(), "All good.", null,null);
+        }
+
+        [HttpGet("GetUserRequests")]
+        public RequestResult<UserRequests> GetUserRequests()
+        {
+            return new RequestResult<UserRequests>(true, userManager.GetUserRequests(), "All good.", null, null);
+        }
+
+
+        [HttpPost("ForgotPassword")]
+        public RequestResult<string> ResetPassword([FromBody] PasswordResetRequestDto email)
+        {
+            return new RequestResult<string>(true, userManager.ForgotPassword(email), "All good.");
+        }
+
+
+        [HttpPost("ResetPassword")]
+        public  RequestResult<string> ResetPassword([FromBody] ResetPasswordDto model)
+        {
+   return new RequestResult<string>(true,userManager.ResetPassword(model),"All good.");
+        }
+
 
     }
 

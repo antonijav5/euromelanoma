@@ -5,8 +5,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace euromelanoma_api.Models.EuromelanomaContext
 {
-    public partial class GetAvailableSlotsResult
+    public partial class SchedulePatientAppointmentResult
     {
-        public int SlotID { get; set; }
+        public string Poruka { get; set; }
+        public int Status { get; set; }
     }
 }

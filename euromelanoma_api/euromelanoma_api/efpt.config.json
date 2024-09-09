@@ -31,6 +31,10 @@
          "ObjectType": 0
       },
       {
+         "Name": "[dbo].[PasswordResetTokens]",
+         "ObjectType": 0
+      },
+      {
          "Name": "[dbo].[QuestionnaireDataPatient]",
          "ObjectType": 0
       },

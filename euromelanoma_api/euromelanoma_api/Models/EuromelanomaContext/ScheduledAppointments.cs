@@ -21,16 +21,16 @@ public partial class ScheduledAppointments
     [StringLength(50)]
     public string Status { get; set; }
 
-    [Column(TypeName = "datetime")]
-    public DateTime? CreatedAt { get; set; }
-
-    [Column(TypeName = "datetime")]
-    public DateTime? UpdatedAt { get; set; }
-
     [StringLength(15)]
     public string PhoneNumber { get; set; }
 
     public int? CityID { get; set; }
+
+    [Column(TypeName = "datetime")]
+    public DateTime StartTime { get; set; }
+
+    [Column(TypeName = "datetime")]
+    public DateTime EndTime { get; set; }
 
     [ForeignKey("PatientID")]
     [InverseProperty("ScheduledAppointments")]

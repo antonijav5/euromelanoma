@@ -48,4 +48,8 @@ export class AdminService {
       ExportExcel(): Observable<Blob> {
         return this.http.post(this.url + 'ExportExcel', {}, { responseType: 'blob' });
       }
+
+      DeleteRequest(id:number) {
+    return this.http.post(this.url + 'DeleteRequest?idReq='+id,{});
+      }
  }

@@ -19,5 +19,9 @@ environment:any={
     const headers = new HttpHeaders().set('Content-Type', 'application/json')
     return this.http.post(this.url + "InsertQuestionnaire", model);
   }
+
+  getAppointments(id:number) {
+    return this.http.get(this.url+"GetAppointments/"+id)
+  }
 }
 

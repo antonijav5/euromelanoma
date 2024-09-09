@@ -78,5 +78,13 @@ namespace euromelanoma_api.Models.DTOObjects
             public string Between60and80 { get; set; }
             public string After80 { get; set; }
         }
+
+
+        public class ScheduleAppointmentRequest
+        {
+            public int PatientId { get; set; }
+            public string PhoneNumber { get; set; }
+            public int CityId { get; set; }
+        }
     }
 }

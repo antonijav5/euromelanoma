@@ -41,6 +41,9 @@ public partial class Users
     [InverseProperty("Doctor")]
     public virtual ICollection<DoctorPrivileges> DoctorPrivileges { get; set; } = new List<DoctorPrivileges>();
 
+    [InverseProperty("User")]
+    public virtual ICollection<PasswordResetTokens> PasswordResetTokens { get; set; } = new List<PasswordResetTokens>();
+
     [InverseProperty("Doctor")]
     public virtual ICollection<Questionnaires> QuestionnairesDoctor { get; set; } = new List<Questionnaires>();
 

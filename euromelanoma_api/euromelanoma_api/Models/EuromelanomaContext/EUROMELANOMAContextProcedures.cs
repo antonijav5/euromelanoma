@@ -69,7 +69,7 @@ namespace euromelanoma_api.Models.EuromelanomaContext
             return _;
         }
 
-        public virtual async Task<int> SchedulePatientAppointmentAsync(int? PatientID, int? SlotID, string PhoneNumber, int? CityID, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default)
+        public virtual async Task<List<SchedulePatientAppointmentResult>> SchedulePatientAppointmentAsync(int? PatientID, string PhoneNumber, int? CityID, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default)
         {
             var parameterreturnValue = new SqlParameter
             {
@@ -88,12 +88,6 @@ namespace euromelanoma_api.Models.EuromelanomaContext
                 },
                 new SqlParameter
                 {
-                    ParameterName = "SlotID",
-                    Value = SlotID ?? Convert.DBNull,
-                    SqlDbType = System.Data.SqlDbType.Int,
-                },
-                new SqlParameter
-                {
                     ParameterName = "PhoneNumber",
                     Size = 30,
                     Value = PhoneNumber ?? Convert.DBNull,
@@ -107,7 +101,7 @@ namespace euromelanoma_api.Models.EuromelanomaContext
                 },
                 parameterreturnValue,
             };
-            var _ = await _context.Database.ExecuteSqlRawAsync("EXEC @returnValue = [dbo].[SchedulePatientAppointment] @PatientID = @PatientID, @SlotID = @SlotID, @PhoneNumber = @PhoneNumber, @CityID = @CityID", sqlParameters, cancellationToken);
+            var _ = await _context.SqlQueryAsync<SchedulePatientAppointmentResult>("EXEC @returnValue = [dbo].[SchedulePatientAppointment] @PatientID = @PatientID, @PhoneNumber = @PhoneNumber, @CityID = @CityID", sqlParameters, cancellationToken);
 
             returnValue?.SetValue(parameterreturnValue.Value);
 

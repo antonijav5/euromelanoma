@@ -172,5 +172,14 @@ namespace euromelanoma_api.Managers
             return score;
         }
 
+        public List<ScheduledAppointments> GetAppointments(int patientId)
+        {
+            return _context.ScheduledAppointments.Where(a => a.PatientID == patientId).ToList();
+        }
+
+        public List<SchedulePatientAppointmentResult> ScheduleAppointment(int PatientId, string PhoneNumber, int CityID) {
+        return _context.Procedures.SchedulePatientAppointmentAsync(PatientId, PhoneNumber, CityID).Result;
+        }
+
     }
 }

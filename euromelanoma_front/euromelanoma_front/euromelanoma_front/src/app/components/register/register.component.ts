@@ -1,15 +1,16 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { AdminService } from 'src/app/services/admin.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css']
 })
-export class RegisterComponent {
+export class RegisterComponent implements OnInit {
   hide1 = true;
   hide2 = true;
   passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[ !@#$%^&*()\-_=+\\|[\]{};:/?.>])[A-Za-z\d!@#$%^&*()\-_=+\\|[\]{};:/?.>]{8,}$/;
@@ -22,12 +23,25 @@ export class RegisterComponent {
   firstName=new FormControl("")
   userType=new FormControl("patient")
   username=new FormControl("")
+  users:any[]=[]
 
   constructor (
     private toster: ToastrService,
     private adminService:AdminService,
-    private router:Router
+    private router:Router,
+    private authService:AuthService
   ){}
+
+ngOnInit(){
+this.authService.getUsers().subscribe((res:any)=>{
+  if (res.success) {
+    this.users=res.resultList
+  
+    
+  }
+})
+}
+
 onSubmit(){
   //insert u tabelu Users ukoliko je pacijent
   //insert u tabelu UserRequest za doktore, njih pregleda admin. Ukoliko odobri, generise se privremena lozinka i salje na mejl
@@ -62,7 +76,7 @@ if (this.userType.value=="patient") {
     return
   }
 if (!this.password.valid) {
-  this.toster.error("Lozinka nije ispravnog formata.", "Greška!")
+  this.toster.error('Lozinka mora imati bar 8 karaktera, bar 1 malo slovo, bar 1 veliko slovo i bar jedan specijalni karakter.');
   return
 }
 
@@ -72,6 +86,17 @@ if (this.confirmPassword.value!=this.password.value)
   return
 }
 }
+//provera da li email ili username vec postoje
+if (this.users.find(a=>a.username==this.username.value)!=undefined) {
+  this.toster.error("Korisničko ime već postoji.", "Greška!")
+  return
+}
+
+if (this.users.find(a=>a.email==this.email.value)!=undefined) {
+  this.toster.error("E-mail adresa već postoji.", "Greška!")
+  return
+}
+
 let model:any={
   username:this.username.value,
   firstname:this.firstName.value,
@@ -81,14 +106,14 @@ let model:any={
   usertype:this.userType.value
 }
 
-if (this.userType.value=="doctor")
+if (this.userType.value=="Doctor")
 {
   this.adminService.CreateDoctorRegisterRequest(model).subscribe((res:any)=>{
 if (res.success){
   this.toster.success("Uspešno ste se poslali prijavu za registraciju na sistem. Sačekajte potvrdu da Vam je odobren pristup.", "Čestitke!")
   setTimeout(() => {
     this.router.navigate(['login'])
-}, 5000);
+}, 2000);
 
 }
 else {
@@ -103,7 +128,7 @@ else
       this.toster.success("Uspešno ste se registrovali na sistem. Prijavite se.", "Čestitke!")
       setTimeout(() => {
         this.router.navigate(['login'])
-    }, 5000);
+    }, 2000);
 
     }
     else {

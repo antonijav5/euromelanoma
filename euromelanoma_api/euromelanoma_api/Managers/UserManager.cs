@@ -4,6 +4,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using MimeKit;
+using SendGrid.Helpers.Mail;
+using SendGrid;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
@@ -32,15 +35,15 @@ namespace euromelanoma_api.Managers
             string new_hash = GetHashHex(password);
             string binary_old = BitConverter.ToString(user.PasswordHash).Replace("-", "").ToLower();
             if (new_hash != binary_old) { return null; }
- 
+
             string token = GenerateToken(user);
             return new UserModel
             {
-                Id =user.UserID,
+                Id = user.UserID,
                 Username = user.Username,
                 NazivUsera = user.FirstName,
                 Token = token,
-                UserType=user.UserType
+                UserType = user.UserType
             };
         }
 
@@ -83,5 +86,165 @@ namespace euromelanoma_api.Managers
 
             return hashString;
         }
+
+        public List<Users> GetUsers()
+        {
+            return _context.Users.ToList();
+        }
+
+        public List<UserRequests> GetUserRequests()
+        {
+            return _context.UserRequests.ToList();
+        }
+
+
+        public string Reset(string username, string oldPassword, string newPassword)
+        {
+
+            var staraSifra = _context.Users.Where(x => x.Username == username).FirstOrDefault().PasswordHash;
+
+            byte[] passwordBytes = SHA1HashValue(oldPassword);
+
+            if (staraSifra.SequenceEqual(passwordBytes))
+            {
+                //return await _context.Procedures.PRAVA_ResetUserPasswordAsync(username, oldPassword, newPassword);
+                var hex = UserManager.GetHashHex(newPassword);
+                byte[] bytes = new byte[hex.Length / 2];
+                for (int i = 0; i < hex.Length; i += 2)
+                {
+                    bytes[i / 2] = Convert.ToByte(hex.Substring(i, 2), 16);
+                }
+
+                Users u = _context.Users.Where(a => a.Username == username).FirstOrDefault();
+                u.PasswordHash = bytes;
+                _context.Update(u);
+                _context.SaveChanges();
+                return "Ok";
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+
+        public void SendEmailReset(string link, string emailAdresa)
+        {
+
+            var messageSubject = $@"
+                 <!DOCTYPE html>
+                 <html>
+                 <head>
+                     <meta charset=""utf-8"">
+                     <title>Nova privremena lozinka</title>
+                     <style>
+                         body {{ font-family: Arial, sans-serif; margin: 0; padding: 0; color: #333; }}
+                         .container {{ max-width: 600px; margin: 20px auto; padding: 20px; border: 1px solid #ddd; border-radius: 5px; }}
+                         .header {{ font-size: 24px; color: #444; margin-bottom: 20px; }}
+                         .content {{ font-size: 16px; line-height: 1.6; }}
+                         .field {{ margin-bottom: 10px; }}
+                         .label {{ font-weight: bold; }}
+                         .footer {{ margin-top: 30px; text-align: center; font-size: 14px; color: #666; }}
+                     </style>
+                 </head>
+                 <body>
+                     <div class=""container"">
+                         <div class=""header""> Kliknite <a href='{link}'>ovde</a> da biste izmenili svoju lozinku.
+       
+                     </div>
+                 </body>
+                 </html>";
+
+
+
+            var sendGridClient = new SendGridClient("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");
+            var from = new EmailAddress("euromelanomaportal@gmail.com", "Euromelanoma Portal");
+            var subject = "Link za promenu lozinke na Euromelanoma portal-u";
+            var to = new EmailAddress(emailAdresa);
+            var plainContent = "Pozdrav.";
+            var htmlContent = messageSubject;
+            var mailMessage = MailHelper.CreateSingleEmail(from, to, subject, plainContent, htmlContent);
+            sendGridClient.SendEmailAsync(mailMessage);
+            
+        }
+
+
+        public string ForgotPassword([FromBody] PasswordResetRequestDto email)
+        {
+            var user =  _context.Users.Where(u => u.Email == email.Email).FirstOrDefault();
+
+            if (user == null)
+            {
+                return "Korisnik sa ovim email-om ne postoji.";
+            }
+
+            var token = GeneratePasswordResetToken();
+
+            // Skladišti token u bazu podataka
+            var passwordReset = new PasswordResetTokens
+            {
+                UserId = user.UserID,
+                Token = token,
+                ExpiryDate = DateTime.Now.AddHours(1) // Token važi 1 sat
+            };
+
+            _context.PasswordResetTokens.Add(passwordReset);
+             _context.SaveChanges();
+
+            // Pošalji token putem email-a (ovde koristimo pseudo kod)
+            SendEmailReset($"http://localhost:4200/reset-password/{token}", user.Email);
+
+            return "Email sa uputstvima za resetovanje lozinke je poslat.";
+        }
+
+        public string GeneratePasswordResetToken()
+        {
+            // Generišemo jedinstveni token
+            return Guid.NewGuid().ToString();
+        }
+
+
+
+        public  string ResetPassword(ResetPasswordDto model)
+        {
+            // Pronađi token u bazi
+            var passwordResetToken =  _context.PasswordResetTokens
+                .Where(t => t.Token == model.Token && t.ExpiryDate > DateTime.Now).FirstOrDefault();
+
+            if (passwordResetToken == null)
+            {
+                return ("Token je nevažeći ili je istekao.");
+            }
+
+            // Pronađi korisnika
+            var user =  _context.Users.Where(u => u.UserID == passwordResetToken.UserId).FirstOrDefault();
+
+            if (user == null)
+            {
+                return "Korisnik ne postoji.";
+            }
+
+          
+            var hex = UserManager.GetHashHex(model.NewPassword);
+            byte[] bytes = new byte[hex.Length / 2];
+            for (int i = 0; i < hex.Length; i += 2)
+            {
+                bytes[i / 2] = Convert.ToByte(hex.Substring(i, 2), 16);
+            }
+            
+            user.PasswordHash = bytes;
+            
+            _context.Users.Update(user);
+             _context.SaveChanges();
+
+            // Obriši token nakon uspešnog resetovanja lozinke
+            _context.PasswordResetTokens.Remove(passwordResetToken);
+             _context.SaveChanges();
+
+            return "Lozinka je uspešno resetovana.";
+        }
+
+
+   
     }
 }

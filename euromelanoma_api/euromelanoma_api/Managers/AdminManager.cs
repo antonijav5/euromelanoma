@@ -48,23 +48,21 @@ namespace euromelanoma_api.Managers
             try { 
                 _context.Users.Add(newUser);
                 _context.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.InnerException.Message); 
-            }  
-            if (model.UserType == "Doctor")
-            {
-                var email = new MimeMessage();
-                var builder = new BodyBuilder();
-                // SLANJE MEJLA
-                email.From.Add(new MailboxAddress("Dobijanje privremene lozinke za prijavu na Euromelanoma Portal", "euromelanomaportal@gmail.com"));
-                email.To.Add(new MailboxAddress("Antonija Vasiljevic", "euromelanomaportal@gmail.com"));
-                email.Subject = "Dobijanje privremene lozinke za prijavu na sistem";
 
-                var fields = new List<string>();
 
-                var messageSubject = $@"
+                if (model.UserType == "Doctor")
+                {
+
+                    var email = new MimeMessage();
+                    var builder = new BodyBuilder();
+                    // SLANJE MEJLA
+                    email.From.Add(new MailboxAddress("Dobijanje privremene lozinke za prijavu na Euromelanoma Portal", "euromelanomaportal@gmail.com"));
+                    email.To.Add(new MailboxAddress("Antonija Vasiljevic", "euromelanomaportal@gmail.com"));
+                    email.Subject = "Dobijanje privremene lozinke za prijavu na sistem";
+
+                    var fields = new List<string>();
+
+                    var messageSubject = $@"
                  <!DOCTYPE html>
                  <html>
                  <head>
@@ -83,7 +81,7 @@ namespace euromelanoma_api.Managers
                  <body>
                      <div class=""container"">
                          <div class=""header"">Generisanje privremene lozinke za novog korisnika sistema</b></div>
-               Vaša nova privremena lozinka je {model.Password}. Ulogujte se i izmenite je u što kraćem roku.
+               Vaša nova privremena lozinka je {model.Password}. Izmenite je u što kraćem roku.
        
                      </div>
                  </body>
@@ -91,15 +89,21 @@ namespace euromelanoma_api.Managers
 
 
 
-                var sendGridClient = new SendGridClient("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");
-                var from = new EmailAddress("euromelanomaportal@gmail.com", "Euromelanoma Portal");
-                var subject = "Dobijanje privremene lozinke za prijavu na sistem";
-                var to = new EmailAddress("euromelanomaportal@gmail.com");
-                var plainContent = "Pozdrav.";
-                var htmlContent = messageSubject;
-                var mailMessage = MailHelper.CreateSingleEmail(from, to, subject, plainContent, htmlContent);
-                 sendGridClient.SendEmailAsync(mailMessage);
+                    var sendGridClient = new SendGridClient("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");
+                    var from = new EmailAddress("euromelanomaportal@gmail.com", "Euromelanoma Portal");
+                    var subject = "Dobijanje privremene lozinke za prijavu na sistem";
+                    var to = new EmailAddress("euromelanomaportal@gmail.com");
+                    var plainContent = "Pozdrav.";
+                    var htmlContent = messageSubject;
+                    var mailMessage = MailHelper.CreateSingleEmail(from, to, subject, plainContent, htmlContent);
+                    sendGridClient.SendEmailAsync(mailMessage);
+                }
             }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.InnerException.Message); 
+            }  
+          
 
   
         }
@@ -170,6 +174,18 @@ namespace euromelanoma_api.Managers
             _context.AvailableSlots.Add(appointment);
              _context.SaveChanges();
             return "Ok";
+        }
+    
+    public string deleteRequest(int reqId)
+        {
+
+            //izbrisati iz Request
+            UserRequests req = _context.UserRequests.Where(a => a.UserID == reqId).FirstOrDefault();
+            _context.UserRequests.Remove(req);
+            _context.SaveChanges();
+
+            return "All good.";
+
         }
     }
     }

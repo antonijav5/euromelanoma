@@ -19,6 +19,8 @@ public partial class EUROMELANOMAContext : DbContext
 
     public virtual DbSet<DoctorPrivileges> DoctorPrivileges { get; set; }
 
+    public virtual DbSet<PasswordResetTokens> PasswordResetTokens { get; set; }
+
     public virtual DbSet<QuestionnaireDataPatient> QuestionnaireDataPatient { get; set; }
 
     public virtual DbSet<Questionnaires> Questionnaires { get; set; }
@@ -58,6 +60,15 @@ public partial class EUROMELANOMAContext : DbContext
             entity.HasOne(d => d.Doctor).WithMany(p => p.DoctorPrivileges).HasConstraintName("FK_DoctorPrivileges");
         });
 
+        modelBuilder.Entity<PasswordResetTokens>(entity =>
+        {
+            entity.HasKey(e => e.TokenId).HasName("PK__Password__658FEEEAA642ACD4");
+
+            entity.HasOne(d => d.User).WithMany(p => p.PasswordResetTokens)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__PasswordR__UserI__2BFE89A6");
+        });
+
         modelBuilder.Entity<QuestionnaireDataPatient>(entity =>
         {
             entity.HasKey(e => e.id).HasName("PK__Question__3213E83F1C9CA98B");
@@ -83,9 +94,6 @@ public partial class EUROMELANOMAContext : DbContext
         modelBuilder.Entity<ScheduledAppointments>(entity =>
         {
             entity.HasKey(e => e.ScheduledAppointmentID).HasName("PK__Schedule__E40D0825227A2639");
-
-            entity.Property(e => e.CreatedAt).HasDefaultValueSql("(getdate())");
-            entity.Property(e => e.UpdatedAt).HasDefaultValueSql("(getdate())");
 
             entity.HasOne(d => d.Patient).WithMany(p => p.ScheduledAppointments)
                 .OnDelete(DeleteBehavior.ClientSetNull)

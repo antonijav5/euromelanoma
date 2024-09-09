@@ -18,6 +18,9 @@
     <li [ngClass]="currentItem=='insert'?'nav-item active':'nav-item'"  *ngIf="user.userType=='Admin'">
       <a class="nav-link" href="javascript:void(0)" (click)="goTo('insert')">Unos slobodnih termina</a>
     </li>
+    <li [ngClass]="currentItem=='userrequests'?'nav-item active':'nav-item'"  *ngIf="user.userType=='Admin'">
+      <a class="nav-link" href="javascript:void(0)" (click)="goTo('userrequest')">Zahtevi lekara za registracijom</a>
+    </li>
   </ul>
 <button type="button" class="btn btn-primary" (click)="logout()" style="font-family: inherit; color: 	#000035; background-color: #ffffff; border: 0; font-size: 12pt;"
 mat-raised-button

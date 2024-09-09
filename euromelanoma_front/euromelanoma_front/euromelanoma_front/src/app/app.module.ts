@@ -44,7 +44,10 @@ import { MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { provideMomentDateAdapter } from '@angular/material-moment-adapter';
 import { NgxMatDatetimePickerModule, NgxMatTimepickerModule, NgxMatNativeDateModule } from '@angular-material-components/datetime-picker';
 import { MatTableModule } from '@angular/material/table';
-
+import { UserRequestsComponent } from './components/admin/user-requests/user-requests.component';
+import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
+import { ResetPasswordRequestComponent } from './components/reset-password-request/reset-password-request.component';
+import {MatListModule} from '@angular/material/list';
 const MY_DATE_FORMATS = {
   parse: {
     dateInput: 'DD.MM.YYYY', // Format za unos datuma
@@ -72,7 +75,10 @@ const MY_DATE_FORMATS = {
     ScheduledAppointmentPatientComponent,
     QuestionnaireComponent,
     AgeDifferenceExposureComponent,
-    ProposeSlotComponent
+    ProposeSlotComponent,
+    UserRequestsComponent,
+    ResetPasswordComponent,
+    ResetPasswordRequestComponent
   ],
   imports: [AppRoutingModule,
     BrowserModule,
@@ -106,6 +112,7 @@ NgxMatDatetimePickerModule,
 NgxMatTimepickerModule,
 NgxMatNativeDateModule,
 MatTableModule,
+MatListModule,
 
    ToastrModule.forRoot({
       positionClass: "toast-bottom-right",

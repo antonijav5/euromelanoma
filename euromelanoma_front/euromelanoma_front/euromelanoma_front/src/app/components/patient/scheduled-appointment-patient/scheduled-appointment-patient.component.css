@@ -1,0 +1,12 @@
+.appointment-card {
+    margin: 15px 0;
+  }
+  
+  mat-card-header {
+    background-color: #f5f5f5;
+    border-bottom: 1px solid #ccc;
+  }
+  
+  mat-list-item {
+    margin-bottom: 5px;
+  }

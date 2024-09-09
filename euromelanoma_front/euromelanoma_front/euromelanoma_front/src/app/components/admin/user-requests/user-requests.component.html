@@ -1,0 +1,36 @@
+<mat-card class="mat-card">
+    <mat-card-header>
+      <mat-card-title>Pregled Pacijenata</mat-card-title>
+    </mat-card-header>
+    <mat-card-content style="   margin-top: 10px;">
+      <mat-table [dataSource]="requests" class="mat-elevation-z8" style="text-align: center;">
+        <ng-container matColumnDef="firstname">
+          <mat-header-cell *matHeaderCellDef> Ime </mat-header-cell>
+          <mat-cell *matCellDef="let request">{{ request.firstName }}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="lastname">
+            <mat-header-cell *matHeaderCellDef> Prezime </mat-header-cell>
+            <mat-cell *matCellDef="let request">{{ request.lastName }}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="mail">
+            <mat-header-cell *matHeaderCellDef> E-mail adresa </mat-header-cell>
+            <mat-cell *matCellDef="let request">{{ request.email }}</mat-cell>
+          </ng-container>
+  
+        <ng-container matColumnDef="action">
+          <mat-header-cell *matHeaderCellDef>Prihvatite zahtev</mat-header-cell>
+          <mat-cell *matCellDef="let request">
+            <button mat-button (click)="accept(request)" style="background-color:none; color:rgb(51, 172, 51)" ><i class="bi bi-check"></i></button>
+            <button mat-button  (click)="decline(request.userID)" style="background-color:none; color:#cd1c1c" ><i class="bi bi-x"></i></button>
+          </mat-cell>
+        </ng-container>
+  
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+      </mat-table>
+    </mat-card-content>
+ 
+  </mat-card>
+  

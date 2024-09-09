@@ -49,7 +49,7 @@ namespace euromelanoma_api.Controllers
 
         }
 
-        [HttpPost, Produces("application/json")]
+        [HttpPost("CreateDoctorRegisterRequest"), Produces("application/json")]
         public RequestResult<Users> CreateDoctorRegisterRequest([FromBody] RegisterUserModel model)
         {
             adminManager.CreateDoctorRegisterRequest(model);
@@ -161,6 +161,13 @@ namespace euromelanoma_api.Controllers
             // Vraćanje Excel fajla.
             return File(stream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", nazivFajla);
         }
+
+        [HttpPost("DeleteRequest")]
+        public RequestResult<string> DeleteRequest([FromQuery] int idReq)
+        {
+            return new RequestResult<string>(true, adminManager.deleteRequest(idReq), "All good.");
+        }
+
 
 
     }
