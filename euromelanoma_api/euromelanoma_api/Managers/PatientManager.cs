@@ -23,25 +23,24 @@ namespace euromelanoma_api.Managers
         {
            
             int score = CalculateRiskScore(model);
-            int doctorId = getFreeDoctor();
-            // 1. Kreiranje novog Questionnaire zapisa
+            //za sada je doctor null,dok se ne zakaze pregled
+     
             var questionnaire = new Questionnaires
                 {
                     PatientID = model.PatientId,
-                    DoctorID=doctorId,
-                    Score = score,          // Može biti inicijalni rezultat (0)
+                    DoctorID=null,
+                    Score = score,          
                     CreatedAt = DateTime.Now,
-                    Consent = model. Consent     // Saglasnost pacijenta
+                    Consent = model. Consent     
                 };
 
-               // Dodajemo questionnaire zapis u bazu
+             
                 _context.Questionnaires.Add(questionnaire);
-                _context.SaveChanges(); // Ovo će sačuvati novi Questionnaire i generisati QuestionnaireID
+                _context.SaveChanges(); 
 
-                // 2. Dobijamo novi QuestionnaireID
                 int questionnaireID = questionnaire.QuestionnaireID;
 
-                // 3. Sada unosimo podatke u QuestionnaireDataPatient, koristeći novi QuestionnaireID
+             
                 var questionnaireData = new QuestionnaireDataPatient
                 {
                     questionnaireID = questionnaireID,
@@ -61,7 +60,7 @@ namespace euromelanoma_api.Managers
                     how_much_freckles = model.Freckles,
                     sun_reaction = model.SunReaction,
 
-                    // Sun exposure data
+           
                     SunExposureFromAge0to12 = model.SunExposureFromAge0to12,
                     SunExposureFromAge13to19 = model.SunExposureFromAge13to19,
                     SunExposureFromAge20to40 = model.SunExposureFromAge20to40,
@@ -69,7 +68,6 @@ namespace euromelanoma_api.Managers
                     SunExposureFromAge60to80 = model.SunExposureFromAge60to80,
                     SunExposureAfterAge80 = model.SunExposureAfterAge80,
 
-                    // Other fields
                     tanning_exposure = model.TanningExposure,
                     sunny_country_exposure = model.SunnyCountryExposure.Exposure,
                     years_before_18 = model.SunnyCountryExposure.YearsBefore18,
@@ -82,7 +80,6 @@ namespace euromelanoma_api.Managers
                     first_visit_age = model.SolariumUse.FirstVisitAge,
                     last_visit_age = model.SolariumUse.LastVisitAge,
 
-                    // Burns
                     had_childhood_burns = model.Sunburns.Childhood,
                     had_adolescence_burns = model.Sunburns.Adolescence,
                     had_burns_between_20_40 = model.Sunburns.Between20and40,
@@ -91,9 +88,9 @@ namespace euromelanoma_api.Managers
                     had_burns_after_80 = model.Sunburns.After80
                 };
 
-            // Dodajemo podatke u QuestionnaireDataPatient tabelu
+        
             _context.QuestionnaireDataPatient.Add(questionnaireData);
-            _context.SaveChanges(); // Čuvamo sve podatke
+            _context.SaveChanges();
        
             return questionnaire;   
         }
@@ -179,6 +176,19 @@ namespace euromelanoma_api.Managers
 
         public List<SchedulePatientAppointmentResult> ScheduleAppointment(int PatientId, string PhoneNumber, int CityID) {
         return _context.Procedures.SchedulePatientAppointmentAsync(PatientId, PhoneNumber, CityID).Result;
+        }
+
+        public List<Cities> GetAvaliableCities ()
+        {
+            var cities = new List<Cities>();
+            var slots = _context.AvailableSlots.Where(a => a.StartTime > DateTime.Now).Select(a => a.CityID).ToList().Distinct();
+            foreach (var item in slots)
+            {
+               cities.Add(_context.Cities.Where(a => a.CityID == item).ToList().FirstOrDefault());   
+            }
+
+            return cities;
+
         }
 
     }

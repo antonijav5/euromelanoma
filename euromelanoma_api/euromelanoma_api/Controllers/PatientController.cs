@@ -35,6 +35,15 @@ namespace euromelanoma_api.Controllers
             return new RequestResult<ScheduledAppointments>(true, patientManager.GetAppointments(id), "All good.", null, null);
         }
 
+
+        [HttpGet("GetAvaliableCities")]
+        public RequestResult<List<Cities>> GetAvaliableCities()
+        {
+            var cities = new List<Cities>();
+            cities = patientManager.GetAvaliableCities();
+            return new RequestResult<List<Cities>>(true, cities, "All good.");
+        }
+
         [HttpPost("ScheduleAppointment")]
         public RequestResult<SchedulePatientAppointmentResult> ScheduleAppointment([FromBody] ScheduleAppointmentRequest request)
         {
@@ -44,7 +53,7 @@ namespace euromelanoma_api.Controllers
                 request.PhoneNumber,
                 request.CityId
      ).FirstOrDefault();
-            bool success = true;
+         
             // Vraćamo poruku korisniku na osnovu odgovora iz baze
        return new RequestResult<SchedulePatientAppointmentResult> ( response.Status==1, response, response.Poruka );
         }

@@ -23,5 +23,13 @@ environment:any={
   getAppointments(id:number) {
     return this.http.get(this.url+"GetAppointments/"+id)
   }
+
+  scheduleAppointment(model:any): Observable<any> {
+    const headers = new HttpHeaders().set('Content-Type', 'application/json')
+    return this.http.post(this.url + "ScheduleAppointment", model);
+  }
+  getAvaliableCities(){
+       return this.http.get(this.url+"GetAvaliableCities")
+  }
 }
 

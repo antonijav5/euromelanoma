@@ -9,5 +9,6 @@ namespace euromelanoma_api.Models.EuromelanomaContext
     {
         public string Poruka { get; set; }
         public int Status { get; set; }
+        public int id { get; set; }
     }
 }

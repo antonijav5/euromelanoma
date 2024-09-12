@@ -1,0 +1,62 @@
+/* Opšte stilizacije */
+.risk-title {
+    font-size: 20px;
+    text-align: center;
+    color: #f44336; /* Crvena za visoki rizik */
+  }
+  
+  .risk-score-high {
+    padding: 20px;
+    background-color: #ffe0e0;
+    border: 1px solid #f44336;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  .risk-score-low {
+    padding: 20px;
+    background-color: #e0f7fa;
+    border: 1px solid #009688;
+    border-radius: 8px;
+    margin-bottom: 20px;
+  }
+  
+  .schedule-dialog {
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+text-align: center;
+  }
+  
+  .dialog-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: center;
+    color: #023162;
+  }
+  
+  .full-width {
+    width: 100%;
+  }
+  
+  .form-field {
+    margin-bottom: 20px;
+  }
+  
+  .confirmation {
+    padding: 20px;
+    background-color: #e8f5e9;
+    border: 1px solid #4caf50;
+    border-radius: 8px;
+    margin-top: 20px;
+    text-align: center;
+  }
+  
+  .confirmation-title {
+    font-size: 20px;
+    margin-bottom: 16px;
+    color: #4caf50;
+  }
+  

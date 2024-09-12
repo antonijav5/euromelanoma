@@ -1,1 +1,13 @@
-<p>examination-results works!</p>
+<!-- Prikaz visokog rizika -->
+<div *ngIf="riskScore >= highRiskThreshold" class="risk-score-high">
+    <h3 class="risk-title">Vaš rizik je visok! Preporučujemo pregled.</h3>
+    <button mat-raised-button color="warn" (click)="openScheduleDialog()" style="margin-top: 6px;">Zakazivanje pregleda</button>
+  </div>
+  
+  <!-- Prikaz niskog rizika -->
+  <div *ngIf="riskScore < highRiskThreshold" class="risk-score-low">
+    <h3 class="risk-title">Vaš rizik je nizak. Preporučuje se redovan pregled kože.</h3>
+  </div>
+
+  
+ 

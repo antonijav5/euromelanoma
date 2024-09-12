@@ -1,9 +1,10 @@
 import { Component, Inject, Input, OnInit, Optional } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { DoctorService } from 'src/app/services/doctor.service';
 import { PatientService } from 'src/app/services/patient.service';
+import { ExaminationResultsComponent } from '../examination-results/examination-results.component';
 
 
 @Component({
@@ -52,7 +53,8 @@ constructor(
   private fbStart: FormBuilder,
             private toster:ToastrService,  
             private patientService:PatientService,
-            private doctorService:DoctorService
+            private doctorService:DoctorService,
+            public dialog: MatDialog
             
 ){
 
@@ -600,7 +602,12 @@ onSubmit() {
   this.form4060.markAllAsTouched();
   this.form6080.markAllAsTouched();
   this.form80plus.markAllAsTouched();
+  const dialogRef = this.dialog.open(ExaminationResultsComponent, {
+    width: "610px",
+    data: {patientId:2, score: 100, id:1}
+  });
 
+  return
   if (this.user.userType=='Patient') {
     if  (!this.questionnaireFormStart.valid || !this.questionnaireFormEnd.valid  || !this.form012.valid || !this.form1319.valid 
       || !this.form2040.valid ||!this.form4060.valid || !this.form6080.valid || !this.form80plus.valid
@@ -668,6 +675,11 @@ onSubmit() {
   this.patientService.insertPatientData(formData).subscribe((response:any) => {
       if (response.success) {
         this.toster.success("Podaci uspešno uneti!")
+        //vrati ti ceo upitnik, znaci imamo ID i Score
+        const dialogRef = this.dialog.open(ExaminationResultsComponent, {
+          width: "610px",
+          data: {patientId:this.user.id, score: response.result.score, id:response.result.id}
+        });
       }
       else {
         this.toster.error('Greška pri slanju podataka', "Oprez!");

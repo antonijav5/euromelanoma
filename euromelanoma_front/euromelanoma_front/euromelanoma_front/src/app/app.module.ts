@@ -48,6 +48,9 @@ import { UserRequestsComponent } from './components/admin/user-requests/user-req
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 import { ResetPasswordRequestComponent } from './components/reset-password-request/reset-password-request.component';
 import {MatListModule} from '@angular/material/list';
+import { ExaminationResultsComponent } from './components/patient/examination-results/examination-results.component';
+import {MatGridListModule} from '@angular/material/grid-list';
+
 const MY_DATE_FORMATS = {
   parse: {
     dateInput: 'DD.MM.YYYY', // Format za unos datuma
@@ -78,7 +81,8 @@ const MY_DATE_FORMATS = {
     ProposeSlotComponent,
     UserRequestsComponent,
     ResetPasswordComponent,
-    ResetPasswordRequestComponent
+    ResetPasswordRequestComponent,
+    ExaminationResultsComponent
   ],
   imports: [AppRoutingModule,
     BrowserModule,
@@ -113,6 +117,7 @@ NgxMatTimepickerModule,
 NgxMatNativeDateModule,
 MatTableModule,
 MatListModule,
+MatGridListModule,
 
    ToastrModule.forRoot({
       positionClass: "toast-bottom-right",

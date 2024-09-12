@@ -6,6 +6,7 @@ import { RegisterComponent } from './components/register/register.component';
 import { AdminComponent } from './components/admin/admin.component';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 import { ResetPasswordRequestComponent } from './components/reset-password-request/reset-password-request.component';
+import { ProposeSlotComponent } from './components/patient/propose-slot/propose-slot.component';
 
 const routes: Routes = [
 
@@ -14,6 +15,7 @@ const routes: Routes = [
     { path: 'login', component: LoginComponent },
     { path: 'reset-password/:token', component: ResetPasswordComponent },
     { path: 'forgot-password', component: ResetPasswordRequestComponent },
+    { path: 'propose', component: ProposeSlotComponent },
     { path: '', redirectTo: '/login', pathMatch: 'full' },
     { path: '**', redirectTo: '/login' } // Wildcard ruta za nepostojeće rute
 ];

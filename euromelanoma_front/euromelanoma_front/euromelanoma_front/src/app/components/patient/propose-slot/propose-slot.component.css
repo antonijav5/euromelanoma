@@ -1,52 +1,137 @@
-.modal {
-    display: none; /* Skriven po defaultu */
-    position: fixed;
-    z-index: 1;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0, 0, 0, 0.5);
-  }
+.dialog-title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  text-align: center;
+  color: #023162 !important;
+}
 
-  .modal-content {
-    background-color: #fefefe;
-    margin: 15% auto;
-    padding: 20px;
-    border: 1px solid #888;
-    width: 30%;
-    border-radius: 10px;
-  }
+.dialog-content {
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+}
 
-  .close {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-    cursor: pointer;
-  }
+.dialog-text {
+  margin-bottom: 24px;
+  font-size: 18px;
+  text-align: center;
+  color: #555;
+}
 
-  .close:hover,
-  .close:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
-  }
+.dialog-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
 
-  .modal-buttons {
-    margin-top: 20px;
-    display: flex;
-    justify-content: space-between;
-  }
+.form-field {
+  width: 100%;
+}
 
-  button {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
+.dialog-actions {
+  padding: 20px 0;
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
 
-  button:hover {
-    background-color: #ddd;
-  }
+.cancel-button {
+  color: #757575;
+  margin-right: 10px;
+}
+
+.confirm-button {
+  color: white;
+  background-color: #023162;
+  margin-right: 10px;
+}
+
+.confirm-button:hover {
+  background-color: #023162;
+}
+
+.confirmation {
+  padding: 20px;
+  background-color: #e8f5e9;
+  border: 1px solid #4caf50;
+  border-radius: 8px;
+  margin-top: 20px;
+  text-align: center;
+}
+
+.confirmation-title {
+  font-size: 20px;
+  margin-bottom: 16px;
+  color: #4caf50;
+}
+
+
+.appointments-background {
+
+}
+
+.appointment-container {
+ 
+  max-width: 900px;
+  margin: 20px auto;
+  padding-left: 20px;
+  padding-right: 20px;
+height: 790px;
+overflow-y: scroll;
+position: relative; 
+}
+
+:-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #020f5a;
+}
+
+.appointment-card {
+  width: 100%;
+  max-width: 600px;
+  background-color: rgba(255, 255, 255, 0.85); /* Providna bela pozadina */
+  backdrop-filter: blur(5px); /* Blagi blur pozadine */
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Blago senčenje */
+  margin: auto;
+}
+
+.status {
+  color: #f44336;
+  font-weight: bold;
+}
+
+.label {
+  font-weight: bold;
+  width: 150px;
+  color: #023162;
+}
+
+.value {
+  margin-left: 16px;
+}
+
+.mat-list-item {
+  display: flex;
+  justify-content: space-between;
+  font-size: 16px;
+}
+
+.mat-card-content {
+  color: #023162;
+}

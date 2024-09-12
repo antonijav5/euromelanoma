@@ -1,22 +1,64 @@
-<h2 mat-dialog-title>Zakazivanje pregleda</h2>
-<mat-dialog-content>
-  <p>Želite li zakazati pregled u dostupnom terminu?</p>
-  <form [formGroup]="appointmentForm">
-    <mat-form-field appearance="fill">
+<h2 mat-dialog-title class="dialog-title">Zakazivanje pregleda</h2>
+<mat-dialog-content class="dialog-content">
+  <p class="dialog-text">Želite li zakazati pregled u dostupnom terminu?</p>
+  <form [formGroup]="appointmentForm" class="dialog-form">
+    <mat-form-field class="full-width form-field" appearance="outline">
       <mat-label>Odaberite grad</mat-label>
       <mat-select formControlName="city">
-        <mat-option *ngFor="let city of cities" [value]="city.id">{{ city.name }}</mat-option>
+        <mat-option *ngFor="let city of cities" [value]="city.cityID">{{ city.name }}</mat-option>
       </mat-select>
     </mat-form-field>
 
-    <mat-form-field appearance="fill">
+    <mat-form-field class="full-width form-field" appearance="outline">
       <mat-label>Unesite broj telefona</mat-label>
       <input matInput formControlName="phone" placeholder="06X1234567" />
     </mat-form-field>
   </form>
+
+  <div *ngIf="appointmentScheduled" class="confirmation">
+    <h3 class="confirmation-title">Termin je uspešno zakazan! Datum i vreme pregleda:{{appointment.startTime}} !</h3>
+    <button mat-raised-button style="background-color: #023162; color:white"
+     (click)="downloadConfirmation()"
+     ><i class="bi bi-file-pdf"></i>&nbsp;&nbsp;Preuzmite potvrdu</button>
+  </div>
+  <div style="display: none;">
+  <mat-card class="appointment-card" style="margin-top: 10px;" id="pregled">
+    <mat-card-header>
+      <mat-card-title>Zakazani pregled</mat-card-title>
+      <mat-card-subtitle class="status">
+        <span>Status: </span>{{ appointment.status }}
+      </mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+      <mat-list>
+        <mat-list-item>
+          <span class="label">Termin ID:</span>
+          <span class="value">{{ appointment.scheduledAppointmentID }}</span>
+        </mat-list-item>
+        <mat-list-item>
+          <span class="label">Početak termina:</span>
+          <span class="value">{{ appointment.startTime | date: 'dd.MM.yyyy, HH:mm' }}</span>
+        </mat-list-item>
+        <mat-list-item>
+          <span class="label">Kraj termina:</span>
+          <span class="value">{{ appointment.endTime | date: 'dd.MM.yyyy, HH:mm' }}</span>
+        </mat-list-item>
+        <mat-list-item>
+          <span class="label">Grad:</span>
+          <span class="value">{{ appointment.cityName }}</span>
+        </mat-list-item>
+        <mat-list-item>
+          <span class="label">Telefon:</span>
+          <span class="value">{{ appointment.phoneNumber }}</span>
+        </mat-list-item>
+      </mat-list>
+    </mat-card-content>
+  </mat-card>
+</div>
 </mat-dialog-content>
 
-<mat-dialog-actions align="end">
-  <button mat-button (click)="onCancel()">Otkaži</button>
-  <button mat-button color="primary" (click)="onConfirm()">Potvrdi</button>
+<mat-dialog-actions align="end" class="dialog-actions">
+  <button mat-button class="cancel-button" (click)="onCancel()">Otkaži</button>
+  <button mat-raised-button color="primary" class="confirm-button" (click)="onConfirm()">Potvrdi</button>
 </mat-dialog-actions>

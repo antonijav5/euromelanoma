@@ -1,32 +1,38 @@
-<div *ngFor="let appointment of appointments">
-    <mat-card class="appointment-card">
-      <mat-card-header>
-        <mat-card-title>Zakazani pregled</mat-card-title>
-        <mat-card-subtitle>{{ appointment.status }}</mat-card-subtitle>
-      </mat-card-header>
+<mat-card class="appointment-container">
+    <div *ngFor="let appointment of appointments" >
+      <mat-card class="appointment-card" style="margin-top: 10px;">
+        <mat-card-header>
+          <mat-card-title>Zakazani pregled</mat-card-title>
+          <mat-card-subtitle class="status">
+            <span>Status: </span>{{ appointment.status }}
+          </mat-card-subtitle>
+        </mat-card-header>
   
-      <mat-card-content>
-        <mat-list>
-          <mat-list-item>
-            <strong>Termin ID:</strong> {{ appointment.scheduledAppointmentID }}
-          </mat-list-item>
-          <mat-list-item>
-            <strong>Datum kreiranja:</strong> {{ appointment.createdAt | date: 'short' }}
-          </mat-list-item>
-          <mat-list-item>
-            <strong>Datum ažuriranja:</strong> {{ appointment.updatedAt | date: 'short' }}
-          </mat-list-item>
-          <mat-list-item>
-            <strong>Grad:</strong> {{ appointment.cityName }}
-          </mat-list-item>
-          <mat-list-item>
-            <strong>Telefon:</strong> {{ appointment.phoneNumber }}
-          </mat-list-item>
-        </mat-list>
-      </mat-card-content>
-  
-      <mat-card-actions>
-        <button mat-button color="primary" (click)="viewDetails(appointment)">Detalji</button>
-      </mat-card-actions>
-    </mat-card>
-  </div>
+        <mat-card-content>
+          <mat-list>
+            <mat-list-item>
+              <span class="label">Termin ID:</span>
+              <span class="value">{{ appointment.scheduledAppointmentID }}</span>
+            </mat-list-item>
+            <mat-list-item>
+              <span class="label">Početak termina:</span>
+              <span class="value">{{ appointment.startTime | date: 'dd.MM.yyyy, HH:mm' }}</span>
+            </mat-list-item>
+            <mat-list-item>
+              <span class="label">Kraj termina:</span>
+              <span class="value">{{ appointment.endTime | date: 'dd.MM.yyyy, HH:mm' }}</span>
+            </mat-list-item>
+            <mat-list-item>
+              <span class="label">Grad:</span>
+              <span class="value">{{ appointment.cityName }}</span>
+            </mat-list-item>
+            <mat-list-item>
+              <span class="label">Telefon:</span>
+              <span class="value">{{ appointment.phoneNumber }}</span>
+            </mat-list-item>
+          </mat-list>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <img src="../../../../assets/images/scheduled.jpg" alt="" class="" style="height: 300px; margin: auto; margin-top: 12px;">
+</mat-card>
