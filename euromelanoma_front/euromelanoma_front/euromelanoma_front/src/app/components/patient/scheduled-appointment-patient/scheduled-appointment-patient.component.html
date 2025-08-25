@@ -1,38 +1,41 @@
 <mat-card class="appointment-container">
-    <div *ngFor="let appointment of appointments" >
-      <mat-card class="appointment-card" style="margin-top: 10px;">
-        <mat-card-header>
-          <mat-card-title>Zakazani pregled</mat-card-title>
-          <mat-card-subtitle class="status">
-            <span>Status: </span>{{ appointment.status }}
-          </mat-card-subtitle>
-        </mat-card-header>
-  
-        <mat-card-content>
-          <mat-list>
-            <mat-list-item>
-              <span class="label">Termin ID:</span>
-              <span class="value">{{ appointment.scheduledAppointmentID }}</span>
-            </mat-list-item>
-            <mat-list-item>
-              <span class="label">Početak termina:</span>
-              <span class="value">{{ appointment.startTime | date: 'dd.MM.yyyy, HH:mm' }}</span>
-            </mat-list-item>
-            <mat-list-item>
-              <span class="label">Kraj termina:</span>
-              <span class="value">{{ appointment.endTime | date: 'dd.MM.yyyy, HH:mm' }}</span>
-            </mat-list-item>
-            <mat-list-item>
-              <span class="label">Grad:</span>
-              <span class="value">{{ appointment.cityName }}</span>
-            </mat-list-item>
-            <mat-list-item>
-              <span class="label">Telefon:</span>
-              <span class="value">{{ appointment.phoneNumber }}</span>
-            </mat-list-item>
-          </mat-list>
-        </mat-card-content>
-      </mat-card>
-    </div>
-    <img src="../../../../assets/images/scheduled.jpg" alt="" class="" style="height: 300px; margin: auto; margin-top: 12px;">
+  <div *ngFor="let appointment of appointments">
+    <mat-card class="appointment-card">
+      <mat-card-header>
+        <mat-card-title>📅 Zakazani pregled</mat-card-title>
+        <mat-card-subtitle class="status">
+          <span>Status: </span>{{ appointment.status }}
+        </mat-card-subtitle>
+      </mat-card-header>
+
+      <mat-card-content>
+        <mat-list class="appointment-list">
+          <mat-list-item>
+            <span class="label">🆔 Termin ID:</span>
+            <span class="value">{{ appointment.scheduledAppointmentID }}</span>
+          </mat-list-item>
+          <mat-list-item>
+            <span class="label">⏰ Početak:</span>
+            <span class="value">{{ appointment.startTime | date: 'dd.MM.yyyy, HH:mm' }}</span>
+          </mat-list-item>
+          <mat-list-item>
+            <span class="label">⏳ Kraj:</span>
+            <span class="value">{{ appointment.endTime | date: 'dd.MM.yyyy, HH:mm' }}</span>
+          </mat-list-item>
+          <mat-list-item>
+            <span class="label">🏙️ Grad:</span>
+            <span class="value">{{ appointment.cityName }}</span>
+          </mat-list-item>
+          <mat-list-item>
+            <span class="label">📞 Telefon:</span>
+            <span class="value">{{ appointment.phoneNumber }}</span>
+          </mat-list-item>
+        </mat-list>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <div class="image-wrapper">
+    <img src="../../../../assets/images/scheduled.jpg" alt="Zakazan pregled">
+  </div>
 </mat-card>
