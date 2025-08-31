@@ -1,137 +1,434 @@
+/* propose-slot.component.css */
+
+.dialog-container {
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+
+  overflow: hidden;
+}
+
 .dialog-title {
-  font-size: 24px;
-  font-weight: bold;
-  margin-bottom: 20px;
-  text-align: center;
+  font-size: 28px !important;
+  font-weight: 700 !important;
   color: #023162 !important;
+  text-align: center;
+  padding: 24px 24px 16px !important;
+  margin-top: 0px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 12px !important;
+  background: linear-gradient(135deg, #023162 0%, #034a8c 100%);
+  color: white !important;
+
+  .title-icon {
+    font-size: 32px;
+    width: 32px;
+    height: 32px;
+  }
 }
 
 .dialog-content {
+  padding: 32px 24px !important;
+  background: white;
+  border-radius: 20px 20px 0 0;
+  margin-top: -24px;
+}
+
+.dialog-intro {
+  text-align: center;
+  margin-bottom: 28px;
   padding: 20px;
-  background-color: #f9f9f9;
-  border-radius: 8px;
+  background: rgba(2, 49, 98, 0.05);
+  border-radius: 16px;
+  border-left: 4px solid #023162;
 }
 
 .dialog-text {
-  margin-bottom: 24px;
+  margin: 0;
   font-size: 18px;
-  text-align: center;
-  color: #555;
+  color: #023162;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+
+  .inline-icon {
+    color: #023162;
+    font-size: 24px;
+  }
 }
 
 .dialog-form {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 24px;
+  margin-bottom: 24px;
 }
 
 .form-field {
   width: 100%;
-}
 
-.dialog-actions {
-  padding: 20px 0;
-  display: flex;
-  justify-content: flex-end;
-  gap: 12px;
-}
+  ::ng-deep .mat-mdc-form-field {
+    width: 100%;
 
-.cancel-button {
-  color: #757575;
-  margin-right: 10px;
-}
+    /* Required marker u istom redu */
+    .mat-mdc-form-field-label .mat-mdc-form-field-required-marker {
+      margin-left: 4px !important;
+      position: relative !important;
+      top: 0 !important;
+      display: inline !important;
+    }
 
-.confirm-button {
-  color: white;
-  background-color: #023162;
-  margin-right: 10px;
-}
+    /* Prefix ikona */
+    .mat-mdc-form-field-icon-prefix {
+      color: #023162;
+      margin-right: 12px;
+    }
+  }
 
-.confirm-button:hover {
-  background-color: #023162;
+  mat-label {
+    color: #023162 !important;
+    font-weight: 500;
+  }
 }
-
-.confirmation {
-  padding: 20px;
-  background-color: #e8f5e9;
-  border: 1px solid #4caf50;
-  border-radius: 8px;
-  margin-top: 20px;
+.confirmation-card {
+  background: linear-gradient(135deg, #e8f5e9 0%, #f1f8e9 100%);
+  border: 2px solid #4caf50;
+  border-radius: 20px;
+  padding: 32px;
   text-align: center;
+  margin: 24px 0;
+  box-shadow: 0 8px 24px rgba(76, 175, 80, 0.15);
+}
+
+.confirmation-icon {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #4caf50, #388e3c);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 24px;
+  box-shadow: 0 8px 24px rgba(76, 175, 80, 0.3);
+
+  mat-icon {
+    width: 40px;
+    height: 40px;
+  }
 }
 
 .confirmation-title {
-  font-size: 20px;
-  margin-bottom: 16px;
+  font-size: 24px;
+  font-weight: 700;
+  color: #2e7d32;
+  margin: 0 0 12px 0;
+}
+
+.confirmation-time {
+  font-size: 18px;
   color: #4caf50;
+  font-weight: 500;
+  margin: 0 0 24px 0;
 }
 
+.download-btn {
+  background: linear-gradient(135deg, #023162, #034a8c) !important;
+  color: white !important;
+  padding: 16px 32px !important;
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  border-radius: 50px !important;
+  text-transform: none !important;
+  box-shadow: 0 4px 16px rgba(2, 49, 98, 0.3) !important;
+  transition: all 0.3s ease !important;
 
-.appointments-background {
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(2, 49, 98, 0.4) !important;
+  }
 
+  mat-icon {
+    margin-right: 8px !important;
+  }
 }
 
-.appointment-container {
- 
-  max-width: 900px;
-  margin: 20px auto;
-  padding-left: 20px;
-  padding-right: 20px;
-height: 790px;
-overflow-y: scroll;
-position: relative; 
+.dialog-actions {
+  padding: 24px !important;
+  background: #f8f9fa;
+  border-top: 1px solid #e9ecef;
+  gap: 16px !important;
 }
 
-:-webkit-scrollbar {
-  width: 10px;
+.cancel-button {
+  color: #757575 !important;
+  font-weight: 500 !important;
+  padding: 12px 24px !important;
+  border-radius: 50px !important;
+  text-transform: none !important;
+  transition: all 0.3s ease !important;
+
+  &:hover {
+    background: rgba(117, 117, 117, 0.1) !important;
+  }
+
+  mat-icon {
+    margin-right: 8px !important;
+  }
 }
 
-/* Track */
-::-webkit-scrollbar-track {
-  background: #f1f1f1;
+.confirm-button {
+  background: linear-gradient(135deg, #023162, #034a8c) !important;
+  color: white !important;
+  font-weight: 600 !important;
+  padding: 12px 32px !important;
+  border-radius: 50px !important;
+  text-transform: none !important;
+  box-shadow: 0 4px 16px rgba(2, 49, 98, 0.3) !important;
+  transition: all 0.3s ease !important;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(2, 49, 98, 0.4) !important;
+  }
+
+  mat-icon {
+    margin-right: 8px !important;
+  }
 }
 
-/* Handle */
-::-webkit-scrollbar-thumb {
-  background: #888;
-}
-
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-  background: #020f5a;
-}
-
+/* Skrivena kartica za PDF - poboljšan stil */
 .appointment-card {
-  width: 100%;
-  max-width: 600px;
-  background-color: rgba(255, 255, 255, 0.85); /* Providna bela pozadina */
-  backdrop-filter: blur(5px); /* Blagi blur pozadine */
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Blago senčenje */
-  margin: auto;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
 }
 
-.status {
-  color: #f44336;
-  font-weight: bold;
+.card-header {
+  background: linear-gradient(135deg, #023162, #034a8c);
+  color: white;
+  padding: 20px 24px !important;
+
+  .card-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 20px !important;
+    font-weight: 600 !important;
+    margin: 0 !important;
+  }
+
+  .card-status {
+    color: rgba(255, 255, 255, 0.8) !important;
+    font-weight: 500 !important;
+    margin-top: 8px !important;
+  }
 }
 
-.label {
-  font-weight: bold;
-  width: 150px;
-  color: #023162;
+.card-content {
+  padding: 24px !important;
 }
 
-.value {
-  margin-left: 16px;
+.appointment-details {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
-.mat-list-item {
+.detail-row {
   display: flex;
   justify-content: space-between;
-  font-size: 16px;
+  align-items: center;
+  padding: 12px 16px;
+  background: #f8f9fa;
+  border-radius: 12px;
+  border-left: 4px solid #023162;
+
+  .label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+    color: #023162;
+    min-width: 120px;
+
+    mat-icon {
+      font-size: 18px;
+      width: 18px;
+      height: 18px;
+    }
+  }
+
+  .value {
+    font-weight: 500;
+    color: #333;
+    text-align: right;
+  }
 }
 
-.mat-card-content {
-  color: #023162;
+@media (max-width: 768px) {
+  .dialog-container {
+    margin: 0;
+    max-width: 100%;
+  }
+
+  .dialog-title {
+    font-size: 24px !important;
+    padding: 20px 16px 12px !important;
+  }
+
+  .dialog-content {
+    padding: 24px 16px !important;
+  }
+
+  .confirmation-card {
+    padding: 24px 16px;
+  }
+
+  .dialog-actions {
+    padding: 16px !important;
+    flex-direction: column;
+    gap: 12px !important;
+
+    button {
+      width: 100%;
+    }
+  }
+}
+/* propose-slot.component.css - dodaj ove stilove */
+
+.spinning {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* PDF specifični stilovi */
+.pdf-content {
+  width: 210mm; /* A4 širina */
+  background: white;
+  font-family: "Arial", sans-serif;
+  color: #333;
+  padding: 20mm;
+  box-sizing: border-box;
+}
+
+.pdf-header {
+  text-align: center;
+  border-bottom: 3px solid #023162;
+  padding-bottom: 20px;
+  margin-bottom: 30px;
+
+  h1 {
+    color: #023162;
+    font-size: 24px;
+    font-weight: bold;
+    margin: 0 0 10px 0;
+    letter-spacing: 1px;
+  }
+
+  .pdf-subtitle {
+    color: #666;
+    font-size: 16px;
+    margin: 0;
+    font-style: italic;
+  }
+}
+
+.pdf-body {
+  margin-bottom: 40px;
+
+  .appointment-info {
+    margin-bottom: 30px;
+
+    h2 {
+      color: #023162;
+      font-size: 20px;
+      margin: 0 0 20px 0;
+      border-left: 4px solid #023162;
+      padding-left: 15px;
+    }
+  }
+
+  .info-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  .info-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 15px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border-left: 4px solid #023162;
+
+    strong {
+      color: #023162;
+      font-weight: 600;
+      min-width: 120px;
+    }
+
+    span {
+      text-align: right;
+      font-weight: 500;
+    }
+
+    .status-badge {
+      background: #4caf50;
+      color: white;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: bold;
+    }
+  }
+
+  .instructions {
+    background: #f0f7ff;
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid #e3f2fd;
+
+    h3 {
+      color: #023162;
+      font-size: 18px;
+      margin: 0 0 15px 0;
+    }
+
+    ul {
+      margin: 0;
+      padding-left: 20px;
+
+      li {
+        margin-bottom: 8px;
+        line-height: 1.5;
+        color: #555;
+      }
+    }
+  }
+}
+
+.pdf-footer {
+  border-top: 2px solid #e9ecef;
+  padding-top: 20px;
+  text-align: center;
+  color: #888;
+  font-size: 12px;
+
+  p {
+    margin: 5px 0;
+  }
 }

@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace euromelanoma_api.Models.EuromelanomaContext;
 
-[Index("Email", Name = "UQ__UserRequ__A9D1053406EA3DD0", IsUnique = true)]
+[Index("Email", Name = "UQ__UserRequ__A9D10534A27B5C8C", IsUnique = true)]
 public partial class UserRequests
 {
     [Key]

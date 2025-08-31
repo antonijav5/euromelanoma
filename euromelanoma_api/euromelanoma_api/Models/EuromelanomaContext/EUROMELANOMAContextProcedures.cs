@@ -43,7 +43,7 @@ namespace euromelanoma_api.Models.EuromelanomaContext
             _context = context;
         }
 
-        public virtual async Task<List<GetAvailableSlotsResult>> GetAvailableSlotsAsync(int? CityID, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default)
+        public virtual async Task<List<GetAvailableSlotsResult>> GetAvailableSlotsAsync(int? cityID, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default)
         {
             var parameterreturnValue = new SqlParameter
             {
@@ -57,7 +57,7 @@ namespace euromelanoma_api.Models.EuromelanomaContext
                 new SqlParameter
                 {
                     ParameterName = "CityID",
-                    Value = CityID ?? Convert.DBNull,
+                    Value = cityID ?? Convert.DBNull,
                     SqlDbType = System.Data.SqlDbType.Int,
                 },
                 parameterreturnValue,
@@ -69,7 +69,7 @@ namespace euromelanoma_api.Models.EuromelanomaContext
             return _;
         }
 
-        public virtual async Task<List<SchedulePatientAppointmentResult>> SchedulePatientAppointmentAsync(int? PatientID, string PhoneNumber, int? CityID, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default)
+        public virtual async Task<List<SchedulePatientAppointmentResult>> SchedulePatientAppointmentAsync(int? patientID, string phoneNumber, int? cityID, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default)
         {
             var parameterreturnValue = new SqlParameter
             {
@@ -83,20 +83,20 @@ namespace euromelanoma_api.Models.EuromelanomaContext
                 new SqlParameter
                 {
                     ParameterName = "PatientID",
-                    Value = PatientID ?? Convert.DBNull,
+                    Value = patientID ?? Convert.DBNull,
                     SqlDbType = System.Data.SqlDbType.Int,
                 },
                 new SqlParameter
                 {
                     ParameterName = "PhoneNumber",
                     Size = 30,
-                    Value = PhoneNumber ?? Convert.DBNull,
+                    Value = phoneNumber ?? Convert.DBNull,
                     SqlDbType = System.Data.SqlDbType.NVarChar,
                 },
                 new SqlParameter
                 {
                     ParameterName = "CityID",
-                    Value = CityID ?? Convert.DBNull,
+                    Value = cityID ?? Convert.DBNull,
                     SqlDbType = System.Data.SqlDbType.Int,
                 },
                 parameterreturnValue,

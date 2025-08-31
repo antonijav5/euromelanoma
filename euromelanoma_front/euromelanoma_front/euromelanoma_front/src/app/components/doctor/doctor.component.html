@@ -1,43 +1,132 @@
 <mat-card class="mat-card">
-    <mat-form-field appearance="fill">
-        <mat-label>Pretraži pacijenta po ID-u, imenu ili prezimenu</mat-label>
-      <input matInput (keyup)="searchPatient()" (onBlur)="searchPatient()" [(ngModel)]="patientId"/>
-    </mat-form-field>
-    
-    <mat-table [dataSource]="filteredPatients">
-      
-      <ng-container matColumnDef="id">
-        <mat-header-cell *matHeaderCellDef>ID</mat-header-cell>
-        <mat-cell *matCellDef="let patientObject">{{patientObject.patient.userID}}</mat-cell>
-      </ng-container>
+  <mat-form-field appearance="fill">
+    <mat-label>Pretraži pacijenta po ID-u, imenu ili prezimenu</mat-label>
+    <input
+      matInput
+      (keyup)="searchPatient()"
+      (onBlur)="searchPatient()"
+      [(ngModel)]="patientId"
+    />
+  </mat-form-field>
 
-      <ng-container matColumnDef="ime">
-        <mat-header-cell *matHeaderCellDef>Ime</mat-header-cell>
-        <mat-cell *matCellDef="let patientObject">{{patientObject.patient.firstName}}</mat-cell>
-      </ng-container>
+  <mat-table [dataSource]="filteredPatients">
+    <ng-container matColumnDef="id">
+      <mat-header-cell *matHeaderCellDef>ID</mat-header-cell>
+      <mat-cell *matCellDef="let patientObject">{{
+        patientObject.patient.userID
+      }}</mat-cell>
+    </ng-container>
 
-      <ng-container matColumnDef="prezime">
-        <mat-header-cell *matHeaderCellDef>Prezime</mat-header-cell>
-        <mat-cell *matCellDef="let patientObject">{{patientObject.patient.lastName}}</mat-cell>
-      </ng-container>
-  
-      <ng-container matColumnDef="upitnici">
-        <mat-header-cell *matHeaderCellDef>Upitnici</mat-header-cell>
-        <mat-cell *matCellDef="let patientObject">
-            <div *ngFor="let q of patientObject.questionnaires">
-                <button mat-button (click)="openQuestionnaire(patientObject.patient.userID, q.questionnaireID)"
-                style="background-color:none; color:#023162" ><i class="bi bi-journal-medical"></i></button>
-            </div>
-           </mat-cell>
-        
-      </ng-container>
-      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-       <tr class="mat-row" *matNoDataRow>
-  <td class="mat-cell" [attr.colspan]="displayedColumns.length" style="text-align: center; font-size: 15pt;">
-    <b>Ne postoje podaci.</b>
-  </td>
-</tr>
-    </mat-table>
-  </mat-card>
-  
+    <ng-container matColumnDef="ime">
+      <mat-header-cell *matHeaderCellDef>Ime</mat-header-cell>
+      <mat-cell *matCellDef="let patientObject">{{
+        patientObject.patient.firstName
+      }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="prezime">
+      <mat-header-cell *matHeaderCellDef>Prezime</mat-header-cell>
+      <mat-cell *matCellDef="let patientObject">{{
+        patientObject.patient.lastName
+      }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="upitnici">
+      <mat-header-cell *matHeaderCellDef>Upitnici</mat-header-cell>
+      <mat-cell *matCellDef="let patientObject" style="padding: 8px">
+        <div
+          *ngIf="
+            patientObject.questionnaires &&
+              patientObject.questionnaires.length > 0;
+            else noQuestionnaires
+          "
+        >
+          <div
+            *ngFor="let q of patientObject.questionnaires; let i = index"
+            style="
+              display: flex;
+              align-items: center;
+              margin-bottom: 4px;
+              padding: 4px;
+              border-radius: 4px;
+            "
+            [style.background-color]="i % 2 === 0 ? '#f5f5f5' : 'white'"
+          >
+            <mat-icon
+              [style.color]="q.completeDate ? 'green' : 'orange'"
+              [matTooltip]="
+                q.completeDate ? 'Upitnik je popunjen' : 'Upitnik nije popunjen'
+              "
+              style="font-size: 18px; margin-right: 8px"
+            >
+              {{ q.completeDate ? "check_circle" : "pending" }}
+            </mat-icon>
+
+            <button
+              mat-raised-button
+              size="small"
+              (click)="
+                openQuestionnaire(
+                  patientObject.patient.userID,
+                  q.questionnaireID
+                )
+              "
+              [style.background-color]="q.isCompleted ? '#e8f5e8' : '#fff3cd'"
+              [style.color]="q.isCompleted ? '#2e7d32' : '#856404'"
+              [style.border]="
+                q.isCompleted ? '1px solid #c8e6c9' : '1px solid #ffeaa7'
+              "
+              style="
+                font-size: 11px;
+                min-width: auto;
+                padding: 4px 8px;
+                margin-right: 8px;
+              "
+            >
+              <mat-icon style="font-size: 14px; margin-right: 4px"
+                >description</mat-icon
+              >
+              #{{ q.questionnaireID }}
+            </button>
+
+            <span style="font-size: 11px; color: #666">
+              {{ q.createdDate | date : "dd.MM.yyyy" }}
+            </span>
+            <span
+              *ngIf="q.score"
+              style="
+                font-size: 11px;
+                margin-left: 8px;
+                padding: 2px 6px;
+                background-color: #e3f2fd;
+                border-radius: 12px;
+                color: #1976d2;
+              "
+            >
+              Score: {{ q.score }}
+            </span>
+          </div>
+        </div>
+
+        <ng-template #noQuestionnaires>
+          <span style="color: #999; font-style: italic; font-size: 12px">
+            Nema upitnika
+          </span>
+        </ng-template>
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+
+    <tr class="mat-row" *matNoDataRow>
+      <td
+        class="mat-cell"
+        [attr.colspan]="displayedColumns.length"
+        style="text-align: center; font-size: 15pt"
+      >
+        <b>Ne postoje podaci.</b>
+      </td>
+    </tr>
+  </mat-table>
+</mat-card>

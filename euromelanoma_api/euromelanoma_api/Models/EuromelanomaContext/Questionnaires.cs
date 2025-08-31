@@ -24,13 +24,8 @@ public partial class Questionnaires
 
     public bool Consent { get; set; }
 
-    [ForeignKey("DoctorID")]
-    [InverseProperty("QuestionnairesDoctor")]
-    public virtual Users Doctor { get; set; }
-
-    [ForeignKey("PatientID")]
-    [InverseProperty("QuestionnairesPatient")]
-    public virtual Users Patient { get; set; }
+    [Column(TypeName = "datetime")]
+    public DateTime? CompleteDate { get; set; }
 
     [InverseProperty("questionnaire")]
     public virtual ICollection<QuestionnaireDataPatient> QuestionnaireDataPatient { get; set; } = new List<QuestionnaireDataPatient>();

@@ -38,9 +38,11 @@ export class QuestionnaireComponent implements OnInit {
   form4060: any = {};
   form6080: any = {};
   form80plus: any = {};
-
+  doctorNotesExists: boolean = false;
+  showSubmitButton: boolean = true;
   questionnaireId: number = 0;
   formsMap: { [key: number]: FormGroup } = {};
+  loadedQuestionnaireData: any = null;
   addItem(forma: any) {
     let name = forma.get('name').value;
     switch (name) {
@@ -179,7 +181,7 @@ export class QuestionnaireComponent implements OnInit {
         otherSignificantConditionsOther: [null, Validators.required],
       }),
       smoking: [null, Validators.required],
-      exSmoker: [null, Validators.required],
+      exSmoker: ['yes', Validators.required],
     });
 
     this.questionnaireFormStart
@@ -655,26 +657,33 @@ export class QuestionnaireComponent implements OnInit {
 
     return form;
   }
+  childFormsValidation: { [key: string]: boolean } = {};
 
+  onChildFormValidation(event: { valid: boolean; formName: string }) {
+    this.childFormsValidation[event.formName] = event.valid;
+  }
   nextPage() {
-    const currentForm = this.formsMap[this.currentPage];
+    // Provjeri validaciju za current page
+    if (this.currentPage >= 5 && this.currentPage <= 10 && !this.data) {
+      const formNames = ['012', '1319', '2040', '4060', '6080', '80plus'];
+      const currentFormName = formNames[this.currentPage - 5];
 
-    if (currentForm && currentForm.invalid) {
-      currentForm.markAllAsTouched();
-
-      // pronalazi invalidna polja
-      const invalidControls = Object.keys(currentForm.controls).filter(
-        (key) => currentForm.controls[key].invalid
-      );
-
-      if (invalidControls.length > 0) {
-        const firstInvalid = invalidControls[0];
-        this.toster.error(`Polje "${firstInvalid}" nije ispravno popunjeno!`);
-      } else {
-        this.toster.error('Niste popunili sva obavezna polja na ovoj strani!');
+      if (!this.childFormsValidation[currentFormName]) {
+        this.toster.error(
+          'Niste popunili sva obavezna polja u ovom delu upitnika!'
+        );
+        // return;
       }
-
-      //return;
+    } else {
+      // postojeća validacija za ostale forme
+      const currentForm = this.formsMap[this.currentPage];
+      if (currentForm && currentForm.invalid && !this.data) {
+        currentForm.markAllAsTouched();
+        this.toster.error(
+          'Niste popunili sva obavezna polja u ovom delu upitnika!'
+        );
+        // return;
+      }
     }
 
     if (this.currentPage < this.totalPages) {
@@ -709,6 +718,8 @@ export class QuestionnaireComponent implements OnInit {
         this.questionnaireFormStart.get('date').updateValueAndValidity();
         this.totalPages = 11;
       } else {
+        this.loadQuestionnaireData();
+        this.loadDoctorNotes();
         this.disableFormFields(this.questionnaireFormStart);
         this.disableFormFields(this.questionnaireFormEnd);
         if (this.user.userType == 'Admin') {
@@ -729,6 +740,218 @@ export class QuestionnaireComponent implements OnInit {
       13: this.questionnaireFormDoctor,
     };
   }
+
+  loadQuestionnaireData() {
+    this.doctorService
+      .GetQuestionnairesById(this.data.questionnaireId)
+      .subscribe((response: any) => {
+        if (
+          response.success &&
+          response.resultList &&
+          response.resultList.length > 0
+        ) {
+          this.loadedQuestionnaireData = response.resultList[0];
+          this.populateFormsWithData(this.loadedQuestionnaireData);
+        }
+      });
+  }
+
+  loadDoctorNotes() {
+    this.doctorService
+      .GetDoctorNotesByQuestionnaireId(this.data.questionnaireId)
+      .subscribe({
+        next: (response: any) => {
+          if (response.success && response.resultList) {
+            this.doctorNotesExists = true;
+            this.showSubmitButton = false;
+            this.populateDoctorForm(response.resultList[0]);
+            this.disableFormFields(this.questionnaireFormDoctor);
+          } else {
+            this.doctorNotesExists = false;
+            this.showSubmitButton = this.user.userType === 'Doctor';
+          }
+        },
+        error: (error) => {
+          console.error('Error loading doctor notes:', error);
+          this.doctorNotesExists = false;
+          this.showSubmitButton = this.user.userType === 'Doctor';
+        },
+      });
+  }
+
+  populateDoctorForm(data: any) {
+    console.log(data);
+
+    this.questionnaireFormDoctor.patchValue({
+      patientPurpose: data.patient_purpose,
+      otherPurpose: data.other_purpose || '',
+      familyHistoryMelanoma: data.family_history_melanoma,
+      familyHistoryNonMelanoma: data.family_history_non_melanoma,
+      personalHistoryMelanoma: {
+        history: data.personal_history_melanoma,
+        count: data.melanoma_count,
+      },
+      personalHistoryCarcinoma: {
+        history: data.personal_history_carcinoma,
+        bccCount: data.bcc_count,
+        sccCount: data.scc_count,
+        otherDescription: data.other_carcinoma_description,
+      },
+      skinExaminationToday: data.skin_examination_today,
+      dermoscopyPerformed: data.dermoscopy_performed ? 'yes' : 'no',
+      nevusCount: data.nevus_count,
+      nevusOnHands: data.more_than_twenty_nevus_on_hands ? 'yes' : 'no',
+      atypicalNeviPresence: {
+        presence: data.atypical_nevi_presence ? 'yes' : 'no',
+        count: data.atypical_nevi_count,
+      },
+      congenitalNevi: {
+        mediumSize: data.congenital_nevi_medium_size ? 'yes' : 'no',
+        mediumLocation: data.congenital_nevi_medium_location,
+        giantSize: data.congenital_nevi_giant_size ? 'yes' : 'no',
+        giantLocation: data.congenital_nevi_giant_location,
+      },
+      solarLentigo: data.solar_lentigo ? 'yes' : 'no',
+      suspiciousLesions: {
+        melanoma: data.suspicious_melanoma ? 'yes' : 'no',
+        melanomaCount: data.suspicious_melanoma_count,
+        melanomaDetectedBy: data.melanoma_detected_by,
+        bcc: data.suspicious_bcc ? 'yes' : 'no',
+        bccCount: data.suspicious_bcc_count,
+        bccDetectedBy: data.bcc_detected_by,
+        scc: data.suspicious_scc ? 'yes' : 'no',
+        sccCount: data.suspicious_scc_count,
+        sccDetectedBy: data.scc_detected_by,
+        actinicKeratosis: data.actinic_keratosis ? 'yes' : 'no',
+        actinicKeratosisCount: data.actinic_keratosis_number,
+        actinicKeratosisDetectedBy: data.actinic_keratosis_detected_by,
+        exactActinicKeratosisCount: data.actinic_keratosis_count,
+        otherLesions: data.other_lesions ? 'yes' : 'no',
+        otherLesionsDescription: data.other_lesions_description,
+      },
+      otherConditions: {
+        hematological: data.hematological_decease ? 'yes' : 'no',
+        hiv: data.hiv_decease ? 'yes' : 'no',
+        immunosuppression: data.other_immunosuppresion ? 'yes' : 'no',
+        immunosuppressionOther: data.other_immunosuppresion_reason,
+        otherSignificantConditions: data.other_deceases ? 'yes' : 'no',
+        otherSignificantConditionsOther: data.other_deceases_name,
+      },
+      smoking: data.smoking ? 'yes' : 'no',
+      exSmoker: data.ex_smoker ? 'yes' : 'no',
+    });
+  }
+
+  populateFormsWithData(data: any) {
+    this.questionnaireFormStart.patchValue({
+      gender: data.gender,
+      birthYear: data.birth_year,
+      birthPlace: data.birth_place,
+      residence: data.residence,
+      weight: data.weight,
+      height: data.height,
+      ethnicity: data.ethnicity,
+      otherEthnicity: data.other_ethnicity,
+      educationLevel: data.education_level,
+      livingAlone: data.living_alone,
+      reasonForComing: data.reason_exam,
+      fullBodyCheck: data.full_body_check_done,
+      hairColor: data.hair_color,
+      freckles: data.how_much_freckles,
+      sunReaction: data.sun_reaction,
+    });
+
+    this.questionnaireFormEnd.patchValue({
+      tanningExposure: data.tanning_exposure,
+      sunnyCountryExposure: {
+        exposure: data.sunny_country_exposure,
+        yearsBefore18: data.years_before_18,
+        locationBefore18: data.location_before_18,
+        yearsAfter18: data.years_after_18,
+        locationAfter18: data.location_after_18,
+      },
+      solariumUse: {
+        usedSolarium: data.used_solarium,
+        totalVisits: data.total_visits,
+        firstVisitAge: data.first_visit_age,
+        lastVisitAge: data.last_visit_age,
+      },
+      sunburns: {
+        childhood: data.had_childhood_burns,
+        adolescence: data.had_adolescence_burns,
+        between20and40: data.had_burns_between_20_40,
+        between40and60: data.had_burns_between_40_60,
+        between60and80: data.had_burns_between_60_80,
+        after80: data.had_burns_after_80,
+      },
+    });
+
+    // Popuni exposure forme
+    this.populateExposureForm(this.form012, data.sunExposureFromAge0to12);
+    this.populateExposureForm(this.form1319, data.sunExposureFromAge13to19);
+    this.populateExposureForm(this.form2040, data.sunExposureFromAge20to40);
+    this.populateExposureForm(this.form4060, data.sunExposureFromAge40to60);
+    this.populateExposureForm(this.form6080, data.sunExposureFromAge60to80);
+    this.populateExposureForm(this.form80plus, data.sunExposureAfterAge80);
+  }
+
+  populateExposureForm(form: FormGroup, exposureDataString: string) {
+    try {
+      const exposureData = JSON.parse(exposureDataString);
+
+      // Pronađi objekte po tipu exposure-a
+      const occupational = exposureData.find(
+        (item: any) => item.name === 'occupational_exposure'
+      );
+      const recreational = exposureData.find(
+        (item: any) => item.name === 'recreational_exposure'
+      );
+      const intentional = exposureData.find(
+        (item: any) => item.name === 'intentional_exposure'
+      );
+
+      if (occupational) {
+        form.patchValue({
+          occupationalExposureChildhood: occupational.info.exposed, // ili occupational.info.exposed === 'yes'
+          weeksPerYearOccupational: occupational.info.weeksPerYear,
+          yearsBackOccupational: occupational.info.yearsBack,
+          sunscreenFrequencyOccupational: occupational.info.sunscreenFrequency,
+          hatFrequencyOccupational: occupational.info.hatFrequency,
+          clothingFrequencyOccupational: occupational.info.clothingFrequency,
+          shadeFrequencyOccupational: occupational.info.shadeFrequency,
+        });
+      }
+
+      if (recreational) {
+        form.patchValue({
+          recreationalExposureChildhood: recreational.info.exposed, // ili recreational.info.exposed === 'yes'
+          weeksPerYearRecreational: recreational.info.weeksPerYear,
+          yearsBackRecreational: recreational.info.yearsBack,
+          sunscreenFrequencyRecreational: recreational.info.sunscreenFrequency,
+          hatFrequencyRecreational: recreational.info.hatFrequency,
+          clothingFrequencyRecreational: recreational.info.clothingFrequency,
+          shadeFrequencyRecreational: recreational.info.shadeFrequency,
+        });
+      }
+
+      if (intentional) {
+        form.patchValue({
+          intentionalExposureChildhood: intentional.info.exposed, // ili intentional.info.exposed === 'yes'
+          weeksPerYearIntentional: intentional.info.weeksPerYear,
+          yearsBackIntentional: intentional.info.yearsBack,
+          sunscreenFrequencyIntentional: intentional.info.sunscreenFrequency,
+          hatFrequencyIntentional: intentional.info.hatFrequency,
+          clothingFrequencyIntentional: intentional.info.clothingFrequency,
+          shadeFrequencyIntentional: intentional.info.shadeFrequency,
+        });
+      }
+
+      console.log(form.controls);
+    } catch (error) {
+      console.error('Error parsing exposure data:', error);
+    }
+  }
+
   onSubmit() {
     this.questionnaireFormStart.markAllAsTouched();
     this.questionnaireFormEnd.markAllAsTouched();
@@ -740,13 +963,7 @@ export class QuestionnaireComponent implements OnInit {
     this.form4060.markAllAsTouched();
     this.form6080.markAllAsTouched();
     this.form80plus.markAllAsTouched();
-    const dialogRef = this.dialog.open(ExaminationResultsComponent, {
-      width: '610px',
-      data: { patientId: 2, score: 100, id: 1 },
-      disableClose: false,
-    });
 
-    return;
     if (this.user.userType == 'Patient') {
       if (
         !this.questionnaireFormStart.valid ||
@@ -862,6 +1079,9 @@ export class QuestionnaireComponent implements OnInit {
                   id: response.result.id,
                 },
               });
+              this.dialogRef.afterClosed().subscribe(() => {
+                window.location.reload();
+              });
             } else {
               this.toster.error('Greška pri slanju podataka', 'Oprez!');
             }
@@ -872,141 +1092,259 @@ export class QuestionnaireComponent implements OnInit {
         this.toster.error('Niste popunili sva polja!');
         return;
       } else {
-        //salji za doktora
-        //kreira se doctor_notes
+        // Kreiraj model koji odgovara backend DTO strukturi
         let model = {
-          questionnaireID: this.questionnaireId, // Pretpostavljam da ovaj ID dolazi iz forme ili nekog drugog izvora
-          patientPurpose: this.questionnaireFormDoctor.get('patientPurpose'),
+          questionnaireID: this.data.questionnaireId,
+
+          // Basic patient info
+          patientPurpose:
+            this.questionnaireFormDoctor.get('patientPurpose')?.value,
+
+          // Family history
           familyHistoryMelanoma: this.questionnaireFormDoctor.get(
             'familyHistoryMelanoma'
-          ),
+          )?.value,
           familyHistoryNonMelanoma: this.questionnaireFormDoctor.get(
             'familyHistoryNonMelanoma'
-          ),
-          personalHistoryMelanoma: {
-            history: this.questionnaireFormDoctor.get(
-              'personalHistoryMelanoma.history'
-            ),
-            count: this.questionnaireFormDoctor.get(
-              'personalHistoryMelanoma.count'
-            ),
-          },
-          personalHistoryCarcinoma: {
-            history: this.questionnaireFormDoctor.get(
-              'personalHistoryCarcinoma.history'
-            ),
-            bccCount: this.questionnaireFormDoctor.get(
-              'personalHistoryCarcinoma.bccCount'
-            ),
-            sccCount: this.questionnaireFormDoctor.get(
-              'personalHistoryCarcinoma.sccCount'
-            ),
-            otherDescription: this.questionnaireFormDoctor.get(
-              'personalHistoryCarcinoma.otherDescription'
-            ),
-          },
+          )?.value,
+
+          // Personal history melanoma
+          personalHistoryMelanoma: this.questionnaireFormDoctor.get(
+            'personalHistoryMelanoma.history'
+          )?.value,
+          melanomaCount:
+            this.questionnaireFormDoctor.get('personalHistoryMelanoma.history')
+              ?.value === 'yes'
+              ? this.questionnaireFormDoctor.get(
+                  'personalHistoryMelanoma.count'
+                )?.value
+              : 0,
+
+          // Personal history carcinoma
+          personalHistoryCarcinoma: this.questionnaireFormDoctor.get(
+            'personalHistoryCarcinoma.history'
+          )?.value,
+          bccCount:
+            this.questionnaireFormDoctor.get('personalHistoryCarcinoma.history')
+              ?.value === 'yes'
+              ? this.questionnaireFormDoctor.get(
+                  'personalHistoryCarcinoma.bccCount'
+                )?.value
+              : 0,
+          sccCount:
+            this.questionnaireFormDoctor.get('personalHistoryCarcinoma.history')
+              ?.value === 'yes'
+              ? this.questionnaireFormDoctor.get(
+                  'personalHistoryCarcinoma.sccCount'
+                )?.value
+              : 0,
+          otherCarcinomaDescription:
+            this.questionnaireFormDoctor.get('personalHistoryCarcinoma.history')
+              ?.value === 'other'
+              ? this.questionnaireFormDoctor.get(
+                  'personalHistoryCarcinoma.otherDescription'
+                )?.value
+              : '',
+
+          // Skin examination
           skinExaminationToday: this.questionnaireFormDoctor.get(
             'skinExaminationToday'
-          ),
-          dermoscopyPerformed: this.questionnaireFormDoctor.get(
-            'dermoscopyPerformed'
-          ),
-          nevusCount: this.questionnaireFormDoctor.get('nevusCount'),
-          moreThanTwentyNevusOnHands:
-            this.questionnaireFormDoctor.get('nevusOnHands'),
-          atypicalNeviPresence: {
-            presence: this.questionnaireFormDoctor.get(
-              'atypicalNeviPresence.presence'
-            ),
-            count: this.questionnaireFormDoctor.get(
-              'atypicalNeviPresence.count'
-            ),
-          },
-          congenitalNevi: {
-            mediumSize: this.questionnaireFormDoctor.get(
-              'congenitalNevi.mediumSize'
-            ),
-            mediumLocation: this.questionnaireFormDoctor.get(
-              'congenitalNevi.mediumLocation'
-            ),
-            giantSize: this.questionnaireFormDoctor.get(
-              'congenitalNevi.giantSize'
-            ),
-            giantLocation: this.questionnaireFormDoctor.get(
-              'congenitalNevi.giantLocation'
-            ),
-          },
-          solarLentigo: this.questionnaireFormDoctor.get('solarLentigo'),
-          suspiciousLesions: {
-            melanoma: this.questionnaireFormDoctor.get(
-              'suspiciousLesions.melanoma'
-            ),
-            melanomaCount: this.questionnaireFormDoctor.get(
-              'suspiciousLesions.melanomaCount'
-            ),
-            melanomaDetectedBy: this.questionnaireFormDoctor.get(
-              'suspiciousLesions.melanomaDetectedBy'
-            ),
-            bcc: this.questionnaireFormDoctor.get('suspiciousLesions.bcc'),
-            bccCount: this.questionnaireFormDoctor.get(
-              'suspiciousLesions.bccCount'
-            ),
-            bccDetectedBy: this.questionnaireFormDoctor.get(
-              'suspiciousLesions.bccDetectedBy'
-            ),
-            scc: this.questionnaireFormDoctor.get('suspiciousLesions.scc'),
-            sccCount: this.questionnaireFormDoctor.get(
-              'suspiciousLesions.sccCount'
-            ),
-            sccDetectedBy: this.questionnaireFormDoctor.get(
-              'suspiciousLesions.sccDetectedBy'
-            ),
-            actinicKeratosis: this.questionnaireFormDoctor.get(
-              'suspiciousLesions.actinicKeratosis'
-            ),
-            actinicKeratosisCount: this.questionnaireFormDoctor.get(
-              'suspiciousLesions.actinicKeratosisCount'
-            ),
-            actinicKeratosisDetectedBy: this.questionnaireFormDoctor.get(
-              'suspiciousLesions.actinicKeratosisDetectedBy'
-            ),
-            exactActinicKeratosisCount: this.questionnaireFormDoctor.get(
-              'suspiciousLesions.exactActinicKeratosisCount'
-            ),
-            otherLesions: this.questionnaireFormDoctor.get(
-              'suspiciousLesions.otherLesions'
-            ),
-            otherLesionsDescription: this.questionnaireFormDoctor.get(
-              'suspiciousLesions.otherLesionsDescription'
-            ),
-          },
-          otherConditions: {
-            hematological: this.questionnaireFormDoctor.get(
-              'otherConditions.hematological'
-            ),
-            hiv: this.questionnaireFormDoctor.get('otherConditions.hiv'),
-            immunosuppression: this.questionnaireFormDoctor.get(
-              'otherConditions.immunosuppression'
-            ),
-            immunosuppressionOther: this.questionnaireFormDoctor.get(
-              'otherConditions.immunosuppressionOther'
-            ),
-            otherSignificantConditions: this.questionnaireFormDoctor.get(
-              'otherConditions.otherSignificantConditions'
-            ),
-            otherSignificantConditionsOther: this.questionnaireFormDoctor.get(
-              'otherConditions.otherSignificantConditionsOther'
-            ),
-          },
-          smoking: this.questionnaireFormDoctor.get('smoking'),
-          exSmoker: this.questionnaireFormDoctor.get('exSmoker'),
-        };
-        console.log(model);
+          )?.value,
+          dermoscopyPerformed:
+            this.questionnaireFormDoctor.get('dermoscopyPerformed')?.value ===
+            'yes',
 
-        this.doctorService.AddDoctorNotes(model).subscribe((res: any) => {
-          if (res.success) {
-            this.toster.success('Podaci su uspešno uneti.', 'Čestitke!');
-          }
+          // Nevus information
+          nevusCount: this.questionnaireFormDoctor.get('nevusCount')?.value,
+          moreThanTwentyNevusOnHands:
+            this.questionnaireFormDoctor.get('nevusOnHands')?.value === 'yes',
+
+          // Atypical nevi
+          atypicalNeviPresence:
+            this.questionnaireFormDoctor.get('atypicalNeviPresence.presence')
+              ?.value === 'yes',
+          atypicalNeviCount:
+            this.questionnaireFormDoctor.get('atypicalNeviPresence.presence')
+              ?.value === 'yes'
+              ? this.questionnaireFormDoctor.get('atypicalNeviPresence.count')
+                  ?.value
+              : 0,
+
+          // Congenital nevi
+          congenitalNeviMediumSize:
+            this.questionnaireFormDoctor.get('congenitalNevi.mediumSize')
+              ?.value === 'yes',
+          congenitalNeviMediumLocation:
+            this.questionnaireFormDoctor.get('congenitalNevi.mediumSize')
+              ?.value === 'yes'
+              ? this.questionnaireFormDoctor.get(
+                  'congenitalNevi.mediumLocation'
+                )?.value
+              : '',
+          congenitalNeviGiantSize:
+            this.questionnaireFormDoctor.get('congenitalNevi.giantSize')
+              ?.value === 'yes',
+          congenitalNeviGiantLocation:
+            this.questionnaireFormDoctor.get('congenitalNevi.giantSize')
+              ?.value === 'yes'
+              ? this.questionnaireFormDoctor.get('congenitalNevi.giantLocation')
+                  ?.value
+              : '',
+
+          // Solar lentigo
+          solarLentigo:
+            this.questionnaireFormDoctor.get('solarLentigo')?.value === 'yes',
+
+          // Suspicious lesions - Melanoma
+          suspiciousMelanoma:
+            this.questionnaireFormDoctor.get('suspiciousLesions.melanoma')
+              ?.value === 'yes',
+          suspiciousMelanomaCount:
+            this.questionnaireFormDoctor.get('suspiciousLesions.melanoma')
+              ?.value === 'yes'
+              ? this.questionnaireFormDoctor.get(
+                  'suspiciousLesions.melanomaCount'
+                )?.value
+              : null,
+          melanomaDetectedBy:
+            this.questionnaireFormDoctor.get('suspiciousLesions.melanoma')
+              ?.value === 'yes'
+              ? this.questionnaireFormDoctor.get(
+                  'suspiciousLesions.melanomaDetectedBy'
+                )?.value
+              : '',
+
+          // Suspicious lesions - BCC
+          suspiciousBcc:
+            this.questionnaireFormDoctor.get('suspiciousLesions.bcc')?.value ===
+            'yes',
+          suspiciousBccCount:
+            this.questionnaireFormDoctor.get('suspiciousLesions.bcc')?.value ===
+            'yes'
+              ? this.questionnaireFormDoctor.get('suspiciousLesions.bccCount')
+                  ?.value
+              : 0,
+          bccDetectedBy:
+            this.questionnaireFormDoctor.get('suspiciousLesions.bcc')?.value ===
+            'yes'
+              ? this.questionnaireFormDoctor.get(
+                  'suspiciousLesions.bccDetectedBy'
+                )?.value
+              : '',
+
+          // Suspicious lesions - SCC
+          suspiciousScc:
+            this.questionnaireFormDoctor.get('suspiciousLesions.scc')?.value ===
+            'yes',
+          suspiciousSccCount:
+            this.questionnaireFormDoctor.get('suspiciousLesions.scc')?.value ===
+            'yes'
+              ? this.questionnaireFormDoctor.get('suspiciousLesions.sccCount')
+                  ?.value
+              : 0,
+          sccDetectedBy:
+            this.questionnaireFormDoctor.get('suspiciousLesions.scc')?.value ===
+            'yes'
+              ? this.questionnaireFormDoctor.get(
+                  'suspiciousLesions.sccDetectedBy'
+                )?.value
+              : '',
+
+          // Actinic keratosis
+          actinicKeratosis:
+            this.questionnaireFormDoctor.get(
+              'suspiciousLesions.actinicKeratosis'
+            )?.value === 'yes',
+          actinicKeratosisNumber:
+            this.questionnaireFormDoctor.get(
+              'suspiciousLesions.actinicKeratosis'
+            )?.value === 'yes'
+              ? this.questionnaireFormDoctor.get(
+                  'suspiciousLesions.actinicKeratosisCount'
+                )?.value
+              : '',
+          actinicKeratosisCount:
+            this.questionnaireFormDoctor.get(
+              'suspiciousLesions.actinicKeratosisCount'
+            )?.value === '<10'
+              ? this.questionnaireFormDoctor.get(
+                  'suspiciousLesions.exactActinicKeratosisCount'
+                )?.value
+              : 0,
+          actinicKeratosisDetectedBy:
+            this.questionnaireFormDoctor.get(
+              'suspiciousLesions.actinicKeratosis'
+            )?.value === 'yes'
+              ? this.questionnaireFormDoctor.get(
+                  'suspiciousLesions.actinicKeratosisDetectedBy'
+                )?.value
+              : '',
+
+          // Other lesions
+          otherLesions:
+            this.questionnaireFormDoctor.get('suspiciousLesions.otherLesions')
+              ?.value === 'yes',
+          otherLesionsDescription:
+            this.questionnaireFormDoctor.get('suspiciousLesions.otherLesions')
+              ?.value === 'yes'
+              ? this.questionnaireFormDoctor.get(
+                  'suspiciousLesions.otherLesionsDescription'
+                )?.value
+              : '',
+
+          // Other conditions
+          hematologicalDecease:
+            this.questionnaireFormDoctor.get('otherConditions.hematological')
+              ?.value === 'yes',
+          hivDecease:
+            this.questionnaireFormDoctor.get('otherConditions.hiv')?.value ===
+            'yes',
+          otherImmunosuppresion:
+            this.questionnaireFormDoctor.get(
+              'otherConditions.immunosuppression'
+            )?.value === 'yes',
+          otherImmunosuppresionReason:
+            this.questionnaireFormDoctor.get(
+              'otherConditions.immunosuppression'
+            )?.value === 'yes'
+              ? this.questionnaireFormDoctor.get(
+                  'otherConditions.immunosuppressionOther'
+                )?.value
+              : '',
+          otherDeceases:
+            this.questionnaireFormDoctor.get(
+              'otherConditions.otherSignificantConditions'
+            )?.value === 'yes',
+          otherDeceasesName:
+            this.questionnaireFormDoctor.get(
+              'otherConditions.otherSignificantConditions'
+            )?.value === 'yes'
+              ? this.questionnaireFormDoctor.get(
+                  'otherConditions.otherSignificantConditionsOther'
+                )?.value
+              : '',
+
+          // Smoking
+          smoking: this.questionnaireFormDoctor.get('smoking')?.value === 'yes',
+          exSmoker:
+            this.questionnaireFormDoctor.get('smoking')?.value === 'no'
+              ? this.questionnaireFormDoctor.get('exSmoker')?.value === 'yes'
+              : null,
+        };
+
+        console.log('Slanje podataka:', model);
+
+        this.doctorService.AddDoctorNotes(model).subscribe({
+          next: (res: any) => {
+            if (res.success) {
+              this.toster.success('Podaci su uspešno uneti.', 'Čestitke!');
+              this.dialogRef.close(true);
+            }
+          },
+          error: (error) => {
+            console.error('Error sending doctor notes:', error);
+            this.toster.error('Greška pri slanju podataka');
+          },
         });
       }
     }

@@ -249,6 +249,32 @@
   },
   {
     "ContainingType": "euromelanoma_api.Controllers.DoctorController",
+    "Method": "GetDoctorNotesByQuestionnaireId",
+    "RelativePath": "api/Doctor/GetDoctorNotesByQuestionnaireId/{questionnaireId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "questionnaireId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "euromelanoma_api.Models.DTOObjects.RequestResult\u00601[[euromelanoma_api.Models.EuromelanomaContext.doctor_notes, euromelanoma_api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "euromelanoma_api.Controllers.DoctorController",
     "Method": "GetPatientsForDoctor",
     "RelativePath": "api/Doctor/GetPatientsForDoctor/{doctorId}",
     "HttpMethod": "GET",
@@ -264,6 +290,32 @@
     "ReturnTypes": [
       {
         "Type": "euromelanoma_api.Models.DTOObjects.RequestResult\u00601[[euromelanoma_api.Models.EuromelanomaContext.Users, euromelanoma_api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "euromelanoma_api.Controllers.DoctorController",
+    "Method": "GetQuestionnairesById",
+    "RelativePath": "api/Doctor/GetQuestionnairesById/{questionnaireId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "questionnaireId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "euromelanoma_api.Models.DTOObjects.RequestResult\u00601[[euromelanoma_api.Models.EuromelanomaContext.QuestionnaireDataPatient, euromelanoma_api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -336,6 +388,32 @@
     "ReturnTypes": [
       {
         "Type": "euromelanoma_api.Models.DTOObjects.RequestResult\u00601[[System.Collections.Generic.List\u00601[[euromelanoma_api.Models.EuromelanomaContext.Cities, euromelanoma_api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "euromelanoma_api.Controllers.PatientController",
+    "Method": "GetDoctor",
+    "RelativePath": "api/Patient/GetDoctor/{slotId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "slotId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "euromelanoma_api.Models.DTOObjects.RequestResult\u00601[[euromelanoma_api.Models.EuromelanomaContext.Users, euromelanoma_api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",

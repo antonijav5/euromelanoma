@@ -57,6 +57,15 @@ namespace euromelanoma_api.Controllers
             // Vraćamo poruku korisniku na osnovu odgovora iz baze
        return new RequestResult<SchedulePatientAppointmentResult> ( response.Status==1, response, response.Poruka );
         }
+
+
+        [HttpGet("GetDoctor/{slotId}")]
+        public RequestResult<Users> GetDoctor([FromRoute] int slotId)
+        {
+            return new RequestResult<Users>(true, patientManager.GetDoctor(slotId), "All good.", null, null);
+        }
+
+
     }
 
 

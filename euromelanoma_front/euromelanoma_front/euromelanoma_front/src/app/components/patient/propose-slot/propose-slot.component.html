@@ -1,64 +1,157 @@
-<h2 mat-dialog-title class="dialog-title">Zakazivanje pregleda</h2>
-<mat-dialog-content class="dialog-content">
-  <p class="dialog-text">Želite li zakazati pregled u dostupnom terminu?</p>
-  <form [formGroup]="appointmentForm" class="dialog-form">
-    <mat-form-field class="full-width form-field" appearance="outline">
-      <mat-label>Odaberite grad</mat-label>
-      <mat-select formControlName="city">
-        <mat-option *ngFor="let city of cities" [value]="city.cityID">{{ city.name }}</mat-option>
-      </mat-select>
-    </mat-form-field>
+<!-- propose-slot.component.html -->
+<div class="dialog-container">
+  <h2 mat-dialog-title class="dialog-title">
+    <mat-icon class="title-icon">event_available</mat-icon>
+    Zakazivanje pregleda
+  </h2>
 
-    <mat-form-field class="full-width form-field" appearance="outline">
-      <mat-label>Unesite broj telefona</mat-label>
-      <input matInput formControlName="phone" placeholder="06X1234567" />
-    </mat-form-field>
-  </form>
+  <mat-dialog-content class="dialog-content">
+    @if (!appointmentScheduled) {
+    <div class="dialog-intro">
+      <p class="dialog-text">
+        <mat-icon class="inline-icon">info</mat-icon>
+        Želite li zakazati pregled u dostupnom terminu?
+      </p>
+    </div>
+    <form [formGroup]="appointmentForm" class="dialog-form">
+      <mat-form-field class="form-field" appearance="outline">
+        <mat-label>Odaberite grad</mat-label>
+        <mat-icon matPrefix>location_on</mat-icon>
+        <mat-select formControlName="city" required>
+          <mat-option *ngFor="let city of cities" [value]="city.cityID">
+            {{ city.name }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="appointmentForm.get('city')?.hasError('required')">
+          Grad je obavezan
+        </mat-error>
+      </mat-form-field>
 
-  <div *ngIf="appointmentScheduled" class="confirmation">
-    <h3 class="confirmation-title">Termin je uspešno zakazan! Datum i vreme pregleda:{{appointment.startTime}} !</h3>
-    <button mat-raised-button style="background-color: #023162; color:white"
-     (click)="downloadConfirmation()"
-     ><i class="bi bi-file-pdf"></i>&nbsp;&nbsp;Preuzmite potvrdu</button>
-  </div>
-  <div style="display: none;">
-  <mat-card class="appointment-card" style="margin-top: 10px;" id="pregled">
-    <mat-card-header>
-      <mat-card-title>Zakazani pregled</mat-card-title>
-      <mat-card-subtitle class="status">
-        <span>Status: </span>{{ appointment.status }}
-      </mat-card-subtitle>
-    </mat-card-header>
+      <mat-form-field class="form-field" appearance="outline">
+        <mat-label>Unesite broj telefona</mat-label>
+        <mat-icon matPrefix>phone</mat-icon>
+        <input
+          matInput
+          formControlName="phone"
+          placeholder="06X1234567"
+          required
+        />
+        <mat-error *ngIf="appointmentForm.get('phone')?.hasError('required')">
+          Telefon je obavezan
+        </mat-error>
+      </mat-form-field>
+    </form>
+    }
 
-    <mat-card-content>
-      <mat-list>
-        <mat-list-item>
-          <span class="label">Termin ID:</span>
-          <span class="value">{{ appointment.scheduledAppointmentID }}</span>
-        </mat-list-item>
-        <mat-list-item>
-          <span class="label">Početak termina:</span>
-          <span class="value">{{ appointment.startTime | date: 'dd.MM.yyyy, HH:mm' }}</span>
-        </mat-list-item>
-        <mat-list-item>
-          <span class="label">Kraj termina:</span>
-          <span class="value">{{ appointment.endTime | date: 'dd.MM.yyyy, HH:mm' }}</span>
-        </mat-list-item>
-        <mat-list-item>
-          <span class="label">Grad:</span>
-          <span class="value">{{ appointment.cityName }}</span>
-        </mat-list-item>
-        <mat-list-item>
-          <span class="label">Telefon:</span>
-          <span class="value">{{ appointment.phoneNumber }}</span>
-        </mat-list-item>
-      </mat-list>
-    </mat-card-content>
-  </mat-card>
+    <div *ngIf="appointmentScheduled" class="confirmation-card">
+      <div class="confirmation-icon">
+        <mat-icon>check_circle</mat-icon>
+      </div>
+      <h3 class="confirmation-title">Termin je uspešno zakazan!</h3>
+      <p class="confirmation-time">
+        Datum i vreme pregleda:
+        {{ appointment.startTime | date : "dd.MM.yyyy, HH:mm" }}
+      </p>
+      <button
+        mat-raised-button
+        class="download-btn"
+        [disabled]="isGeneratingPdf"
+        (click)="downloadConfirmation()"
+      >
+        <mat-icon *ngIf="!isGeneratingPdf">file_download</mat-icon>
+        <mat-icon *ngIf="isGeneratingPdf" class="spinning"
+          >hourglass_empty</mat-icon
+        >
+        {{ isGeneratingPdf ? "Generiše se..." : "Preuzmite potvrdu" }}
+      </button>
+    </div>
+
+    <!-- POBOLJŠANA PDF kartica sa doctor podacima -->
+    <div
+      style="position: absolute; left: -9999px; top: -9999px"
+      *ngIf="appointment"
+    >
+      <div class="pdf-content" id="pregled">
+        <div class="pdf-header">
+          <h1>POTVRDA O ZAKAZANOM PREGLEDU</h1>
+          <p class="pdf-subtitle">Euromelanoma Portal</p>
+        </div>
+
+        <div class="pdf-body">
+          <div class="appointment-info">
+            <h2>Detalji termina</h2>
+
+            <div class="info-grid">
+              <div class="info-item">
+                <strong>Termin ID:</strong>
+                <span>{{ appointment.scheduledAppointmentID }}</span>
+              </div>
+
+              <!-- DODAJ DOCTOR PODATKE -->
+              <div class="info-item">
+                <strong>Lekar:</strong>
+                <span
+                  >{{ appointment.doctorFirstName }}
+                  {{ appointment.doctorLastName }}</span
+                >
+              </div>
+
+              <div class="info-item">
+                <strong>Datum:</strong>
+                <span>{{ appointment.startTime | date : "dd.MM.yyyy." }}</span>
+              </div>
+
+              <div class="info-item">
+                <strong>Vreme:</strong>
+                <span>
+                  {{ appointment.startTime | date : "HH:mm" }} -
+                  {{ appointment.endTime | date : "HH:mm" }}
+                </span>
+              </div>
+
+              <div class="info-item">
+                <strong>Grad:</strong>
+                <span>{{ selectedCityName }}</span>
+              </div>
+
+              <div class="info-item">
+                <strong>Status:</strong>
+                <span class="status-badge">{{
+                  statusMapping[appointment.status] || appointment.status
+                }}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="instructions">
+            <h3>Napomene:</h3>
+            <ul>
+              <li>Molimo vas da dođete 10 minuta pre zakazanog vremena</li>
+              <li>Ponesite ličnu kartu ili pasoš</li>
+              <li>
+                U slučaju otkazivanja, kontaktirajte nas najmanje 24h unapred
+              </li>
+              <li>Ovaj dokument je vaša potvrda o zakazanom pregledu</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="pdf-footer">
+          <p>Generisano: {{ today | date : "dd.MM.yyyy, HH:mm" }}</p>
+          <p>Euromelanoma Portal • Prevencija melanoma</p>
+        </div>
+      </div>
+    </div>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end" class="dialog-actions">
+    <button mat-button class="cancel-button" (click)="onCancel()">
+      <mat-icon>close</mat-icon>
+      Otkaži
+    </button>
+    <button mat-raised-button class="confirm-button" (click)="onConfirm()">
+      <mat-icon>check</mat-icon>
+      Potvrdi
+    </button>
+  </mat-dialog-actions>
 </div>
-</mat-dialog-content>
-
-<mat-dialog-actions align="end" class="dialog-actions">
-  <button mat-button class="cancel-button" (click)="onCancel()">Otkaži</button>
-  <button mat-raised-button color="primary" class="confirm-button" (click)="onConfirm()">Potvrdi</button>
-</mat-dialog-actions>

@@ -1,87 +1,154 @@
+// propose-slot.component.ts
+
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { ToastrService } from 'ngx-toastr';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import html2canvas from 'html2canvas';
+import * as jspdf from 'jspdf';
 import { PatientService } from 'src/app/services/patient.service';
-import * as jspdf from 'jspdf';  
-import html2canvas from 'html2canvas'; 
+
 @Component({
   selector: 'app-propose-slot',
   templateUrl: './propose-slot.component.html',
-  styleUrl: './propose-slot.component.css'
+  styleUrls: ['./propose-slot.component.css'],
 })
-export class ProposeSlotComponent implements OnInit{
-  cities :any[]= []; 
-  appointmentForm: any;
-  appointmentScheduled:boolean=false
-  date:Date=new Date()
-  appointment:any
- html2pdf: any;
+export class ProposeSlotComponent implements OnInit {
+  appointmentForm: FormGroup;
+  cities: any[] = [];
+  appointment: any = null;
+  appointmentScheduled: boolean = false;
+  isGeneratingPdf: boolean = false;
+  today = new Date();
+  selectedCityName: string = '';
+
+  statusMapping: { [key: string]: string } = {
+    Scheduled: 'Zakazan',
+    Finished: 'Završen',
+    Cancelled: 'Otkazan',
+  };
+
   constructor(
-    public dialogRef: MatDialogRef<ProposeSlotComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any,
     private fb: FormBuilder,
-    private patientService:PatientService,
-    private toster:ToastrService
+    private patientService: PatientService,
+    private dialogRef: MatDialogRef<ProposeSlotComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.appointmentForm = this.fb.group({
       city: ['', Validators.required],
-      phone: ['', [Validators.required, Validators.pattern('[0-9]{10}')]],
+      phone: ['', Validators.required],
     });
   }
 
-  ngOnInit() {
-   
-    this.patientService.getAvaliableCities().subscribe((res:any)=>{
-      if (res.success) {
-        this.cities=res.result
-      }
-    })
+  ngOnInit(): void {
+    this.loadCities();
   }
-  onCancel(): void {
-    this.dialogRef.close();
+
+  loadCities(): void {
+    this.patientService.getAvaliableCities().subscribe((response: any) => {
+      if (response.success) {
+        this.cities = response.result;
+      }
+    });
   }
 
   onConfirm(): void {
     if (this.appointmentForm.valid) {
-      this.appointmentScheduled=true
-      let model={
-        patientId:this.data.patientId,
-        cityId:this.appointmentForm.get("city").value,
-        phoneNumber:this.appointmentForm.get("phone").value,
-      }
+      const formData = {
+        patientId: this.data.patientId,
+        phoneNumber: this.appointmentForm.get('phone')?.value,
+        cityId: this.appointmentForm.get('city')?.value,
+      };
 
-      this.patientService.scheduleAppointment(model).subscribe((res:any)=>{
-        if (res.success) {
-          this.toster.success("Čestitamo, termin je uspešno zakazan. Detalji o pregledu nalaze se na početnoj stranici.")
-        this.patientService.getAppointments(this.data.patientId).subscribe((res:any)=> {
-          //OVDE DOHVATIS TRRENUTNO ZAKAZANI TERMIN
-        })
-        
-        }
-      })
-     // this.dialogRef.close(this.appointmentForm.value);
-  
-    } else {
-      this.toster.error('Molimo vas popunite sve podatke.');
+      // Zapamti naziv grada za PDF
+      const selectedCity = this.cities.find(
+        (c) => c.cityID === formData.cityId
+      );
+      this.selectedCityName = selectedCity?.name || '';
+
+      this.patientService.scheduleAppointment(formData).subscribe({
+        next: (response: any) => {
+          if (response.success) {
+            this.appointment = response.result;
+            this.appointmentScheduled = true;
+
+            this.loadDoctorData();
+          }
+        },
+        error: (error) => {
+          console.error('Greška pri zakazivanju:', error);
+        },
+      });
     }
   }
 
- downloadConfirmation(): void {
-  //   var data = document.getElementById('pregled');  //Id of the table
-  //   html2canvas(data).then(canvas => {  
-  //     // Few necessary setting options  
-  //     let imgWidth = 208;   
-  //     let pageHeight = 295;    
-  //     let imgHeight = canvas.height * imgWidth / canvas.width;  
-  //     let heightLeft = imgHeight;  
+  loadDoctorData(): void {
+    if (this.appointment && this.appointment.slotID) {
+      this.patientService.getDoctor(this.appointment.slotID).subscribe({
+        next: (doctorResponse: any) => {
+          if (doctorResponse.success && doctorResponse.result) {
+            this.appointment.doctorFirstName =
+              doctorResponse.result.firstName || 'Dr.';
+            this.appointment.doctorLastName =
+              doctorResponse.result.lastName || 'Doktor';
+            this.appointment.doctorId = doctorResponse.result.userID;
+          }
+        },
+        error: (error) => {
+          console.error('Greška pri učitavanju doktora:', error);
+          this.appointment.doctorFirstName = 'Dr.';
+          this.appointment.doctorLastName = 'Doktor';
+        },
+      });
+    }
+  }
 
-  //     const contentDataURL = canvas.toDataURL('image/png')  
-  //     let pdf = new jspdf.jsPDF('p', 'mm', 'a4'); // A4 size page of PDF  
-  //     let position = 0;  
-  //     pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight)  
-  //     pdf.save('ZakazanPregled.pdf'); // Generated PDF   
-  //   });
- }
-  
+  downloadConfirmation(): void {
+    this.isGeneratingPdf = true;
+
+    setTimeout(() => {
+      const element = document.getElementById('pregled');
+      if (!element) {
+        this.isGeneratingPdf = false;
+        return;
+      }
+
+      html2canvas(element, {
+        scale: 2,
+        useCORS: true,
+        backgroundColor: '#ffffff',
+      })
+        .then((canvas) => {
+          const imgData = canvas.toDataURL('image/png', 1.0);
+          const pdf = new jspdf.jsPDF('p', 'mm', 'a4');
+
+          const pdfWidth = pdf.internal.pageSize.getWidth();
+          const imgWidth = pdfWidth - 20;
+          const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+          // Dodaj header
+          pdf.setFontSize(20);
+          pdf.setTextColor(2, 49, 98);
+          pdf.text('POTVRDA O ZAKAZANOM PREGLEDU', pdfWidth / 2, 15, {
+            align: 'center',
+          });
+
+          pdf.addImage(imgData, 'PNG', 10, 25, imgWidth, imgHeight);
+
+          const fileName = `Potvrda_Pregleda_${
+            this.appointment.scheduledAppointmentID
+          }_${new Date().toISOString().slice(0, 10)}.pdf`;
+          pdf.save(fileName);
+
+          this.isGeneratingPdf = false;
+        })
+        .catch((error) => {
+          console.error('Greška pri generisanju PDF-a:', error);
+          this.isGeneratingPdf = false;
+        });
+    }, 100);
+  }
+
+  onCancel(): void {
+    this.dialogRef.close();
+  }
 }

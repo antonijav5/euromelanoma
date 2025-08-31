@@ -6,18 +6,15 @@ import {
   OnDestroy,
   OnInit,
   Output,
-  SimpleChange,
   SimpleChanges,
 } from '@angular/core';
-import {
-  AbstractControl,
-  FormBuilder,
-  FormGroup,
-  ValidationErrors,
-  ValidatorFn,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { Subscription } from 'rxjs';
+
+interface AgeRangeForm {
+  [key: string]: FormGroup;
+}
 
 @Component({
   selector: 'app-age-difference-exposure',
@@ -27,453 +24,198 @@ import { ToastrService } from 'ngx-toastr';
 export class AgeDifferenceExposureComponent
   implements OnInit, OnChanges, OnDestroy
 {
-  // strana 5 : 0-12
-  // strana 6 : 13-40
-  // strana 7 : 40-60
-  // strana 8 : 60-80
-  // strana 9 : 80+
-  questionnaireForm012: any;
-  questionnaireForm1319: any;
-  questionnaireForm2040: any;
-  questionnaireForm4060: any;
-  questionnaireForm6080: any;
-  questionnaireForm80plus: any;
-
   user: any = {};
+  currentForm: FormGroup | null = null;
+  private subscriptions: Subscription[] = [];
+
+  // Organizuj forme u objekat
+  private forms: AgeRangeForm = {};
 
   @Input() currPage: number = 5;
-
-  //@Input()
-  form012: any;
-  //@Input()
-  form1319: any;
-  //@Input()
-  form2040: any;
-  //@Input()
-  form4060: any;
-  //@Input()
-  form6080: any;
-  //@Input()
-  form80plus: any;
-
-  //@Output()
-  currentForm: any;
+  @Input() exposureData: any = null;
   @Output() newItemEvent = new EventEmitter<any>();
+  @Output() formValidationEvent = new EventEmitter<{
+    valid: boolean;
+    formName: string;
+  }>();
 
-  constructor(private fb012: FormBuilder, private toster: ToastrService) {
-    this.questionnaireForm012 = this.fb012.group({
-      name: ['012'],
-      occupationalExposureChildhood: ['no', Validators.required],
-      weeksPerYearOccupational: ['', [Validators.required, Validators.min(1)]],
-      yearsBackOccupational: ['', [Validators.required, Validators.min(1)]],
-      sunscreenFrequencyOccupational: ['', Validators.required],
-      hatFrequencyOccupational: ['', Validators.required],
-      clothingFrequencyOccupational: ['', Validators.required],
-      shadeFrequencyOccupational: ['', Validators.required],
+  constructor(private fb: FormBuilder, private toster: ToastrService) {
+    this.initializeForms();
+  }
 
-      recreationalExposureChildhood: ['', Validators.required],
-      weeksPerYearRecreational: ['', [Validators.required, Validators.min(1)]],
-      yearsBackRecreational: ['', [Validators.required, Validators.min(1)]],
-      sunscreenFrequencyRecreational: ['', Validators.required],
-      hatFrequencyRecreational: ['', Validators.required],
-      clothingFrequencyRecreational: ['', Validators.required],
-      shadeFrequencyRecreational: ['', Validators.required],
-
-      intentionalExposureChildhood: ['', Validators.required],
-      weeksPerYearIntentional: ['', [Validators.required, Validators.min(1)]],
-      yearsBackIntentional: ['', [Validators.required, Validators.min(1)]],
-      sunscreenFrequencyIntentional: ['', Validators.required],
-      hatFrequencyIntentional: ['', Validators.required],
-      clothingFrequencyIntentional: ['', Validators.required],
-      shadeFrequencyIntentional: ['', Validators.required],
-    });
-    this.questionnaireForm1319 = this.fb012.group({
-      name: ['1319'],
-      occupationalExposureChildhood: ['', Validators.required],
-      weeksPerYearOccupational: ['', [Validators.required, Validators.min(1)]],
-      yearsBackOccupational: ['', [Validators.required, Validators.min(1)]],
-      sunscreenFrequencyOccupational: ['', Validators.required],
-      hatFrequencyOccupational: ['', Validators.required],
-      clothingFrequencyOccupational: ['', Validators.required],
-      shadeFrequencyOccupational: ['', Validators.required],
-
-      recreationalExposureChildhood: ['', Validators.required],
-      weeksPerYearRecreational: ['', [Validators.required, Validators.min(1)]],
-      yearsBackRecreational: ['', [Validators.required, Validators.min(1)]],
-      sunscreenFrequencyRecreational: ['', Validators.required],
-      hatFrequencyRecreational: ['', Validators.required],
-      clothingFrequencyRecreational: ['', Validators.required],
-      shadeFrequencyRecreational: ['', Validators.required],
-
-      intentionalExposureChildhood: ['', Validators.required],
-      weeksPerYearIntentional: ['', [Validators.required, Validators.min(1)]],
-      yearsBackIntentional: ['', [Validators.required, Validators.min(1)]],
-      sunscreenFrequencyIntentional: ['', Validators.required],
-      hatFrequencyIntentional: ['', Validators.required],
-      clothingFrequencyIntentional: ['', Validators.required],
-      shadeFrequencyIntentional: ['', Validators.required],
-    });
-
-    this.questionnaireForm2040 = this.fb012.group({
-      name: ['2040'],
-      occupationalExposureChildhood: ['', Validators.required],
-      weeksPerYearOccupational: ['', [Validators.required, Validators.min(1)]],
-      yearsBackOccupational: ['', [Validators.required, Validators.min(1)]],
-      sunscreenFrequencyOccupational: ['', Validators.required],
-      hatFrequencyOccupational: ['', Validators.required],
-      clothingFrequencyOccupational: ['', Validators.required],
-      shadeFrequencyOccupational: ['', Validators.required],
-
-      recreationalExposureChildhood: ['', Validators.required],
-      weeksPerYearRecreational: ['', [Validators.required, Validators.min(1)]],
-      yearsBackRecreational: ['', [Validators.required, Validators.min(1)]],
-      sunscreenFrequencyRecreational: ['', Validators.required],
-      hatFrequencyRecreational: ['', Validators.required],
-      clothingFrequencyRecreational: ['', Validators.required],
-      shadeFrequencyRecreational: ['', Validators.required],
-
-      intentionalExposureChildhood: ['', Validators.required],
-      weeksPerYearIntentional: ['', [Validators.required, Validators.min(1)]],
-      yearsBackIntentional: ['', [Validators.required, Validators.min(1)]],
-      sunscreenFrequencyIntentional: ['', Validators.required],
-      hatFrequencyIntentional: ['', Validators.required],
-      clothingFrequencyIntentional: ['', Validators.required],
-      shadeFrequencyIntentional: ['', Validators.required],
-    });
-
-    this.questionnaireForm4060 = this.fb012.group({
-      name: ['4060'],
-      occupationalExposureChildhood: ['', Validators.required],
-      weeksPerYearOccupational: ['', [Validators.required, Validators.min(1)]],
-      yearsBackOccupational: ['', [Validators.required, Validators.min(1)]],
-      sunscreenFrequencyOccupational: ['', Validators.required],
-      hatFrequencyOccupational: ['', Validators.required],
-      clothingFrequencyOccupational: ['', Validators.required],
-      shadeFrequencyOccupational: ['', Validators.required],
-
-      recreationalExposureChildhood: ['', Validators.required],
-      weeksPerYearRecreational: ['', [Validators.required, Validators.min(1)]],
-      yearsBackRecreational: ['', [Validators.required, Validators.min(1)]],
-      sunscreenFrequencyRecreational: ['', Validators.required],
-      hatFrequencyRecreational: ['', Validators.required],
-      clothingFrequencyRecreational: ['', Validators.required],
-      shadeFrequencyRecreational: ['', Validators.required],
-
-      intentionalExposureChildhood: ['', Validators.required],
-      weeksPerYearIntentional: ['', [Validators.required, Validators.min(1)]],
-      yearsBackIntentional: ['', [Validators.required, Validators.min(1)]],
-      sunscreenFrequencyIntentional: ['', Validators.required],
-      hatFrequencyIntentional: ['', Validators.required],
-      clothingFrequencyIntentional: ['', Validators.required],
-      shadeFrequencyIntentional: ['', Validators.required],
-    });
-
-    this.questionnaireForm6080 = this.fb012.group({
-      name: ['6080'],
-      occupationalExposureChildhood: ['', Validators.required],
-      weeksPerYearOccupational: ['', [Validators.required, Validators.min(1)]],
-      yearsBackOccupational: ['', [Validators.required, Validators.min(1)]],
-      sunscreenFrequencyOccupational: ['', Validators.required],
-      hatFrequencyOccupational: ['', Validators.required],
-      clothingFrequencyOccupational: ['', Validators.required],
-      shadeFrequencyOccupational: ['', Validators.required],
-
-      recreationalExposureChildhood: ['', Validators.required],
-      weeksPerYearRecreational: ['', [Validators.required, Validators.min(1)]],
-      yearsBackRecreational: ['', [Validators.required, Validators.min(1)]],
-      sunscreenFrequencyRecreational: ['', Validators.required],
-      hatFrequencyRecreational: ['', Validators.required],
-      clothingFrequencyRecreational: ['', Validators.required],
-      shadeFrequencyRecreational: ['', Validators.required],
-
-      intentionalExposureChildhood: ['', Validators.required],
-      weeksPerYearIntentional: ['', [Validators.required, Validators.min(1)]],
-      yearsBackIntentional: ['', [Validators.required, Validators.min(1)]],
-      sunscreenFrequencyIntentional: ['', Validators.required],
-      hatFrequencyIntentional: ['', Validators.required],
-      clothingFrequencyIntentional: ['', Validators.required],
-      shadeFrequencyIntentional: ['', Validators.required],
-    });
-
-    this.questionnaireForm80plus = this.fb012.group({
-      name: ['80plus'],
-      occupationalExposureChildhood: ['', Validators.required],
-      weeksPerYearOccupational: ['', [Validators.required, Validators.min(1)]],
-      yearsBackOccupational: ['', [Validators.required, Validators.min(1)]],
-      sunscreenFrequencyOccupational: ['', Validators.required],
-      hatFrequencyOccupational: ['', Validators.required],
-      clothingFrequencyOccupational: ['', Validators.required],
-      shadeFrequencyOccupational: ['', Validators.required],
-
-      recreationalExposureChildhood: ['', Validators.required],
-      weeksPerYearRecreational: ['', [Validators.required, Validators.min(1)]],
-      yearsBackRecreational: ['', [Validators.required, Validators.min(1)]],
-      sunscreenFrequencyRecreational: ['', Validators.required],
-      hatFrequencyRecreational: ['', Validators.required],
-      clothingFrequencyRecreational: ['', Validators.required],
-      shadeFrequencyRecreational: ['', Validators.required],
-
-      intentionalExposureChildhood: ['', Validators.required],
-      weeksPerYearIntentional: ['', [Validators.required, Validators.min(1)]],
-      yearsBackIntentional: ['', [Validators.required, Validators.min(1)]],
-      sunscreenFrequencyIntentional: ['', Validators.required],
-      hatFrequencyIntentional: ['', Validators.required],
-      clothingFrequencyIntentional: ['', Validators.required],
-      shadeFrequencyIntentional: ['', Validators.required],
+  private initializeForms() {
+    const ageRanges = ['012', '1319', '2040', '4060', '6080', '80plus'];
+    ageRanges.forEach((range) => {
+      this.forms[range] = this.createAgeRangeForm(range);
     });
   }
 
-  disableFormFields(formGroup: FormGroup): void {
-    Object.keys(formGroup.controls).forEach((key) => {
-      formGroup.get(key)?.disable();
+  private createAgeRangeForm(name: string): FormGroup {
+    return this.fb.group({
+      name: [name],
+      occupationalExposureChildhood: ['no', Validators.required],
+      recreationalExposureChildhood: ['no', Validators.required],
+      intentionalExposureChildhood: ['no', Validators.required],
+
+      weeksPerYearOccupational: [''],
+      yearsBackOccupational: [''],
+      sunscreenFrequencyOccupational: [''],
+      hatFrequencyOccupational: [''],
+      clothingFrequencyOccupational: [''],
+      shadeFrequencyOccupational: [''],
+
+      weeksPerYearRecreational: [''],
+      yearsBackRecreational: [''],
+      sunscreenFrequencyRecreational: [''],
+      hatFrequencyRecreational: [''],
+      clothingFrequencyRecreational: [''],
+      shadeFrequencyRecreational: [''],
+
+      weeksPerYearIntentional: [''],
+      yearsBackIntentional: [''],
+      sunscreenFrequencyIntentional: [''],
+      hatFrequencyIntentional: [''],
+      clothingFrequencyIntentional: [''],
+      shadeFrequencyIntentional: [''],
     });
   }
 
   ngOnInit() {
-    let user_help = sessionStorage.getItem('auth-user');
-    if (user_help) {
-      this.user = JSON.parse(user_help);
-    }
-
-    if (this.user.userType == 'Doctor' || this.user.userType == 'Admin') {
-      this.disableFormFields(this.questionnaireForm012);
-      this.disableFormFields(this.questionnaireForm1319);
-      this.disableFormFields(this.questionnaireForm2040);
-      this.disableFormFields(this.questionnaireForm4060);
-      this.disableFormFields(this.questionnaireForm6080);
-      this.disableFormFields(this.questionnaireForm80plus);
-    }
-
-    let f012 = sessionStorage.getItem('012');
-
-    if (f012) {
-      this.questionnaireForm012.patchValue(JSON.parse(f012));
-    }
-
-    let f1319 = sessionStorage.getItem('1319');
-
-    if (f1319) {
-      this.questionnaireForm1319.patchValue(JSON.parse(f1319));
-    }
-
-    let f2040 = sessionStorage.getItem('2040');
-
-    if (f2040) {
-      this.questionnaireForm2040.patchValue(JSON.parse(f2040));
-    }
-
-    let f4060 = sessionStorage.getItem('4060');
-
-    if (f4060) {
-      this.questionnaireForm4060.patchValue(JSON.parse(f4060));
-    }
-
-    let f6080 = sessionStorage.getItem('6080');
-
-    if (f6080) {
-      this.questionnaireForm6080.patchValue(JSON.parse(f6080));
-    }
-
-    let f80plus = sessionStorage.getItem('80plus');
-
-    if (f80plus) {
-      this.questionnaireForm80plus.patchValue(JSON.parse(f80plus));
-    }
-    // else this.questionnaireForm012={}
-    if (this.currentForm) {
-      this.currentForm
-        .get('occupationalExposureChildhood')
-        .valueChanges.subscribe((value: any) => {
-          if (value === 'yes') {
-            this.setOccupationalValidators();
-          } else {
-            this.clearOccupationalValidators();
-          }
-        });
-
-      // Praćenje promene za recreationalExposureChildhood
-      this.currentForm
-        .get('recreationalExposureChildhood')
-        .valueChanges.subscribe((value: any) => {
-          if (value === 'yes') {
-            this.setRecreationalValidators();
-          } else {
-            this.clearRecreationalValidators();
-          }
-        });
-
-      // Praćenje promene za intentionalExposureChildhood
-      this.currentForm
-        .get('intentionalExposureChildhood')
-        .valueChanges.subscribe((value: any) => {
-          if (value === 'yes') {
-            this.setIntentionalValidators();
-          } else {
-            this.clearIntentionalValidators();
-          }
-        });
+    this.loadUser();
+    this.handleUserPermissions();
+    this.loadSavedData();
+    if (this.exposureData) {
+      this.populateFormsWithData();
     }
     this.switchPages();
   }
 
-  // Postavljanje validacija za occupational polja
-  setOccupationalValidators() {
-    this.currentForm
-      .get('weeksPerYearOccupational')
-      .setValidators([Validators.required, Validators.min(1)]);
-    this.currentForm
-      .get('yearsBackOccupational')
-      .setValidators([Validators.required, Validators.min(1)]);
-    this.currentForm
-      .get('sunscreenFrequencyOccupational')
-      .setValidators(Validators.required);
-    this.currentForm
-      .get('hatFrequencyOccupational')
-      .setValidators(Validators.required);
-    this.currentForm
-      .get('clothingFrequencyOccupational')
-      .setValidators(Validators.required);
-    this.currentForm
-      .get('shadeFrequencyOccupational')
-      .setValidators(Validators.required);
-
-    // Ponovno evaluiranje forme kako bi se primenili validatori
-    this.currentForm.get('weeksPerYearOccupational').updateValueAndValidity();
-    this.currentForm.get('yearsBackOccupational').updateValueAndValidity();
-    this.currentForm
-      .get('sunscreenFrequencyOccupational')
-      .updateValueAndValidity();
-    this.currentForm.get('hatFrequencyOccupational').updateValueAndValidity();
-    this.currentForm
-      .get('clothingFrequencyOccupational')
-      .updateValueAndValidity();
-    this.currentForm.get('shadeFrequencyOccupational').updateValueAndValidity();
+  private loadUser() {
+    const userSession = sessionStorage.getItem('auth-user');
+    if (userSession) {
+      this.user = JSON.parse(userSession);
+    }
   }
 
-  clearOccupationalValidators() {
-    this.currentForm.get('weeksPerYearOccupational').clearValidators();
-    this.currentForm.get('yearsBackOccupational').clearValidators();
-    this.currentForm.get('sunscreenFrequencyOccupational').clearValidators();
-    this.currentForm.get('hatFrequencyOccupational').clearValidators();
-    this.currentForm.get('clothingFrequencyOccupational').clearValidators();
-    this.currentForm.get('shadeFrequencyOccupational').clearValidators();
-
-    this.currentForm.get('weeksPerYearOccupational').updateValueAndValidity();
-    this.currentForm.get('yearsBackOccupational').updateValueAndValidity();
-    this.currentForm
-      .get('sunscreenFrequencyOccupational')
-      .updateValueAndValidity();
-    this.currentForm.get('hatFrequencyOccupational').updateValueAndValidity();
-    this.currentForm
-      .get('clothingFrequencyOccupational')
-      .updateValueAndValidity();
-    this.currentForm.get('shadeFrequencyOccupational').updateValueAndValidity();
+  private handleUserPermissions() {
+    if (this.user.userType === 'Doctor' || this.user.userType === 'Admin') {
+      Object.values(this.forms).forEach((form) => {
+        this.disableFormFields(form);
+      });
+    }
   }
 
-  // Slično za rekreativnu izloženost
-  setRecreationalValidators() {
-    this.currentForm
-      .get('weeksPerYearRecreational')
-      .setValidators([Validators.required, Validators.min(1)]);
-    this.currentForm
-      .get('yearsBackRecreational')
-      .setValidators([Validators.required, Validators.min(1)]);
-    this.currentForm
-      .get('sunscreenFrequencyRecreational')
-      .setValidators(Validators.required);
-    this.currentForm
-      .get('hatFrequencyRecreational')
-      .setValidators(Validators.required);
-    this.currentForm
-      .get('clothingFrequencyRecreational')
-      .setValidators(Validators.required);
-    this.currentForm
-      .get('shadeFrequencyRecreational')
-      .setValidators(Validators.required);
+  private loadSavedData() {
+    Object.keys(this.forms).forEach((key) => {
+      const savedData = sessionStorage.getItem(key);
+      if (savedData) {
+        this.forms[key].patchValue(JSON.parse(savedData));
 
-    this.currentForm.get('weeksPerYearRecreational').updateValueAndValidity();
-    this.currentForm.get('yearsBackRecreational').updateValueAndValidity();
-    this.currentForm
-      .get('sunscreenFrequencyRecreational')
-      .updateValueAndValidity();
-    this.currentForm.get('hatFrequencyRecreational').updateValueAndValidity();
-    this.currentForm
-      .get('clothingFrequencyRecreational')
-      .updateValueAndValidity();
-    this.currentForm.get('shadeFrequencyRecreational').updateValueAndValidity();
+        this.applyValidatorsBasedOnSavedData(this.forms[key]);
+      }
+    });
+  }
+  private populateFormsWithData() {
+    console.log(this.exposureData);
+
+    if (!this.exposureData) return;
+
+    const dataMap = {
+      '012': this.exposureData.sunExposureFromAge0to12,
+      '1319': this.exposureData.sunExposureFromAge13to19,
+      '2040': this.exposureData.sunExposureFromAge20to40,
+      '4060': this.exposureData.sunExposureFromAge40to60,
+      '6080': this.exposureData.sunExposureFromAge60to80,
+      '80plus': this.exposureData.sunExposureAfterAge80,
+    };
+    type FormKeys = '012' | '1319' | '2040' | '4060' | '6080' | '80plus';
+
+    Object.keys(dataMap).forEach((key) => {
+      const typedKey = key as FormKeys;
+      console.log({ dataMap, typedKey });
+
+      if (dataMap[typedKey] && this.forms[typedKey]) {
+        this.populateExposureForm(this.forms[typedKey], dataMap[typedKey]);
+      }
+    });
   }
 
-  clearRecreationalValidators() {
-    this.currentForm.get('weeksPerYearRecreational').clearValidators();
-    this.currentForm.get('yearsBackRecreational').clearValidators();
-    this.currentForm.get('sunscreenFrequencyRecreational').clearValidators();
-    this.currentForm.get('hatFrequencyRecreational').clearValidators();
-    this.currentForm.get('clothingFrequencyRecreational').clearValidators();
-    this.currentForm.get('shadeFrequencyRecreational').clearValidators();
+  private populateExposureForm(form: FormGroup, exposureDataString: string) {
+    try {
+      const exposureData = JSON.parse(exposureDataString);
 
-    this.currentForm.get('weeksPerYearRecreational').updateValueAndValidity();
-    this.currentForm.get('yearsBackRecreational').updateValueAndValidity();
-    this.currentForm
-      .get('sunscreenFrequencyRecreational')
-      .updateValueAndValidity();
-    this.currentForm.get('hatFrequencyRecreational').updateValueAndValidity();
-    this.currentForm
-      .get('clothingFrequencyRecreational')
-      .updateValueAndValidity();
-    this.currentForm.get('shadeFrequencyRecreational').updateValueAndValidity();
+      const occupational = exposureData.find(
+        (item: any) => item.name === 'occupational_exposure'
+      );
+      const recreational = exposureData.find(
+        (item: any) => item.name === 'recreational_exposure'
+      );
+      const intentional = exposureData.find(
+        (item: any) => item.name === 'intentional_exposure'
+      );
+      console.log(exposureData);
+
+      if (occupational) {
+        form.patchValue({
+          occupationalExposureChildhood: occupational.info.exposed,
+          weeksPerYearOccupational: occupational.info.weeksPerYear,
+          yearsBackOccupational: occupational.info.yearsBack,
+          sunscreenFrequencyOccupational: occupational.info.sunscreenFrequency,
+          hatFrequencyOccupational: occupational.info.hatFrequency,
+          clothingFrequencyOccupational: occupational.info.clothingFrequency,
+          shadeFrequencyOccupational: occupational.info.shadeFrequency,
+        });
+      }
+
+      if (recreational) {
+        form.patchValue({
+          recreationalExposureChildhood: recreational.info.exposed,
+          weeksPerYearRecreational: recreational.info.weeksPerYear,
+          yearsBackRecreational: recreational.info.yearsBack,
+          sunscreenFrequencyRecreational: recreational.info.sunscreenFrequency,
+          hatFrequencyRecreational: recreational.info.hatFrequency,
+          clothingFrequencyRecreational: recreational.info.clothingFrequency,
+          shadeFrequencyRecreational: recreational.info.shadeFrequency,
+        });
+      }
+
+      if (intentional) {
+        form.patchValue({
+          intentionalExposureChildhood: intentional.info.exposed,
+          weeksPerYearIntentional: intentional.info.weeksPerYear,
+          yearsBackIntentional: intentional.info.yearsBack,
+          sunscreenFrequencyIntentional: intentional.info.sunscreenFrequency,
+          hatFrequencyIntentional: intentional.info.hatFrequency,
+          clothingFrequencyIntentional: intentional.info.clothingFrequency,
+          shadeFrequencyIntentional: intentional.info.shadeFrequency,
+        });
+      }
+    } catch (error) {
+      console.error('Error parsing exposure data:', error);
+    }
   }
 
-  // Isti princip za namernu izloženost
-  setIntentionalValidators() {
-    this.currentForm
-      .get('weeksPerYearIntentional')
-      .setValidators([Validators.required, Validators.min(1)]);
-    this.currentForm
-      .get('yearsBackIntentional')
-      .setValidators([Validators.required, Validators.min(1)]);
-    this.currentForm
-      .get('sunscreenFrequencyIntentional')
-      .setValidators(Validators.required);
-    this.currentForm
-      .get('hatFrequencyIntentional')
-      .setValidators(Validators.required);
-    this.currentForm
-      .get('clothingFrequencyIntentional')
-      .setValidators(Validators.required);
-    this.currentForm
-      .get('shadeFrequencyIntentional')
-      .setValidators(Validators.required);
+  private applyValidatorsBasedOnSavedData(form: FormGroup) {
+    const occupationalValue = form.get('occupationalExposureChildhood')?.value;
+    if (occupationalValue === 'yes') {
+      this.setValidatorsForForm(form, 'occupational');
+    }
 
-    this.currentForm.get('weeksPerYearIntentional').updateValueAndValidity();
-    this.currentForm.get('yearsBackIntentional').updateValueAndValidity();
-    this.currentForm
-      .get('sunscreenFrequencyIntentional')
-      .updateValueAndValidity();
-    this.currentForm.get('hatFrequencyIntentional').updateValueAndValidity();
-    this.currentForm
-      .get('clothingFrequencyIntentional')
-      .updateValueAndValidity();
-    this.currentForm.get('shadeFrequencyIntentional').updateValueAndValidity();
+    const recreationalValue = form.get('recreationalExposureChildhood')?.value;
+    if (recreationalValue === 'yes') {
+      this.setValidatorsForForm(form, 'recreational');
+    }
+
+    const intentionalValue = form.get('intentionalExposureChildhood')?.value;
+    if (intentionalValue === 'yes') {
+      this.setValidatorsForForm(form, 'intentional');
+    }
   }
 
-  clearIntentionalValidators() {
-    this.currentForm.get('weeksPerYearIntentional').clearValidators();
-    this.currentForm.get('yearsBackIntentional').clearValidators();
-    this.currentForm.get('sunscreenFrequencyIntentional').clearValidators();
-    this.currentForm.get('hatFrequencyIntentional').clearValidators();
-    this.currentForm.get('clothingFrequencyIntentional').clearValidators();
-    this.currentForm.get('shadeFrequencyIntentional').clearValidators();
-
-    this.currentForm.get('weeksPerYearIntentional').updateValueAndValidity();
-    this.currentForm.get('yearsBackIntentional').updateValueAndValidity();
-    this.currentForm
-      .get('sunscreenFrequencyIntentional')
-      .updateValueAndValidity();
-    this.currentForm.get('hatFrequencyIntentional').updateValueAndValidity();
-    this.currentForm
-      .get('clothingFrequencyIntentional')
-      .updateValueAndValidity();
-    this.currentForm.get('shadeFrequencyIntentional').updateValueAndValidity();
+  private disableFormFields(formGroup: FormGroup): void {
+    Object.keys(formGroup.controls).forEach((key) => {
+      formGroup.get(key)?.disable();
+    });
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -482,110 +224,239 @@ export class AgeDifferenceExposureComponent
         this.currentForm.value.name,
         JSON.stringify(this.currentForm.value)
       );
-    }
-    //alert(this.currentForm)
-    if (this.currentForm) {
-      // emit samo ako nes ima da se emit.
-      //currentForm je ono sto je prethodno popunjavano.
-      // za poslednji deo idemo u ngOnDestroy
+
       this.newItemEvent.emit(this.currentForm);
+      this.checkFormValidation();
     }
     this.switchPages();
   }
 
   switchPages() {
-    switch (this.currPage) {
-      case 5:
-        this.currentForm = this.questionnaireForm012;
-        break;
-      case 6:
-        this.currentForm = this.questionnaireForm1319;
-        break;
-      case 7:
-        this.currentForm = this.questionnaireForm2040;
-        break;
-      case 8:
-        this.currentForm = this.questionnaireForm4060;
-        break;
-      case 9:
-        this.currentForm = this.questionnaireForm6080;
-        break;
-      case 10:
-        this.currentForm = this.questionnaireForm80plus;
-    }
+    this.unsubscribeFromCurrentForm();
 
-    this.currentForm
-      .get('occupationalExposureChildhood')
-      .valueChanges.subscribe((value: any) => {
-        if (value === 'yes') {
-          this.setOccupationalValidators();
-        } else {
-          this.clearOccupationalValidators();
-        }
-      });
+    const ageRanges = ['012', '1319', '2040', '4060', '6080', '80plus'];
+    const formKey = ageRanges[this.currPage - 5];
 
-    // Praćenje promene za recreationalExposureChildhood
-    this.currentForm
-      .get('recreationalExposureChildhood')
-      .valueChanges.subscribe((value: any) => {
-        if (value === 'yes') {
-          this.setRecreationalValidators();
-        } else {
-          this.clearRecreationalValidators();
-        }
-      });
-
-    // Praćenje promene za intentionalExposureChildhood
-    this.currentForm
-      .get('intentionalExposureChildhood')
-      .valueChanges.subscribe((value: any) => {
-        if (value === 'yes') {
-          this.setIntentionalValidators();
-        } else {
-          this.clearIntentionalValidators();
-        }
-      });
-  }
-
-  getHeadline() {
-    switch (this.currPage) {
-      case 5:
-        return 'TOKOM DETINJSTVA (0 to 12 god)';
-      case 6:
-        return 'TOKOM PERIODA ADOLESCENCIJE (13 to 19 god)';
-      case 7:
-        return 'IZMEĐU 20 I 40 GODINA STAROSTI';
-      case 8:
-        return 'IZMEĐU 40 I 60 GODINA STAROSTI';
-      case 9:
-        return 'IZMEĐU 60 AND 80 GODINA STAROSTI';
-      case 10:
-        return 'PREKO 80 GODINA STAROSTI';
-      default:
-        return '';
+    if (formKey && this.forms[formKey]) {
+      this.currentForm = this.forms[formKey];
+      this.setupCurrentFormValidation();
     }
   }
-  onSubmit() {}
+
+  private setupCurrentFormValidation() {
+    if (!this.currentForm) return;
+
+    // Subscribe to occupational exposure changes
+    this.subscriptions.push(
+      this.currentForm
+        .get('occupationalExposureChildhood')!
+        .valueChanges.subscribe((value: any) => {
+          if (value === 'yes') {
+            this.setValidatorsGroup('occupational');
+          } else {
+            this.clearValidatorsGroup('occupational');
+          }
+        })
+    );
+
+    this.subscriptions.push(
+      this.currentForm
+        .get('recreationalExposureChildhood')!
+        .valueChanges.subscribe((value: any) => {
+          if (value === 'yes') {
+            this.setValidatorsGroup('recreational');
+          } else {
+            this.clearValidatorsGroup('recreational');
+          }
+        })
+    );
+
+    this.subscriptions.push(
+      this.currentForm
+        .get('intentionalExposureChildhood')!
+        .valueChanges.subscribe((value: any) => {
+          if (value === 'yes') {
+            this.setValidatorsGroup('intentional');
+          } else {
+            this.clearValidatorsGroup('intentional');
+          }
+        })
+    );
+
+    this.subscriptions.push(
+      this.currentForm.valueChanges.subscribe(() => {
+        this.checkFormValidation();
+      })
+    );
+  }
+
+  private unsubscribeFromCurrentForm() {
+    this.subscriptions.forEach((sub) => sub.unsubscribe());
+    this.subscriptions = [];
+  }
+
+  private setValidatorsGroup(
+    type: 'occupational' | 'recreational' | 'intentional'
+  ) {
+    if (!this.currentForm) return;
+    this.setValidatorsForForm(this.currentForm, type);
+  }
+
+  private setValidatorsForForm(
+    form: FormGroup,
+    type: 'occupational' | 'recreational' | 'intentional'
+  ) {
+    const fields = [
+      `weeksPerYear${this.capitalize(type)}`,
+      `yearsBack${this.capitalize(type)}`,
+      `sunscreenFrequency${this.capitalize(type)}`,
+      `hatFrequency${this.capitalize(type)}`,
+      `clothingFrequency${this.capitalize(type)}`,
+      `shadeFrequency${this.capitalize(type)}`,
+    ];
+
+    fields.forEach((fieldName) => {
+      const field = form.get(fieldName);
+      if (field) {
+        if (
+          fieldName.includes('weeksPerYear') ||
+          fieldName.includes('yearsBack')
+        ) {
+          field.setValidators([Validators.required, Validators.min(1)]);
+        } else {
+          field.setValidators(Validators.required);
+        }
+        field.updateValueAndValidity();
+      }
+    });
+  }
+
+  private clearValidatorsGroup(
+    type: 'occupational' | 'recreational' | 'intentional'
+  ) {
+    if (!this.currentForm) return;
+
+    const fields = [
+      `weeksPerYear${this.capitalize(type)}`,
+      `yearsBack${this.capitalize(type)}`,
+      `sunscreenFrequency${this.capitalize(type)}`,
+      `hatFrequency${this.capitalize(type)}`,
+      `clothingFrequency${this.capitalize(type)}`,
+      `shadeFrequency${this.capitalize(type)}`,
+    ];
+
+    fields.forEach((fieldName) => {
+      const field = this.currentForm!.get(fieldName);
+      if (field) {
+        field.clearValidators();
+        field.updateValueAndValidity();
+      }
+    });
+  }
+
+  private capitalize(str: string): string {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  }
+
+  private checkFormValidation() {
+    if (!this.currentForm) return;
+
+    const isValid = this.currentForm.valid;
+    const formName = this.currentForm.get('name')?.value;
+
+    this.formValidationEvent.emit({
+      valid: isValid,
+      formName: formName,
+    });
+  }
+
+  getHeadline(): string {
+    const headlines: { [key: number]: string } = {
+      5: 'TOKOM DETINJSTVA (0 to 12 god)',
+      6: 'TOKOM PERIODA ADOLESCENCIJE (13 to 19 god)',
+      7: 'IZMEĐU 20 I 40 GODINA STAROSTI',
+      8: 'IZMEĐU 40 I 60 GODINA STAROSTI',
+      9: 'IZMEĐU 60 AND 80 GODINA STAROSTI',
+      10: 'PREKO 80 GODINA STAROSTI',
+    };
+
+    return headlines[this.currPage] || '';
+  }
+
+  // Getter methods za backward compatibility
+  get questionnaireForm012() {
+    return this.forms['012'];
+  }
+
+  get questionnaireForm1319() {
+    return this.forms['1319'];
+  }
+
+  get questionnaireForm2040() {
+    return this.forms['2040'];
+  }
+
+  get questionnaireForm4060() {
+    return this.forms['4060'];
+  }
+
+  get questionnaireForm6080() {
+    return this.forms['6080'];
+  }
+
+  get questionnaireForm80plus() {
+    return this.forms['80plus'];
+  }
+
+  onSubmit() {
+    // Implementation if needed
+  }
+
   ngOnDestroy() {
-    this.currentForm.markAllAsTouched();
+    this.unsubscribeFromCurrentForm();
+
     if (this.currentForm) {
+      this.currentForm.markAllAsTouched();
       sessionStorage.setItem(
         this.currentForm.value.name,
         JSON.stringify(this.currentForm.value)
       );
     }
+
     this.newItemEvent.emit(this.currentForm);
-    // if (this.currentForm) {
-    //   if (!this.currentForm.valid) {
-    //     this.toster.warning("Niste popunili sva polja sa prethodne stranice!")
-    //   }
-    // }
   }
 
   testClick() {
-    this.currentForm.markAllAsTouched();
-    if (!this.currentForm.valid) {
-      this.toster.error('Niste popunili sva polja.');
+    if (this.currentForm) {
+      this.currentForm.markAllAsTouched();
+      if (!this.currentForm.valid) {
+        this.toster.error('Niste popunili sva polja.');
+      }
     }
+  }
+
+  // Legacy methods for backward compatibility (if needed)
+  setOccupationalValidators() {
+    this.setValidatorsGroup('occupational');
+  }
+
+  clearOccupationalValidators() {
+    this.clearValidatorsGroup('occupational');
+  }
+
+  setRecreationalValidators() {
+    this.setValidatorsGroup('recreational');
+  }
+
+  clearRecreationalValidators() {
+    this.clearValidatorsGroup('recreational');
+  }
+
+  setIntentionalValidators() {
+    this.setValidatorsGroup('intentional');
+  }
+
+  clearIntentionalValidators() {
+    this.clearValidatorsGroup('intentional');
   }
 }

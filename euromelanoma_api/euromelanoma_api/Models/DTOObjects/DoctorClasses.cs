@@ -17,7 +17,7 @@
             public string OtherCarcinomaDescription { get; set; }
             public string SkinExaminationToday { get; set; }
             public bool DermoscopyPerformed { get; set; }
-            public int NevusCount { get; set; }
+            public string NevusCount { get; set; }
             public bool MoreThanTwentyNevusOnHands { get; set; }
             public bool AtypicalNeviPresence { get; set; }
             public int? AtypicalNeviCount { get; set; }

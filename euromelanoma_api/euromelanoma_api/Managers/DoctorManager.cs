@@ -73,6 +73,10 @@ namespace euromelanoma_api.Managers
 
             // Save to database
             _context.doctor_notes.Add(doctorNotes);
+            var questionnaire = _context.Questionnaires.FirstOrDefault(a => a.QuestionnaireID == doctorNotes.questionnaireID);
+            var appt = _context.ScheduledAppointments
+           .FirstOrDefault(a => a.PatientID == questionnaire.PatientID && a.Status == "Scheduled");
+            if (appt != null) { appt.Status = "Finished"; }
             _context.SaveChanges();
 
             return "Doctor notes added successfully.";
@@ -89,8 +93,8 @@ namespace euromelanoma_api.Managers
             
             return _context.Questionnaires.Where(a => a.PatientID==patientId).ToList();
         }
-
-        
+        public List<QuestionnaireDataPatient> GetQuestionnairesById(int questionnaireId) => _context.QuestionnaireDataPatient.Where(a => a.questionnaireID == questionnaireId)?.ToList();
+        public List<doctor_notes> GetDoctorNotesByQuestionnaireId(int questionnaireId) => _context.doctor_notes.Where(a => a.questionnaireID == questionnaireId)?.ToList();
 
     }
 }

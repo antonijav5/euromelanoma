@@ -13,7 +13,7 @@ namespace euromelanoma_api.Models.EuromelanomaContext
 {
     public partial interface IEUROMELANOMAContextProcedures
     {
-        Task<List<GetAvailableSlotsResult>> GetAvailableSlotsAsync(int? CityID, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
-        Task<List<SchedulePatientAppointmentResult>> SchedulePatientAppointmentAsync(int? PatientID, string PhoneNumber, int? CityID, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
+        Task<List<GetAvailableSlotsResult>> GetAvailableSlotsAsync(int? cityID, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
+        Task<List<SchedulePatientAppointmentResult>> SchedulePatientAppointmentAsync(int? patientID, string phoneNumber, int? cityID, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
     }
 }

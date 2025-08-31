@@ -3,7 +3,7 @@
   margin: 20px auto;
   padding-left: 20px;
   padding-right: 20px;
-  height: 790px;
+  /* height: 790px; */
   overflow-y: scroll;
   position: relative; /* Potrebno za pozicioniranje sticky elemenata unutar mat-card */
 }
@@ -80,3 +80,16 @@ p {
 .mt-20 {
   margin-top: 20px;
 }
+
+.euromelanoma-img {
+  width: 330px;
+  height: 240px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+  object-fit: cover;
+}
+/* .h-520 {
+  height: 520px;
+} */

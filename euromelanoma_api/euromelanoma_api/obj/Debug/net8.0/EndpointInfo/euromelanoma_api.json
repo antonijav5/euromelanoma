@@ -483,6 +483,86 @@
         }
       }
     },
+    "/api/Doctor/GetQuestionnairesById/{questionnaireId}": {
+      "get": {
+        "tags": [
+          "Doctor"
+        ],
+        "parameters": [
+          {
+            "name": "questionnaireId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/QuestionnaireDataPatientRequestResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QuestionnaireDataPatientRequestResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QuestionnaireDataPatientRequestResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Doctor/GetDoctorNotesByQuestionnaireId/{questionnaireId}": {
+      "get": {
+        "tags": [
+          "Doctor"
+        ],
+        "parameters": [
+          {
+            "name": "questionnaireId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/doctor_notesRequestResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/doctor_notesRequestResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/doctor_notesRequestResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/Patient/InsertQuestionnaire": {
       "post": {
         "tags": [
@@ -641,6 +721,46 @@
               "text/json": {
                 "schema": {
                   "$ref": "#/components/schemas/SchedulePatientAppointmentResultRequestResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Patient/GetDoctor/{slotId}": {
+      "get": {
+        "tags": [
+          "Patient"
+        ],
+        "parameters": [
+          {
+            "name": "slotId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/UsersRequestResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UsersRequestResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UsersRequestResult"
                 }
               }
             }
@@ -1073,8 +1193,8 @@
             "type": "boolean"
           },
           "nevusCount": {
-            "type": "integer",
-            "format": "int32"
+            "type": "string",
+            "nullable": true
           },
           "moreThanTwentyNevusOnHands": {
             "type": "boolean"
@@ -1588,6 +1708,39 @@
         },
         "additionalProperties": false
       },
+      "QuestionnaireDataPatientRequestResult": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "result": {
+            "$ref": "#/components/schemas/QuestionnaireDataPatient"
+          },
+          "resultList": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/QuestionnaireDataPatient"
+            },
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "nullable": true
+          },
+          "recordsFiltered": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "recordsTotal": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "Questionnaires": {
         "type": "object",
         "properties": {
@@ -1617,11 +1770,10 @@
           "consent": {
             "type": "boolean"
           },
-          "doctor": {
-            "$ref": "#/components/schemas/Users"
-          },
-          "patient": {
-            "$ref": "#/components/schemas/Users"
+          "completeDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
           },
           "questionnaireDataPatient": {
             "type": "array",
@@ -1779,6 +1931,8 @@
         "type": "object",
         "properties": {
           "poruka": {
+            "maxLength": 23,
+            "minLength": 0,
             "type": "string",
             "nullable": true
           },
@@ -2227,20 +2381,6 @@
             },
             "nullable": true
           },
-          "questionnairesDoctor": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Questionnaires"
-            },
-            "nullable": true
-          },
-          "questionnairesPatient": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Questionnaires"
-            },
-            "nullable": true
-          },
           "scheduledAppointments": {
             "type": "array",
             "items": {
@@ -2401,8 +2541,10 @@
             "type": "boolean"
           },
           "nevus_count": {
-            "type": "integer",
-            "format": "int32"
+            "maxLength": 50,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
           },
           "more_than_twenty_nevus_on_hands": {
             "type": "boolean"
@@ -2526,6 +2668,39 @@
           },
           "questionnaire": {
             "$ref": "#/components/schemas/Questionnaires"
+          }
+        },
+        "additionalProperties": false
+      },
+      "doctor_notesRequestResult": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "result": {
+            "$ref": "#/components/schemas/doctor_notes"
+          },
+          "resultList": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/doctor_notes"
+            },
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "nullable": true
+          },
+          "recordsFiltered": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "recordsTotal": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
           }
         },
         "additionalProperties": false

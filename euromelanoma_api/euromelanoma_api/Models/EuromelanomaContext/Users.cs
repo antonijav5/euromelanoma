@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace euromelanoma_api.Models.EuromelanomaContext;
 
-[Index("Email", Name = "UQ__Users__A9D10534E5664492", IsUnique = true)]
+[Index("Email", Name = "UQ__Users__A9D10534A1DB9EBD", IsUnique = true)]
 public partial class Users
 {
     [Key]
@@ -43,12 +43,6 @@ public partial class Users
 
     [InverseProperty("User")]
     public virtual ICollection<PasswordResetTokens> PasswordResetTokens { get; set; } = new List<PasswordResetTokens>();
-
-    [InverseProperty("Doctor")]
-    public virtual ICollection<Questionnaires> QuestionnairesDoctor { get; set; } = new List<Questionnaires>();
-
-    [InverseProperty("Patient")]
-    public virtual ICollection<Questionnaires> QuestionnairesPatient { get; set; } = new List<Questionnaires>();
 
     [InverseProperty("Patient")]
     public virtual ICollection<ScheduledAppointments> ScheduledAppointments { get; set; } = new List<ScheduledAppointments>();

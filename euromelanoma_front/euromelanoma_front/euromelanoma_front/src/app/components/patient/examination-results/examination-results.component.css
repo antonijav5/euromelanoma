@@ -1,62 +1,214 @@
-/* Opšte stilizacije */
-.risk-title {
-    font-size: 20px;
-    text-align: center;
-    color: #f44336; /* Crvena za visoki rizik */
+.results-container {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.risk-card {
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+  border-radius: 20px;
+  padding: 32px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  border-left: 6px solid;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100px;
+    height: 100px;
+    opacity: 0.05;
+    border-radius: 50%;
   }
-  
-  .risk-score-high {
-    padding: 20px;
-    background-color: #ffe0e0;
-    border: 1px solid #f44336;
-    border-radius: 8px;
-    margin-bottom: 20px;
-    text-align: center;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
   }
-  
-  .risk-score-low {
-    padding: 20px;
-    background-color: #e0f7fa;
-    border: 1px solid #009688;
-    border-radius: 8px;
-    margin-bottom: 20px;
+}
+
+.risk-high {
+  border-left-color: #f44336;
+  background: linear-gradient(135deg, #ffffff 0%, #ffebee 100%);
+
+  &::before {
+    background: #f44336;
   }
-  
-  .schedule-dialog {
-    padding: 20px;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-text-align: center;
+
+  .risk-icon {
+    background: rgba(244, 67, 54, 0.1);
+    color: #f44336;
   }
-  
-  .dialog-title {
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 20px;
-    text-align: center;
-    color: #023162;
+
+  .risk-title {
+    color: #c62828;
   }
-  
-  .full-width {
-    width: 100%;
+
+  .score-value {
+    background: linear-gradient(135deg, #f44336, #d32f2f);
+    color: white;
   }
-  
-  .form-field {
-    margin-bottom: 20px;
+}
+
+.risk-low {
+  border-left-color: #4caf50;
+  background: linear-gradient(135deg, #ffffff 0%, #e8f5e9 100%);
+
+  &::before {
+    background: #4caf50;
   }
-  
-  .confirmation {
-    padding: 20px;
-    background-color: #e8f5e9;
-    border: 1px solid #4caf50;
-    border-radius: 8px;
-    margin-top: 20px;
-    text-align: center;
-  }
-  
-  .confirmation-title {
-    font-size: 20px;
-    margin-bottom: 16px;
+
+  .risk-icon {
+    background: rgba(76, 175, 80, 0.1);
     color: #4caf50;
   }
-  
+
+  .risk-title {
+    color: #2e7d32;
+  }
+
+  .score-value {
+    background: linear-gradient(135deg, #4caf50, #388e3c);
+    color: white;
+  }
+}
+
+.risk-icon {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 24px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+
+  mat-icon {
+    font-size: 36px;
+    width: 36px;
+    height: 36px;
+  }
+}
+
+.risk-content {
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+.risk-title {
+  font-size: 28px;
+  font-weight: 700;
+  margin: 0 0 16px 0;
+  letter-spacing: -0.5px;
+}
+
+.risk-description {
+  font-size: 16px;
+  color: #666;
+  line-height: 1.6;
+  margin: 0 0 24px 0;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.risk-score-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(0, 0, 0, 0.03);
+  padding: 12px 20px;
+  border-radius: 50px;
+  margin: 20px 0;
+}
+
+.score-label {
+  font-size: 16px;
+  color: #666;
+  font-weight: 500;
+}
+
+.score-value {
+  font-size: 24px;
+  font-weight: 800;
+  padding: 8px 16px;
+  border-radius: 12px;
+  min-width: 50px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.risk-actions {
+  text-align: center;
+  margin-top: 24px;
+}
+
+.schedule-btn-high {
+  background: linear-gradient(135deg, #f44336, #d32f2f) !important;
+  color: white !important;
+  padding: 16px 32px !important;
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  border-radius: 50px !important;
+  text-transform: none !important;
+  box-shadow: 0 4px 16px rgba(244, 67, 54, 0.3) !important;
+  transition: all 0.3s ease !important;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(244, 67, 54, 0.4) !important;
+  }
+
+  mat-icon {
+    margin-right: 8px !important;
+  }
+}
+
+.info-btn-low {
+  border: 2px solid #4caf50 !important;
+  color: #4caf50 !important;
+  padding: 16px 32px !important;
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  border-radius: 50px !important;
+  text-transform: none !important;
+  transition: all 0.3s ease !important;
+
+  &:hover {
+    background: #4caf50 !important;
+    color: white !important;
+    transform: translateY(-2px);
+  }
+
+  mat-icon {
+    margin-right: 8px !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .results-container {
+    padding: 16px;
+  }
+
+  .risk-card {
+    padding: 24px;
+  }
+
+  .risk-title {
+    font-size: 24px;
+  }
+
+  .risk-description {
+    font-size: 14px;
+  }
+
+  .schedule-btn-high,
+  .info-btn-low {
+    padding: 14px 24px !important;
+    font-size: 14px !important;
+  }
+}

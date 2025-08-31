@@ -180,18 +180,16 @@ namespace euromelanoma_api.Managers
 
             var token = GeneratePasswordResetToken();
 
-            // Skladišti token u bazu podataka
             var passwordReset = new PasswordResetTokens
             {
                 UserId = user.UserID,
                 Token = token,
-                ExpiryDate = DateTime.Now.AddHours(1) // Token važi 1 sat
+                ExpiryDate = DateTime.Now.AddHours(1) 
             };
 
             _context.PasswordResetTokens.Add(passwordReset);
              _context.SaveChanges();
 
-            // Pošalji token putem email-a (ovde koristimo pseudo kod)
             SendEmailReset($"http://localhost:4200/reset-password/{token}", user.Email);
 
             return "Email sa uputstvima za resetovanje lozinke je poslat.";
@@ -199,7 +197,6 @@ namespace euromelanoma_api.Managers
 
         public string GeneratePasswordResetToken()
         {
-            // Generišemo jedinstveni token
             return Guid.NewGuid().ToString();
         }
 

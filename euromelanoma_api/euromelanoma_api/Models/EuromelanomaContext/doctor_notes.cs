@@ -50,7 +50,8 @@ public partial class doctor_notes
 
     public bool dermoscopy_performed { get; set; }
 
-    public int nevus_count { get; set; }
+    [StringLength(50)]
+    public string nevus_count { get; set; }
 
     public bool more_than_twenty_nevus_on_hands { get; set; }
 

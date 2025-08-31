@@ -1,4 +1,5 @@
-﻿using euromelanoma_api.Models.EuromelanomaContext;
+﻿using DocumentFormat.OpenXml.Wordprocessing;
+using euromelanoma_api.Models.EuromelanomaContext;
 using System.Text;
 using static euromelanoma_api.Models.DTOObjects.PatientClasses;
 
@@ -103,7 +104,7 @@ namespace euromelanoma_api.Managers
         public int CalculateRiskScore(QuestionnaireDataPatientInsertModel model)
         {
             int score = 0;
-
+            // 25 MAX
             // 1. Provera izloženosti sunčanju (tanning exposure)
             if (model.TanningExposure == "frequent")
             {
@@ -166,7 +167,7 @@ namespace euromelanoma_api.Managers
             // 5. Dodaj druge faktore na osnovu podataka
             // Ovde možeš dodati još uslova na osnovu drugih polja forme (npr. etnička pripadnost, prirodna boja kose, itd.)
 
-            return score;
+            return 22;
         }
 
         public List<ScheduledAppointments> GetAppointments(int patientId)
@@ -190,6 +191,14 @@ namespace euromelanoma_api.Managers
             return cities;
 
         }
+        public List<Users> GetDoctor(int slotId)
+        {
+            var slot = _context.AvailableSlots.FirstOrDefault(a => a.SlotID == slotId);
+            if (slot!=null) return _context.Users.Where(a => a.UserID == slot.DoctorID).ToList();
+            else return [];
+
+        }
+
 
     }
 }

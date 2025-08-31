@@ -2,40 +2,193 @@
   <div *ngFor="let appointment of appointments">
     <mat-card class="appointment-card">
       <mat-card-header>
-        <mat-card-title>📅 Zakazani pregled</mat-card-title>
-        <mat-card-subtitle class="status">
-          <span>Status: </span>{{ appointment.status }}
+        <mat-card-title class="card-title">
+          <mat-icon class="title-icon">event</mat-icon>
+          Zakazani pregled
+        </mat-card-title>
+        <mat-card-subtitle
+          class="status"
+          [ngClass]="getStatusClass(appointment.status)"
+        >
+          <mat-icon class="status-icon">{{
+            getStatusIcon(appointment.status)
+          }}</mat-icon>
+          <span>Status: {{ statusMapping[appointment.status] }}</span>
         </mat-card-subtitle>
       </mat-card-header>
 
       <mat-card-content>
         <mat-list class="appointment-list">
           <mat-list-item>
-            <span class="label">🆔 Termin ID:</span>
+            <span class="label">
+              <mat-icon class="item-icon">badge</mat-icon>
+              Termin ID:
+            </span>
             <span class="value">{{ appointment.scheduledAppointmentID }}</span>
           </mat-list-item>
+
           <mat-list-item>
-            <span class="label">⏰ Početak:</span>
-            <span class="value">{{ appointment.startTime | date: 'dd.MM.yyyy, HH:mm' }}</span>
+            <span class="label">
+              <mat-icon class="item-icon">person</mat-icon>
+              Lekar:
+            </span>
+            <span class="value doctor-name">
+              {{ appointment.doctorFirstName }} {{ appointment.doctorLastName }}
+            </span>
           </mat-list-item>
+
           <mat-list-item>
-            <span class="label">⏳ Kraj:</span>
-            <span class="value">{{ appointment.endTime | date: 'dd.MM.yyyy, HH:mm' }}</span>
+            <span class="label">
+              <mat-icon class="item-icon">schedule</mat-icon>
+              Početak:
+            </span>
+            <span class="value">{{
+              appointment.startTime | date : "dd.MM.yyyy, HH:mm"
+            }}</span>
           </mat-list-item>
+
           <mat-list-item>
-            <span class="label">🏙️ Grad:</span>
+            <span class="label">
+              <mat-icon class="item-icon">schedule</mat-icon>
+              Kraj:
+            </span>
+            <span class="value">{{
+              appointment.endTime | date : "dd.MM.yyyy, HH:mm"
+            }}</span>
+          </mat-list-item>
+
+          <mat-list-item>
+            <span class="label">
+              <mat-icon class="item-icon">location_city</mat-icon>
+              Grad:
+            </span>
             <span class="value">{{ appointment.cityName }}</span>
           </mat-list-item>
-          <mat-list-item>
-            <span class="label">📞 Telefon:</span>
-            <span class="value">{{ appointment.phoneNumber }}</span>
-          </mat-list-item>
         </mat-list>
+      </mat-card-content>
+
+      <!-- PDF Download dugme - samo za SCHEDULED status -->
+      <mat-card-actions
+        *ngIf="appointment.status === 'Scheduled'"
+        class="card-actions"
+      >
+        <button
+          mat-raised-button
+          class="download-btn"
+          [disabled]="isGeneratingPdf"
+          (click)="downloadConfirmation(appointment)"
+        >
+          <mat-icon *ngIf="!isGeneratingPdf">file_download</mat-icon>
+          <mat-icon *ngIf="isGeneratingPdf" class="spinning"
+            >hourglass_empty</mat-icon
+          >
+          {{ isGeneratingPdf ? "Generiše se..." : "Preuzmite potvrdu" }}
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+  <div *ngIf="allAppointmentsFinished()" class="new-questionnaire-section">
+    <mat-card class="new-questionnaire-card">
+      <mat-card-content>
+        <div class="questionnaire-prompt">
+          <mat-icon class="prompt-icon">quiz</mat-icon>
+          <h3 class="prompt-title">Svi pregledi su završeni</h3>
+          <p class="prompt-text">
+            Preporučujemo vam da popunite novi upitnik za procenu rizika od
+            melanoma. Redovna kontrola je važna za prevenciju.
+          </p>
+          <button
+            mat-raised-button
+            class="questionnaire-btn"
+            (click)="navigateToQuestionnaire()"
+          >
+            <mat-icon>assignment</mat-icon>
+            Popuni novi upitnik
+          </button>
+        </div>
       </mat-card-content>
     </mat-card>
   </div>
 
   <div class="image-wrapper">
-    <img src="../../../../assets/images/scheduled.jpg" alt="Zakazan pregled">
+    <img src="../../../../assets/images/scheduled.jpg" alt="Zakazan pregled" />
+  </div>
+
+  <!-- Skriveni element za PDF generisanje -->
+  <div
+    *ngIf="selectedAppointment"
+    style="position: absolute; left: -9999px; top: -9999px"
+  >
+    <div class="pdf-content" id="pregled">
+      <div class="pdf-header">
+        <h1>POTVRDA O ZAKAZANOM PREGLEDU</h1>
+        <p class="pdf-subtitle">Euromelanoma Portal</p>
+      </div>
+
+      <div class="pdf-body">
+        <div class="appointment-info">
+          <h2>Detalji termina</h2>
+
+          <div class="info-grid">
+            <div class="info-item">
+              <strong>Termin ID:</strong>
+              <span>{{ selectedAppointment.scheduledAppointmentID }}</span>
+            </div>
+
+            <div class="info-item">
+              <strong>Lekar:</strong>
+              <span
+                >{{ selectedAppointment.doctorFirstName }}
+                {{ selectedAppointment.doctorLastName }}</span
+              >
+            </div>
+
+            <div class="info-item">
+              <strong>Datum:</strong>
+              <span>{{
+                selectedAppointment.startTime | date : "dd.mm.yyyy."
+              }}</span>
+            </div>
+
+            <div class="info-item">
+              <strong>Vreme:</strong>
+              <span>
+                {{ selectedAppointment.startTime | date : "HH:mm" }} -
+                {{ selectedAppointment.endTime | date : "HH:mm" }}
+              </span>
+            </div>
+
+            <div class="info-item">
+              <strong>Grad:</strong>
+              <span>{{ selectedAppointment.cityName }}</span>
+            </div>
+
+            <div class="info-item">
+              <strong>Status:</strong>
+              <span class="status-badge">{{
+                statusMapping[selectedAppointment.status]
+              }}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="instructions">
+          <h3>Napomene:</h3>
+          <ul>
+            <li>Molimo vas da dođete 10 minuta pre zakazanog vremena</li>
+            <li>Ponesite ličnu kartu ili pasoš</li>
+            <li>
+              U slučaju otkazivanja, kontaktirajte nas najmanje 24h unapred
+            </li>
+            <li>Ovaj dokument je vaša potvrda o zakazanom pregledu</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="pdf-footer">
+        <p>Generisano: {{ today | date : "dd.MM.yyyy, HH:mm" }}</p>
+        <p>Euromelanoma Portal • Prevencija melanoma</p>
+      </div>
+    </div>
   </div>
 </mat-card>

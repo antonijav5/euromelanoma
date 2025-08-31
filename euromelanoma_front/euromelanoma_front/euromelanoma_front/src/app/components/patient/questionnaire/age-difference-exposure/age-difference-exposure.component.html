@@ -1,182 +1,308 @@
-<form [formGroup]="currentForm" style="font-size: 12pt;" *ngIf="currentForm!=null && currentForm!=undefined">
-    <h3>{{getHeadline()}}</h3>
-    
-    <div class="container">
- <div class="row">
+<form
+  [formGroup]="currentForm"
+  style="font-size: 12pt"
+  *ngIf="currentForm != null && currentForm != undefined"
+>
+  <h3>{{ getHeadline() }}</h3>
+
+  <div class="container">
+    <div class="row">
       <!-- Kolona 1: Okupaciona izloženost suncu -->
       <div class="col-sm">
         <h4>14. OKUPACIONA IZLOŽENOST SUNCU</h4>
-        <mat-label>Da li na radnom mestu provodite napolju na suncu najmanje 4 sata dnevno između 11 ujutru i 4 popodne?</mat-label>
-        <br>
+        <mat-label
+          >Da li na radnom mestu provodite napolju na suncu najmanje 4 sata
+          dnevno između 11 ujutru i 4 popodne?</mat-label
+        >
+        <br />
         <mat-radio-group formControlName="occupationalExposureChildhood">
           <mat-radio-button value="yes">Da</mat-radio-button>
           <mat-radio-button value="no">Ne</mat-radio-button>
         </mat-radio-group>
-          <br>
-        <div *ngIf="currentForm.get('occupationalExposureChildhood').value=='yes'">
-            <mat-form-field appearance="outline">
-              <mat-label>Koliko nedelja godišnje?</mat-label>
-              <input matInput formControlName="weeksPerYearOccupational" type="number" >
-              <mat-error *ngIf="currentForm.get('weeksPerYearOccupational').hasError('required')">
-                Ovo polje je obavezno.
-              </mat-error>
-            </mat-form-field>
-            <br>
-            <mat-form-field appearance="outline">
-              <mat-label>Koliko godina unazad?</mat-label><br>
-              <input matInput formControlName="yearsBackOccupational" type="number" [min]="1">
-              <mat-error *ngIf="currentForm.controls['yearsBackOccupational'].hasError('required')">
-                Ovo polje je obavezno.
-              </mat-error>
-              
-            </mat-form-field>
-            <br>
-            <mat-label>Koliko često nanosite kremu sa zaštitnim faktorom?</mat-label><br>
-            <mat-radio-group formControlName="sunscreenFrequencyOccupational">
-              <mat-radio-button value="never">Nikad/retko</mat-radio-button><br>
-              <mat-radio-button value="sometimes">Ponekad</mat-radio-button><br>
-              <mat-radio-button value="always">Veći deo vremena/uvek</mat-radio-button>
-            </mat-radio-group>
-            <br>
-            <mat-label>Koliko često nosite kapu?</mat-label><br>
-            <mat-radio-group formControlName="hatFrequencyOccupational">
-              <mat-radio-button value="never">Nikad/retko</mat-radio-button><br>
-              <mat-radio-button value="sometimes">Ponekad</mat-radio-button><br>
-              <mat-radio-button value="always">Veći deo vremena/uvek</mat-radio-button>
-            </mat-radio-group>
-            <br>
-            <mat-label>Koliko često nosite protektivnu odeću?</mat-label><br>
-            <mat-radio-group formControlName="clothingFrequencyOccupational">
-              <mat-radio-button value="never">Nikad/retko</mat-radio-button><br>
-              <mat-radio-button value="sometimes">Ponekad</mat-radio-button><br>
-              <mat-radio-button value="always">Veći deo vremena/uvek</mat-radio-button>
-            </mat-radio-group>
-            <br>
-            <mat-label>Koliko često najtoplije sate u toku dana provodite u hladu ili unutra?</mat-label><br>
-            <mat-radio-group formControlName="shadeFrequencyOccupational">
-              <mat-radio-button value="never">Nikad/retko</mat-radio-button><br>
-              <mat-radio-button value="sometimes">Ponekad</mat-radio-button><br>
-              <mat-radio-button value="always">Veći deo vremena/uvek</mat-radio-button>
-            </mat-radio-group>
-          </div>
+        <br />
+        <div
+          *ngIf="
+            currentForm.get('occupationalExposureChildhood')?.value == 'yes'
+          "
+        >
+          <mat-form-field appearance="outline">
+            <mat-label>Koliko nedelja godišnje?</mat-label>
+            <input
+              matInput
+              formControlName="weeksPerYearOccupational"
+              type="number"
+            />
+            <mat-error
+              *ngIf="
+                currentForm
+                  .get('weeksPerYearOccupational')
+                  ?.hasError('required')
+              "
+            >
+              Ovo polje je obavezno.
+            </mat-error>
+          </mat-form-field>
+          <br />
+          <mat-form-field appearance="outline">
+            <mat-label>Koliko godina unazad?</mat-label><br />
+            <input
+              matInput
+              formControlName="yearsBackOccupational"
+              type="number"
+              [min]="1"
+            />
+            <mat-error
+              *ngIf="
+                currentForm.controls['yearsBackOccupational'].hasError(
+                  'required'
+                )
+              "
+            >
+              Ovo polje je obavezno.
+            </mat-error>
+          </mat-form-field>
+          <br />
+          <mat-label
+            >Koliko često nanosite kremu sa zaštitnim faktorom?</mat-label
+          ><br />
+          <mat-radio-group formControlName="sunscreenFrequencyOccupational">
+            <mat-radio-button value="never">Nikad/retko</mat-radio-button><br />
+            <mat-radio-button value="sometimes">Ponekad</mat-radio-button><br />
+            <mat-radio-button value="always"
+              >Veći deo vremena/uvek</mat-radio-button
+            >
+          </mat-radio-group>
+          <br />
+          <mat-label>Koliko često nosite kapu?</mat-label><br />
+          <mat-radio-group formControlName="hatFrequencyOccupational">
+            <mat-radio-button value="never">Nikad/retko</mat-radio-button><br />
+            <mat-radio-button value="sometimes">Ponekad</mat-radio-button><br />
+            <mat-radio-button value="always"
+              >Veći deo vremena/uvek</mat-radio-button
+            >
+          </mat-radio-group>
+          <br />
+          <mat-label>Koliko često nosite protektivnu odeću?</mat-label><br />
+          <mat-radio-group formControlName="clothingFrequencyOccupational">
+            <mat-radio-button value="never">Nikad/retko</mat-radio-button><br />
+            <mat-radio-button value="sometimes">Ponekad</mat-radio-button><br />
+            <mat-radio-button value="always"
+              >Veći deo vremena/uvek</mat-radio-button
+            >
+          </mat-radio-group>
+          <br />
+          <mat-label
+            >Koliko često najtoplije sate u toku dana provodite u hladu ili
+            unutra?</mat-label
+          ><br />
+          <mat-radio-group formControlName="shadeFrequencyOccupational">
+            <mat-radio-button value="never">Nikad/retko</mat-radio-button><br />
+            <mat-radio-button value="sometimes">Ponekad</mat-radio-button><br />
+            <mat-radio-button value="always"
+              >Veći deo vremena/uvek</mat-radio-button
+            >
+          </mat-radio-group>
+        </div>
       </div>
-  
+
       <!-- Kolona 2: Rekreaciona izloženost suncu -->
       <div class="col-sm">
         <h4>15. REKREACIONA IZLOŽENOST SUNCU</h4>
-        <mat-label>Da li se bavite fizičkom aktivnošću ili imate hobi koji podrazumeva boravak napolju između 11 ujutru i 4 popodne?</mat-label>
-        <br>
+        <mat-label
+          >Da li se bavite fizičkom aktivnošću ili imate hobi koji podrazumeva
+          boravak napolju između 11 ujutru i 4 popodne?</mat-label
+        >
+        <br />
         <mat-radio-group formControlName="recreationalExposureChildhood">
           <mat-radio-button value="yes">Da</mat-radio-button>
           <mat-radio-button value="no">Ne</mat-radio-button>
         </mat-radio-group>
 
-        <br>
-        <div *ngIf="currentForm.controls['recreationalExposureChildhood'].value=='yes'">
-            <mat-form-field appearance="outline">
-              <mat-label>Koliko nedelja godišnje?</mat-label><br>
-              <input matInput formControlName="weeksPerYearRecreational" type="number" [min]="1">
-              <mat-error *ngIf="currentForm.controls['weeksPerYearRecreational'].hasError('required')">
-                Ovo polje je obavezno.
-              </mat-error>
-            </mat-form-field>
-            <br>
-            <mat-form-field appearance="outline">
-              <mat-label>Koliko godina unazad?</mat-label><br>
-              <input matInput formControlName="yearsBackRecreational" type="number" [min]="1">
-              <mat-error *ngIf="currentForm.controls['yearsBackRecreational'].hasError('required')">
-                Ovo polje je obavezno.
-              </mat-error>
-            </mat-form-field>
-            <br>
-            <mat-label>Koliko često nanosite kremu sa zaštitnim faktorom?</mat-label><br>
-            <mat-radio-group formControlName="sunscreenFrequencyRecreational">
-              <mat-radio-button value="never">Nikad/retko</mat-radio-button><br>
-              <mat-radio-button value="sometimes">Ponekad</mat-radio-button><br>
-              <mat-radio-button value="always">Veći deo vremena/uvek</mat-radio-button>
-            </mat-radio-group>
-            <br>
-            <mat-label>Koliko često nosite kapu?</mat-label><br>
-            <mat-radio-group formControlName="hatFrequencyRecreational">
-              <mat-radio-button value="never">Nikad/retko</mat-radio-button><br>
-              <mat-radio-button value="sometimes">Ponekad</mat-radio-button><br>
-              <mat-radio-button value="always">Veći deo vremena/uvek</mat-radio-button>
-            </mat-radio-group>
-            <br>
-            <mat-label>Koliko često nosite protektivnu odeću?</mat-label><br>
-            <mat-radio-group formControlName="clothingFrequencyRecreational">
-              <mat-radio-button value="never">Nikad/retko</mat-radio-button><br>
-              <mat-radio-button value="sometimes">Ponekad</mat-radio-button><br>
-              <mat-radio-button value="always">Veći deo vremena/uvek</mat-radio-button>
-            </mat-radio-group>
-            <br>
-            <mat-label>Koliko često najtoplije sate u toku dana provodite u hladu ili unutra?</mat-label><br>
-            <mat-radio-group formControlName="shadeFrequencyRecreational">
-              <mat-radio-button value="never">Nikad/retko</mat-radio-button><br>
-              <mat-radio-button value="sometimes">Ponekad</mat-radio-button><br>
-              <mat-radio-button value="always">Veći deo vremena/uvek</mat-radio-button>
-            </mat-radio-group>
-          </div>
-      </div>
-  
-      <!-- Kolona 3: Namerna izloženost suncu -->
-      <div class="col-sm">
-        <h4>16. NAMERNA IZLOŽENOST SUNCU</h4>
-        <mat-label>Da li ste se namerno izlagali sunčevim zracima u proleće/leto, uključujući godišnji odmor, između 11 ujutru i 4 popodne?</mat-label>
-        <mat-radio-group formControlName="intentionalExposureChildhood">
-            <br>
-            <mat-radio-button value="yes">Da</mat-radio-button>
-          <mat-radio-button value="no">Ne</mat-radio-button>
-        </mat-radio-group>
-        <br>
-        <div *ngIf="currentForm.controls['intentionalExposureChildhood'].value=='yes'">
+        <br />
+        <div
+          *ngIf="
+            currentForm.controls['recreationalExposureChildhood'].value == 'yes'
+          "
+        >
           <mat-form-field appearance="outline">
-            <mat-label>Koliko nedelja godišnje?</mat-label><br>
-            <input matInput formControlName="weeksPerYearIntentional" type="number" [min]="1">
-            <mat-error *ngIf="currentForm.controls['weeksPerYearIntentional'].hasError('required')">
+            <mat-label>Koliko nedelja godišnje?</mat-label><br />
+            <input
+              matInput
+              formControlName="weeksPerYearRecreational"
+              type="number"
+              [min]="1"
+            />
+            <mat-error
+              *ngIf="
+                currentForm.controls['weeksPerYearRecreational'].hasError(
+                  'required'
+                )
+              "
+            >
               Ovo polje je obavezno.
             </mat-error>
           </mat-form-field>
-          <br>
+          <br />
           <mat-form-field appearance="outline">
-            <mat-label>Koliko godina unazad?</mat-label><br>
-            <input matInput formControlName="yearsBackIntentional" type="number" [min]="1">
-            <mat-error *ngIf="currentForm.controls['yearsBackIntentional'].hasError('required')">
+            <mat-label>Koliko godina unazad?</mat-label><br />
+            <input
+              matInput
+              formControlName="yearsBackRecreational"
+              type="number"
+              [min]="1"
+            />
+            <mat-error
+              *ngIf="
+                currentForm.controls['yearsBackRecreational'].hasError(
+                  'required'
+                )
+              "
+            >
               Ovo polje je obavezno.
             </mat-error>
           </mat-form-field>
-          <br>
-          <mat-label>Koliko često nanosite kremu sa zaštitnim faktorom?</mat-label><br>
-          <mat-radio-group formControlName="sunscreenFrequencyIntentional">
-            <mat-radio-button value="never">Nikad/retko</mat-radio-button><br>
-            <mat-radio-button value="sometimes">Ponekad</mat-radio-button><br>
-            <mat-radio-button value="always">Veći deo vremena/uvek</mat-radio-button>
+          <br />
+          <mat-label
+            >Koliko često nanosite kremu sa zaštitnim faktorom?</mat-label
+          ><br />
+          <mat-radio-group formControlName="sunscreenFrequencyRecreational">
+            <mat-radio-button value="never">Nikad/retko</mat-radio-button><br />
+            <mat-radio-button value="sometimes">Ponekad</mat-radio-button><br />
+            <mat-radio-button value="always"
+              >Veći deo vremena/uvek</mat-radio-button
+            >
           </mat-radio-group>
-          <br>
-          <mat-label>Koliko često nosite kapu?</mat-label><br>
-          <mat-radio-group formControlName="hatFrequencyIntentional">
-            <mat-radio-button value="never">Nikad/retko</mat-radio-button><br>
-            <mat-radio-button value="sometimes">Ponekad</mat-radio-button><br>
-            <mat-radio-button value="always">Veći deo vremena/uvek</mat-radio-button>
+          <br />
+          <mat-label>Koliko često nosite kapu?</mat-label><br />
+          <mat-radio-group formControlName="hatFrequencyRecreational">
+            <mat-radio-button value="never">Nikad/retko</mat-radio-button><br />
+            <mat-radio-button value="sometimes">Ponekad</mat-radio-button><br />
+            <mat-radio-button value="always"
+              >Veći deo vremena/uvek</mat-radio-button
+            >
           </mat-radio-group>
-          <br>
-          <mat-label>Koliko često nosite protektivnu odeću?</mat-label><br>
-          <mat-radio-group formControlName="clothingFrequencyIntentional">
-            <mat-radio-button value="never">Nikad/retko</mat-radio-button><br>
-            <mat-radio-button value="sometimes">Ponekad</mat-radio-button><br>
-            <mat-radio-button value="always">Veći deo vremena/uvek</mat-radio-button>
+          <br />
+          <mat-label>Koliko često nosite protektivnu odeću?</mat-label><br />
+          <mat-radio-group formControlName="clothingFrequencyRecreational">
+            <mat-radio-button value="never">Nikad/retko</mat-radio-button><br />
+            <mat-radio-button value="sometimes">Ponekad</mat-radio-button><br />
+            <mat-radio-button value="always"
+              >Veći deo vremena/uvek</mat-radio-button
+            >
           </mat-radio-group>
-          <br>
-          <mat-label>Koliko često najtoplije sate u toku dana provodite u hladu ili unutra?</mat-label><br>
-          <mat-radio-group formControlName="shadeFrequencyIntentional">
-            <mat-radio-button value="never">Nikad/retko</mat-radio-button><br>
-            <mat-radio-button value="sometimes">Ponekad</mat-radio-button><br>
-            <mat-radio-button value="always">Veći deo vremena/uvek</mat-radio-button>
+          <br />
+          <mat-label
+            >Koliko često najtoplije sate u toku dana provodite u hladu ili
+            unutra?</mat-label
+          ><br />
+          <mat-radio-group formControlName="shadeFrequencyRecreational">
+            <mat-radio-button value="never">Nikad/retko</mat-radio-button><br />
+            <mat-radio-button value="sometimes">Ponekad</mat-radio-button><br />
+            <mat-radio-button value="always"
+              >Veći deo vremena/uvek</mat-radio-button
+            >
           </mat-radio-group>
         </div>
       </div>
- </div>
 
+      <!-- Kolona 3: Namerna izloženost suncu -->
+      <div class="col-sm">
+        <h4>16. NAMERNA IZLOŽENOST SUNCU</h4>
+        <mat-label
+          >Da li ste se namerno izlagali sunčevim zracima u proleće/leto,
+          uključujući godišnji odmor, između 11 ujutru i 4 popodne?</mat-label
+        >
+        <mat-radio-group formControlName="intentionalExposureChildhood">
+          <br />
+          <mat-radio-button value="yes">Da</mat-radio-button>
+          <mat-radio-button value="no">Ne</mat-radio-button>
+        </mat-radio-group>
+        <br />
+        <div
+          *ngIf="
+            currentForm.controls['intentionalExposureChildhood'].value == 'yes'
+          "
+        >
+          <mat-form-field appearance="outline">
+            <mat-label>Koliko nedelja godišnje?</mat-label><br />
+            <input
+              matInput
+              formControlName="weeksPerYearIntentional"
+              type="number"
+              [min]="1"
+            />
+            <mat-error
+              *ngIf="
+                currentForm.controls['weeksPerYearIntentional'].hasError(
+                  'required'
+                )
+              "
+            >
+              Ovo polje je obavezno.
+            </mat-error>
+          </mat-form-field>
+          <br />
+          <mat-form-field appearance="outline">
+            <mat-label>Koliko godina unazad?</mat-label><br />
+            <input
+              matInput
+              formControlName="yearsBackIntentional"
+              type="number"
+              [min]="1"
+            />
+            <mat-error
+              *ngIf="
+                currentForm.controls['yearsBackIntentional'].hasError(
+                  'required'
+                )
+              "
+            >
+              Ovo polje je obavezno.
+            </mat-error>
+          </mat-form-field>
+          <br />
+          <mat-label
+            >Koliko često nanosite kremu sa zaštitnim faktorom?</mat-label
+          ><br />
+          <mat-radio-group formControlName="sunscreenFrequencyIntentional">
+            <mat-radio-button value="never">Nikad/retko</mat-radio-button><br />
+            <mat-radio-button value="sometimes">Ponekad</mat-radio-button><br />
+            <mat-radio-button value="always"
+              >Veći deo vremena/uvek</mat-radio-button
+            >
+          </mat-radio-group>
+          <br />
+          <mat-label>Koliko često nosite kapu?</mat-label><br />
+          <mat-radio-group formControlName="hatFrequencyIntentional">
+            <mat-radio-button value="never">Nikad/retko</mat-radio-button><br />
+            <mat-radio-button value="sometimes">Ponekad</mat-radio-button><br />
+            <mat-radio-button value="always"
+              >Veći deo vremena/uvek</mat-radio-button
+            >
+          </mat-radio-group>
+          <br />
+          <mat-label>Koliko često nosite protektivnu odeću?</mat-label><br />
+          <mat-radio-group formControlName="clothingFrequencyIntentional">
+            <mat-radio-button value="never">Nikad/retko</mat-radio-button><br />
+            <mat-radio-button value="sometimes">Ponekad</mat-radio-button><br />
+            <mat-radio-button value="always"
+              >Veći deo vremena/uvek</mat-radio-button
+            >
+          </mat-radio-group>
+          <br />
+          <mat-label
+            >Koliko često najtoplije sate u toku dana provodite u hladu ili
+            unutra?</mat-label
+          ><br />
+          <mat-radio-group formControlName="shadeFrequencyIntentional">
+            <mat-radio-button value="never">Nikad/retko</mat-radio-button><br />
+            <mat-radio-button value="sometimes">Ponekad</mat-radio-button><br />
+            <mat-radio-button value="always"
+              >Veći deo vremena/uvek</mat-radio-button
+            >
+          </mat-radio-group>
+        </div>
+      </div>
     </div>
-  </form>
-  
+  </div>
+</form>

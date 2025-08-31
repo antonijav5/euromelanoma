@@ -37,7 +37,7 @@ public partial class EUROMELANOMAContext : DbContext
     {
         modelBuilder.Entity<AvailableSlots>(entity =>
         {
-            entity.HasKey(e => e.SlotID).HasName("PK__Availabl__0A124A4FB8AB7E7D");
+            entity.HasKey(e => e.SlotID).HasName("PK__Availabl__0A124A4F297CF943");
 
             entity.HasOne(d => d.City).WithMany(p => p.AvailableSlots)
                 .OnDelete(DeleteBehavior.ClientSetNull)
@@ -50,50 +50,44 @@ public partial class EUROMELANOMAContext : DbContext
 
         modelBuilder.Entity<Cities>(entity =>
         {
-            entity.HasKey(e => e.CityID).HasName("PK__Cities__F2D21A96A24CD157");
+            entity.HasKey(e => e.CityID).HasName("PK__Cities__F2D21A9616B5020A");
         });
 
         modelBuilder.Entity<DoctorPrivileges>(entity =>
         {
-            entity.HasKey(e => new { e.DoctorId, e.PrivilegeLevel }).HasName("PK__DoctorPr__51E18C99733B3C6F");
+            entity.HasKey(e => new { e.DoctorId, e.PrivilegeLevel }).HasName("PK__DoctorPr__51E18C994E130F9C");
 
             entity.HasOne(d => d.Doctor).WithMany(p => p.DoctorPrivileges).HasConstraintName("FK_DoctorPrivileges");
         });
 
         modelBuilder.Entity<PasswordResetTokens>(entity =>
         {
-            entity.HasKey(e => e.TokenId).HasName("PK__Password__658FEEEAA642ACD4");
+            entity.HasKey(e => e.TokenId).HasName("PK__Password__658FEEEA5EEC1943");
 
             entity.HasOne(d => d.User).WithMany(p => p.PasswordResetTokens)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__PasswordR__UserI__2BFE89A6");
+                .HasConstraintName("FK__PasswordR__UserI__4F7CD00D");
         });
 
         modelBuilder.Entity<QuestionnaireDataPatient>(entity =>
         {
-            entity.HasKey(e => e.id).HasName("PK__Question__3213E83F1C9CA98B");
+            entity.HasKey(e => e.id).HasName("PK__Question__3213E83FC850EAEA");
 
             entity.HasOne(d => d.questionnaire).WithMany(p => p.QuestionnaireDataPatient)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Questionn__quest__1EA48E88");
+                .HasConstraintName("FK__Questionn__quest__5070F446");
         });
 
         modelBuilder.Entity<Questionnaires>(entity =>
         {
-            entity.HasKey(e => e.QuestionnaireID).HasName("PK__Question__A56EF405CEB6CBC5");
+            entity.HasKey(e => e.QuestionnaireID).HasName("PK__Question__A56EF405727CAD15");
 
             entity.Property(e => e.CreatedAt).HasDefaultValueSql("(getdate())");
-
-            entity.HasOne(d => d.Doctor).WithMany(p => p.QuestionnairesDoctor).HasConstraintName("FK_DoctorQuestionnaire");
-
-            entity.HasOne(d => d.Patient).WithMany(p => p.QuestionnairesPatient)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_PatientQuestionnaire");
         });
 
         modelBuilder.Entity<ScheduledAppointments>(entity =>
         {
-            entity.HasKey(e => e.ScheduledAppointmentID).HasName("PK__Schedule__E40D0825227A2639");
+            entity.HasKey(e => e.ScheduledAppointmentID).HasName("PK__Schedule__E40D08259F1818AA");
 
             entity.HasOne(d => d.Patient).WithMany(p => p.ScheduledAppointments)
                 .OnDelete(DeleteBehavior.ClientSetNull)
@@ -106,21 +100,21 @@ public partial class EUROMELANOMAContext : DbContext
 
         modelBuilder.Entity<UserRequests>(entity =>
         {
-            entity.HasKey(e => e.UserID).HasName("PK__UserRequ__1788CCAC60E02A08");
+            entity.HasKey(e => e.UserID).HasName("PK__UserRequ__1788CCAC01948FB2");
         });
 
         modelBuilder.Entity<Users>(entity =>
         {
-            entity.HasKey(e => e.UserID).HasName("PK__Users__1788CCAC27140219");
+            entity.HasKey(e => e.UserID).HasName("PK__Users__1788CCACAD2734C9");
         });
 
         modelBuilder.Entity<doctor_notes>(entity =>
         {
-            entity.HasKey(e => e.id).HasName("PK__doctor_n__3213E83FAE5CB0D9");
+            entity.HasKey(e => e.id).HasName("PK__doctor_n__3213E83F7500B29B");
 
             entity.HasOne(d => d.questionnaire).WithMany(p => p.doctor_notes)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__doctor_no__quest__18EBB532");
+                .HasConstraintName("FK__doctor_no__quest__4D94879B");
         });
 
         OnModelCreatingPartial(modelBuilder);

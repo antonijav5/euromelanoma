@@ -2,43 +2,48 @@ import { Component, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { PatientService } from 'src/app/services/patient.service';
 import { ExaminationResultsComponent } from './examination-results/examination-results.component';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-patient',
   templateUrl: './patient.component.html',
-  styleUrls: ['./patient.component.css']
+  styleUrls: ['./patient.component.css'],
 })
 export class PatientComponent {
-show:string="questionnaire"
-appointments: any[] = [];
-user:any={}
+  show: string = 'questionnaire';
+  appointments: any[] = [];
+  user: any = {};
 
-constructor(private appointmentService: PatientService,         public dialog: MatDialog) {
-  let user_help=sessionStorage.getItem("auth-user")
+  constructor(
+    private appointmentService: PatientService,
+    private route: ActivatedRoute,
+    public dialog: MatDialog
+  ) {
+    let user_help = sessionStorage.getItem('auth-user');
 
-  if (user_help) 
-    {
-      this.user=JSON.parse(user_help);
-      
+    if (user_help) {
+      this.user = JSON.parse(user_help);
     }
- }
+  }
 
-ngOnInit(): void {
-  // const dialogRef = this.dialog.open(ExaminationResultsComponent, {
-  //   width: "610px",
-  //   data: { patientId:4, score: 100, id:5}
-  // });
-this.getAppointments()
+  ngOnInit(): void {
+    this.route.queryParams.subscribe((params) => {
+      if (params['show'] === 'questionnaire') {
+        this.show = 'questionnaire';
+        return;
+      }
+    });
+    this.getAppointments();
+  }
 
-
-}
-
-getAppointments() {
-
-  this.appointmentService.getAppointments(this.user.id).subscribe((data: any) => {
-    this.appointments = data.resultList;
-    console.log(this.appointments);
-    
-  });
-}
+  getAppointments() {
+    this.appointmentService
+      .getAppointments(this.user.id)
+      .subscribe((data: any) => {
+        this.appointments = data.resultList;
+        if (this.appointments.length > 0 && this.show !== 'questionnaire') {
+          this.show = 'appointments';
+        }
+      });
+  }
 }

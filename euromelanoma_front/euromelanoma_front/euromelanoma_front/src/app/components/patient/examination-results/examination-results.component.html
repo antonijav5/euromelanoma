@@ -1,13 +1,47 @@
-<!-- Prikaz visokog rizika -->
-<div *ngIf="riskScore >= highRiskThreshold" class="risk-score-high">
-    <h3 class="risk-title">Vaš rizik je visok! Preporučujemo pregled.</h3>
-    <button mat-raised-button color="warn" (click)="openScheduleDialog()" style="margin-top: 6px;">Zakazivanje pregleda</button>
-  </div>
-  
-  <!-- Prikaz niskog rizika -->
-  <div *ngIf="riskScore < highRiskThreshold" class="risk-score-low">
-    <h3 class="risk-title">Vaš rizik je nizak. Preporučuje se redovan pregled kože.</h3>
+<div class="results-container">
+  <!-- Prikaz visokog rizika -->
+  <div *ngIf="riskScore >= highRiskThreshold" class="risk-card risk-high">
+    <div class="risk-icon">
+      <mat-icon>warning</mat-icon>
+    </div>
+    <div class="risk-content">
+      <h3 class="risk-title">Visok rizik od melanoma</h3>
+      <p class="risk-description">
+        Na osnovu vašeg upitnika, preporučujemo zakazivanje pregleda kod
+        dermatologa.
+      </p>
+      <div class="risk-score-badge">
+        <span class="score-label">Vaš rezultat:</span>
+        <span class="score-value">{{ riskScore }}</span>
+      </div>
+    </div>
+    <div class="risk-actions">
+      <button
+        mat-raised-button
+        class="schedule-btn-high"
+        (click)="openScheduleDialog()"
+      >
+        <mat-icon>event_available</mat-icon>
+        Zakažite pregled
+      </button>
+    </div>
   </div>
 
-  
- 
+  <!-- Prikaz niskog rizika -->
+  <div *ngIf="riskScore < highRiskThreshold" class="risk-card risk-low">
+    <div class="risk-icon">
+      <mat-icon>check_circle</mat-icon>
+    </div>
+    <div class="risk-content">
+      <h3 class="risk-title">Nizak rizik od melanoma</h3>
+      <p class="risk-description">
+        Vaš rizik je u prihvatljivim granicama. Preporučuju se redovni
+        preventivni pregledi.
+      </p>
+      <div class="risk-score-badge">
+        <span class="score-label">Vaš rezultat:</span>
+        <span class="score-value">{{ riskScore }}</span>
+      </div>
+    </div>
+  </div>
+</div>

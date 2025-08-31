@@ -1,17 +1,10 @@
-﻿using euromelanoma_api.Models.DTOObjects;
+﻿
 using euromelanoma_api.Models.EuromelanomaContext;
-using MailKit.Security;
 using MimeKit;
 using SendGrid.Helpers.Mail;
 using SendGrid;
-using System.Net;
-using System.Net.Mail;
 using System.Text;
 using static euromelanoma_api.Models.DTOObjects.AdminClasses;
-using Org.BouncyCastle.Utilities.Encoders;
-using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Mvc;
 
 namespace euromelanoma_api.Managers
 {
@@ -21,7 +14,6 @@ namespace euromelanoma_api.Managers
         private EUROMELANOMAContext _context;
         private IConfiguration _config;
 
-        private static readonly Encoding Encoding1252 = Encoding.GetEncoding(1252);
 
         public AdminManager(EUROMELANOMAContext context, IConfiguration config)
         {
