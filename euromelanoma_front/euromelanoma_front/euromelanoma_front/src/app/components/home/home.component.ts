@@ -1,38 +1,61 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { FormControl } from '@angular/forms';
-import { TooltipPosition } from '@angular/material/tooltip';
-import { AuthService } from 'src/app/services/auth.service';
+// home.component.ts
+
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  styleUrls: ['./home.component.css'],
 })
 export class HomeComponent implements OnInit {
-  
-user:any={}
-currentItem:string='view'
+  user: any = {};
+  selectedTabIndex: number = 0;
+  section?: string;
 
-@Output() newItemEvent = new EventEmitter<string>();
+  constructor(private router: Router, public route: ActivatedRoute) {}
 
+  ngOnInit(): void {
+    this.route.paramMap.subscribe((params) => {
+      this.section = params.get('section') || undefined;
+      console.log(this.section);
+    });
+    this.loadUserData();
+  }
 
-constructor(private authService:AuthService){}
-ngOnInit() {
-let user_help=sessionStorage.getItem("auth-user")
-
-  if (user_help) 
-    {
-      this.user=JSON.parse(user_help);
+  loadUserData(): void {
+    const userHelp = sessionStorage.getItem('auth-user');
+    if (userHelp) {
+      this.user = JSON.parse(userHelp);
+    } else {
+      this.router.navigate(['/login']);
     }
-  else this.user={}
+  }
 
-  
-}
-logout(){
-  this.authService.signOut()
-}
-goTo(selectView:string){
-  this.currentItem=selectView
-  this.newItemEvent.emit(this.currentItem)
-}
+  onTabChange(event: any): void {
+    this.selectedTabIndex = event.index;
+    console.log('Selected tab index:', this.selectedTabIndex);
+  }
+
+  getUserRoleText(userType: string): string {
+    switch (userType) {
+      case 'Patient':
+        return 'Pacijent';
+      case 'Doctor':
+        return 'Lekar';
+      case 'Admin':
+        return 'Administrator';
+      default:
+        return 'Korisnik';
+    }
+  }
+
+  logout(): void {
+    // Obriši user podatke
+    sessionStorage.removeItem('auth-user');
+    sessionStorage.removeItem('auth-token');
+
+    // Preusmeri na login stranicu
+    this.router.navigate(['/login']);
+  }
 }

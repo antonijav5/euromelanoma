@@ -27,12 +27,6 @@ export class PatientComponent {
   }
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe((params) => {
-      if (params['show'] === 'questionnaire') {
-        this.show = 'questionnaire';
-        return;
-      }
-    });
     this.getAppointments();
   }
 
@@ -41,9 +35,19 @@ export class PatientComponent {
       .getAppointments(this.user.id)
       .subscribe((data: any) => {
         this.appointments = data.resultList;
-        if (this.appointments.length > 0 && this.show !== 'questionnaire') {
-          this.show = 'appointments';
-        }
+        this.route.queryParams.subscribe((params) => {
+          if (this.appointments.length > 0) {
+            console.log(params['show']);
+
+            if (params['show'] == 'questionnaire') {
+              console.log('da?');
+
+              this.show = 'both';
+            } else {
+              this.show = 'appointments';
+            }
+          }
+        });
       });
   }
 }

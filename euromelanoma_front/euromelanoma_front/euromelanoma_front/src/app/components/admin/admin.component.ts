@@ -1,25 +1,45 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges,
+} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-admin',
   templateUrl: './admin.component.html',
-  styleUrl: './admin.component.css'
+  styleUrl: './admin.component.css',
 })
 export class AdminComponent implements OnChanges {
+  @Input() item = 'view';
+  constructor(private authService: AuthService) {}
+  @Input() selectedTab: number = 0; // Prima tab index od home komponente
 
-@Input() item = 'view'; 
-constructor(private authService:AuthService,      
-){ }
-
-ngOnChanges(changes: SimpleChanges) {
-  if (changes['item']) {
-    const previousValue = changes['item'].previousValue;
-    const currentValue = changes['item'].currentValue;
-  }
-}
-  handleNotification(change:any) {
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['selectedTab']) {
+      console.log('Admin received tab change:', this.selectedTab);
+    }
   }
 
+  getCurrentComponent(): string {
+    switch (this.selectedTab) {
+      case 0:
+        return 'patients-view';
+      case 1:
+        return 'patients-by-city';
+      case 2:
+        return 'available-slots';
+      case 3:
+        return 'user-requests';
+      default:
+        return 'patients-view';
+    }
+  }
+
+  handleNotification(change: any) {}
 }

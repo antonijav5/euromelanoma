@@ -1,8 +1,6 @@
 ﻿using euromelanoma_api.Managers;
 using euromelanoma_api.Models.DTOObjects;
 using euromelanoma_api.Models.EuromelanomaContext;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using static euromelanoma_api.Models.DTOObjects.PatientClasses;
 
@@ -23,9 +21,10 @@ namespace euromelanoma_api.Controllers
         }
 
         [HttpPost("InsertQuestionnaire")]
-        public RequestResult<Questionnaires> InsertQuestionnaireWithData(QuestionnaireDataPatientInsertModel model) {
+        public RequestResult<Questionnaires> InsertQuestionnaireWithData(QuestionnaireDataPatientInsertModel model)
+        {
 
-            return new RequestResult<Questionnaires>(true, patientManager.InsertQuestionnaireWithData(model), "Ok");  
+            return new RequestResult<Questionnaires>(true, patientManager.InsertQuestionnaireWithData(model), "Ok");
         }
 
 
@@ -33,6 +32,12 @@ namespace euromelanoma_api.Controllers
         public RequestResult<ScheduledAppointments> GetAppointments([FromRoute] int id)
         {
             return new RequestResult<ScheduledAppointments>(true, patientManager.GetAppointments(id), "All good.", null, null);
+        }
+
+        [HttpGet("GetAppointment/{id}")]
+        public RequestResult<ScheduledAppointments> GetAppointment([FromRoute] int id)
+        {
+            return new RequestResult<ScheduledAppointments>(true, patientManager.GetAppointment(id), "All good.", null, null);
         }
 
 
@@ -48,14 +53,14 @@ namespace euromelanoma_api.Controllers
         public RequestResult<SchedulePatientAppointmentResult> ScheduleAppointment([FromBody] ScheduleAppointmentRequest request)
         {
             // Pozivamo servis za zakazivanje
-           SchedulePatientAppointmentResult response =  patientManager.ScheduleAppointment(
-                request.PatientId,
-                request.PhoneNumber,
-                request.CityId
-     ).FirstOrDefault();
-         
+            SchedulePatientAppointmentResult response = patientManager.ScheduleAppointment(
+                 request.PatientId,
+                 request.PhoneNumber,
+                 request.CityId
+      ).FirstOrDefault();
+
             // Vraćamo poruku korisniku na osnovu odgovora iz baze
-       return new RequestResult<SchedulePatientAppointmentResult> ( response.Status==1, response, response.Poruka );
+            return new RequestResult<SchedulePatientAppointmentResult>(response.Status == 1, response, response.Poruka);
         }
 
 

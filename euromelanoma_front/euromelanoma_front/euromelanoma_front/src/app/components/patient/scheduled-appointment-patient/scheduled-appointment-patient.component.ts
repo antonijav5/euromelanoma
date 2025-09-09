@@ -150,11 +150,15 @@ export class ScheduledAppointmentPatientComponent {
     );
   }
 
+  questionnaireShown = false;
+
   navigateToQuestionnaire(): void {
-    this.router.navigate(['/patient'], {
+    this.questionnaireShown = true;
+    this.router.navigate(['/home'], {
       queryParams: { show: 'questionnaire' },
     });
   }
+
   downloadConfirmation(appointment: any): void {
     this.isGeneratingPdf = true;
     this.selectedAppointment = appointment;
@@ -181,9 +185,6 @@ export class ScheduledAppointmentPatientComponent {
 
           pdf.setFontSize(20);
           pdf.setTextColor(2, 49, 98);
-          pdf.text('POTVRDA O ZAKAZANOM PREGLEDU', pdfWidth / 2, 15, {
-            align: 'center',
-          });
 
           pdf.addImage(imgData, 'PNG', 10, 25, imgWidth, imgHeight);
 

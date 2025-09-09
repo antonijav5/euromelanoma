@@ -101,6 +101,7 @@
             mat-raised-button
             class="questionnaire-btn"
             (click)="navigateToQuestionnaire()"
+            [disabled]="questionnaireShown"
           >
             <mat-icon>assignment</mat-icon>
             Popuni novi upitnik

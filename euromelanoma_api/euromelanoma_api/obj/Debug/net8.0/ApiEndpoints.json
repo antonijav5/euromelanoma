@@ -87,6 +87,52 @@
   },
   {
     "ContainingType": "euromelanoma_api.Controllers.AdminController",
+    "Method": "GetAllAppointments",
+    "RelativePath": "api/Admin/GetAllAppointments",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "euromelanoma_api.Models.DTOObjects.RequestResult\u00601[[System.Collections.Generic.List\u00601[[euromelanoma_api.Models.EuromelanomaContext.ScheduledAppointments, euromelanoma_api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "euromelanoma_api.Controllers.AdminController",
+    "Method": "GetAvailableSlotsForCity",
+    "RelativePath": "api/Admin/GetAvailableSlotsForCity/{cityId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "cityId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "euromelanoma_api.Models.DTOObjects.RequestResult\u00601[[System.Collections.Generic.List\u00601[[euromelanoma_api.Models.EuromelanomaContext.AvailableSlots, euromelanoma_api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "euromelanoma_api.Controllers.AdminController",
     "Method": "GetCities",
     "RelativePath": "api/Admin/GetCities",
     "HttpMethod": "GET",
@@ -342,6 +388,32 @@
     "ReturnTypes": [
       {
         "Type": "euromelanoma_api.Models.DTOObjects.RequestResult\u00601[[euromelanoma_api.Models.EuromelanomaContext.Questionnaires, euromelanoma_api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "euromelanoma_api.Controllers.PatientController",
+    "Method": "GetAppointment",
+    "RelativePath": "api/Patient/GetAppointment/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "euromelanoma_api.Models.DTOObjects.RequestResult\u00601[[euromelanoma_api.Models.EuromelanomaContext.ScheduledAppointments, euromelanoma_api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",

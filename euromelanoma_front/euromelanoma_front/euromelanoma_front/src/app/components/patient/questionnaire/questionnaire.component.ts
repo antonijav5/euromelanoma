@@ -16,6 +16,7 @@ import { ToastrService } from 'ngx-toastr';
 import { DoctorService } from 'src/app/services/doctor.service';
 import { PatientService } from 'src/app/services/patient.service';
 import { ExaminationResultsComponent } from '../examination-results/examination-results.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-questionnaire',
@@ -72,7 +73,8 @@ export class QuestionnaireComponent implements OnInit {
     private toster: ToastrService,
     private patientService: PatientService,
     private doctorService: DoctorService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private router: Router
   ) {
     this.form012 = this.createExposureForm('012');
     this.form1319 = this.createExposureForm('1319');
@@ -742,6 +744,8 @@ export class QuestionnaireComponent implements OnInit {
   }
 
   loadQuestionnaireData() {
+    console.log(this.data);
+
     this.doctorService
       .GetQuestionnairesById(this.data.questionnaireId)
       .subscribe((response: any) => {
@@ -761,7 +765,7 @@ export class QuestionnaireComponent implements OnInit {
       .GetDoctorNotesByQuestionnaireId(this.data.questionnaireId)
       .subscribe({
         next: (response: any) => {
-          if (response.success && response.resultList) {
+          if (response.success && response.resultList.length > 0) {
             this.doctorNotesExists = true;
             this.showSubmitButton = false;
             this.populateDoctorForm(response.resultList[0]);
@@ -1070,7 +1074,6 @@ export class QuestionnaireComponent implements OnInit {
           .subscribe((response: any) => {
             if (response.success) {
               this.toster.success('Podaci uspešno uneti!');
-              //vrati ti ceo upitnik, znaci imamo ID i Score
               const dialogRef = this.dialog.open(ExaminationResultsComponent, {
                 width: '610px',
                 data: {
@@ -1079,9 +1082,10 @@ export class QuestionnaireComponent implements OnInit {
                   id: response.result.id,
                 },
               });
-              this.dialogRef.afterClosed().subscribe(() => {
-                window.location.reload();
+              this.dialogRef?.afterClosed().subscribe(() => {
+                this.router.navigate(['home']);
               });
+              this.router.navigate(['home']);
             } else {
               this.toster.error('Greška pri slanju podataka', 'Oprez!');
             }

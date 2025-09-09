@@ -1,34 +1,173 @@
-    <div class="login-container">
-        <div class="login-content">
-            <div class="login-image">
-
-                <img src="../../../assets/images/login.png" alt="" > 
+<!-- login.component.html -->
+<div class="login-wrapper">
+  <div class="login-container">
+    <div class="login-content">
+      <!-- Left Side - Image/Branding -->
+      <div class="login-image">
+        <div class="brand-overlay">
+          <div class="brand-content">
+            <img
+              src="../../../assets/images/euromelanoma-logo.svg"
+              alt="Euromelanoma"
+              class="brand-logo"
+            />
+            <h1 class="brand-title">Euromelanoma Portal</h1>
+            <p class="brand-subtitle">
+              Vaš digitalni partner u prevenciji melanoma
+            </p>
+            <div class="brand-features">
+              <div class="feature-item">
+                <mat-icon>shield</mat-icon>
+                <span>Sigurna procena rizika</span>
+              </div>
+              <div class="feature-item">
+                <mat-icon>schedule</mat-icon>
+                <span>Brzo zakazivanje pregleda</span>
+              </div>
+              <div class="feature-item">
+                <mat-icon>people</mat-icon>
+                <span>Stručni medicinski tim</span>
+              </div>
+              <div class="feature-item">
+                <mat-icon>business</mat-icon>
+                <a href="about-us" class="white"> O nama </a>
+              </div>
             </div>
-            <div class="login-box">
-                <div class="login-header">
-                    <h2>Dobro došli nazad!</h2>
-                    <p>Prijavite se na svoj nalog.</p>
-                </div>
-                <form class="login-form">
-                    <div class="input-group">
-                        <label for="username">Korisničko ime</label>
-                        <input type="text" placeholder="Unesite korisničko ime" [formControl]="username" id="username" required>
-                    </div>
-                    <div class="input-group">
-                      <label for="password">Lozinka</label>
-                      <div class="input-wrapper">
-                          <input [type]="hide ? 'password' : 'text'" id="password" [formControl]="password" required placeholder="Unesite lozinku"/>
-                          <i class="bi bi-eye-slash" id="togglePassword" (click)="toggleShow()"></i>
-                      </div>
-                  </div>
-                    <div class="options" style=" margin-top: 10px;">
-                        <a href="forgot-password" class="forgot-password">Zaboravili ste lozinku?</a>
-                    </div>
-                    <button type="submit" class="login-button" (click)="onSubmit()">Ulogujte se</button>
-                    <div class="signup-link">
-                        <p>Nemate nalog? <a href="register">Registrujte se</a></p>
-                    </div>
-                </form>
-            </div>
+          </div>
         </div>
+        <img
+          src="../../../assets/images/login.png"
+          alt="Medical background"
+          class="background-image"
+        />
+      </div>
+
+      <!-- Right Side - Login Form -->
+      <div class="login-box">
+        <div class="login-header">
+          <h2>Dobro došli nazad!</h2>
+          <p>Prijavite se na svoj nalog da biste pristupili portalu.</p>
+        </div>
+
+        <form
+          class="login-form"
+          [formGroup]="loginForm"
+          (ngSubmit)="onSubmit()"
+        >
+          <!-- Username Field -->
+          <div class="input-group">
+            <label for="username">
+              <mat-icon class="input-icon">person</mat-icon>
+              Korisničko ime
+            </label>
+            <div class="input-wrapper">
+              <input
+                type="text"
+                id="username"
+                formControlName="username"
+                placeholder="Unesite korisničko ime"
+                class="form-input"
+                [class.error]="username.invalid && username.touched"
+              />
+              <mat-icon class="field-icon">account_circle</mat-icon>
+            </div>
+            <div
+              class="error-message"
+              *ngIf="username.invalid && username.touched"
+            >
+              <mat-icon>error</mat-icon>
+              Korisničko ime je obavezno
+            </div>
+          </div>
+
+          <!-- Password Field -->
+          <div class="input-group">
+            <label for="password">
+              <mat-icon class="input-icon">lock</mat-icon>
+              Lozinka
+            </label>
+            <div class="input-wrapper ml-50">
+              <input
+                [type]="hide ? 'password' : 'text'"
+                id="password"
+                formControlName="password"
+                placeholder="Unesite lozinku"
+                class="form-input"
+                [class.error]="password.invalid && password.touched"
+              />
+              <mat-icon class="toggle-password" (click)="toggleShow()">
+                {{ hide ? "visibility_off" : "visibility" }}
+              </mat-icon>
+            </div>
+            <div
+              class="error-message"
+              *ngIf="password.invalid && password.touched"
+            >
+              <mat-icon>error</mat-icon>
+              Lozinka je obavezna
+            </div>
+          </div>
+
+          <!-- Options -->
+          <div class="form-options" style="width: 90%">
+            <label class="remember-checkbox" style="margin-left: 77px">
+              <input type="checkbox" />
+              <span class="checkmark"></span>
+              Zapamti me
+            </label>
+            <div class="links-section">
+              <a href="/forgot-password" class="forgot-password"
+                >Zaboravili ste lozinku?</a
+              >
+            </div>
+          </div>
+
+          <div class="w-100" style="text-align: center">
+            <button
+              type="submit"
+              class="login-button"
+              [disabled]="loginForm.invalid || isLoading"
+              mat-raised-button
+            >
+              <mat-icon *ngIf="!isLoading">login</mat-icon>
+              <mat-icon *ngIf="isLoading" class="spinning"
+                >hourglass_empty</mat-icon
+              >
+              {{ isLoading ? "Prijavljivanje..." : "Prijavite se" }}
+            </button>
+          </div>
+          <!-- Social Login (Optional) -->
+          <div class="divider">
+            <span>ili</span>
+          </div>
+
+          <!-- Register Link -->
+          <div class="register-section">
+            <p>Nemate nalog?</p>
+            <button
+              type="button"
+              mat-stroked-button
+              class="register-button"
+              routerLink="/register"
+            >
+              <mat-icon>person_add</mat-icon>
+              Registrujte se
+            </button>
+          </div>
+        </form>
+
+        <!-- Footer -->
+        <div class="login-footer">
+          <p>&copy; 2024 Euromelanoma Portal. Sva prava zadržana.</p>
+        </div>
+      </div>
     </div>
+  </div>
+
+  <!-- Background Elements -->
+  <div class="background-shapes">
+    <div class="shape shape-1"></div>
+    <div class="shape shape-2"></div>
+    <div class="shape shape-3"></div>
+  </div>
+</div>

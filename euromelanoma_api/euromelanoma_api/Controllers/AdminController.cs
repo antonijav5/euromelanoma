@@ -2,12 +2,7 @@
 using euromelanoma_api.Managers;
 using euromelanoma_api.Models.DTOObjects;
 using euromelanoma_api.Models.EuromelanomaContext;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
-using System.ComponentModel.Design;
 using System.Reflection;
 using static euromelanoma_api.Models.DTOObjects.AdminClasses;
 
@@ -28,23 +23,23 @@ namespace euromelanoma_api.Controllers
         }
 
 
-        [HttpPost("RegisterPatient")] 
+        [HttpPost("RegisterPatient")]
         // Obican insert u bazu. Koristice se u svakom slucaju, ili nakon odobravanja od strane admina ili pri registraciji pacijenta.
         public RequestResult<Users> RegisterPatient([FromBody] RegisterUserModel registerUserModel)
         {
             ArgumentNullException.ThrowIfNull(registerUserModel, nameof(registerUserModel));
             adminManager.RegisterUser(registerUserModel);
-            return new RequestResult<Users>(true, null , "Uspeh.", null, null);
+            return new RequestResult<Users>(true, null, "Uspeh.", null, null);
 
         }
 
         [HttpPost("RegisterDoctor"), Produces("application/json")]
         public RequestResult<Users> RegisterDoctor([FromBody] RegisterUserModel model)
         {
-         
-                var pass = adminManager.GeneratePassword();
-                model.Password = pass;
-                adminManager.RegisterUser(model);
+
+            var pass = adminManager.GeneratePassword();
+            model.Password = pass;
+            adminManager.RegisterUser(model);
             return new RequestResult<Users>(true, null, "Uspeh.", null, null);
 
         }
@@ -60,9 +55,9 @@ namespace euromelanoma_api.Controllers
         [HttpPost("AddAppointment")]
         public RequestResult<string> AddAppointment([FromBody] AppointmentDto appointmentDto)
         {
-   
-            return new RequestResult<string>(true,adminManager.AddAppointment(appointmentDto), "Sve ok");
-       
+
+            return new RequestResult<string>(true, adminManager.AddAppointment(appointmentDto), "Sve ok");
+
         }
 
         [HttpGet("GetDoctors")]
@@ -84,7 +79,7 @@ namespace euromelanoma_api.Controllers
         [HttpGet("GetPatients")]
         public RequestResult<List<Users>> GetPatients()
         {
-            var list = _context.Users.Where(a=>a.UserType=="Patient").ToList(); // Preuzmite pacijente iz baze
+            var list = _context.Users.Where(a => a.UserType == "Patient").ToList(); // Preuzmite pacijente iz baze
             return new RequestResult<List<Users>>(true, list, "Sve ok");
         }
 
@@ -92,7 +87,7 @@ namespace euromelanoma_api.Controllers
         [HttpGet("GetQuestionnairesByPatient/{patientId}")]
         public RequestResult<List<Questionnaires>> GetQuestionnairesByPatient(int patientId)
         {
-            var list = _context.Questionnaires.Where(a=>a.PatientID==patientId).ToList(); // Preuzmite pacijente iz baze
+            var list = _context.Questionnaires.Where(a => a.PatientID == patientId).ToList(); // Preuzmite pacijente iz baze
             return new RequestResult<List<Questionnaires>>(true, list, "Sve ok");
         }
 
@@ -101,9 +96,9 @@ namespace euromelanoma_api.Controllers
         {
             dynamic tabelaZaExcel = _context.QuestionnaireDataPatient.ToList();
 
-            string nazivFajla = "Questionnaires" + DateTime.Now.ToString().Replace("/","_");
+            string nazivFajla = "Questionnaires" + DateTime.Now.ToString().Replace("/", "_");
 
- 
+
             using XLWorkbook wb = new();
 
             wb.AddWorksheet("Questionnaires");
@@ -119,7 +114,7 @@ namespace euromelanoma_api.Controllers
 
             // Dobijanje naziva izveštaja.
             properties = typeof(QuestionnaireDataPatient).GetProperties();
-             
+
             // Inicijalizacija liste za čuvanje headera tabele.
             List<string> lHederTabele = [];
 
@@ -168,6 +163,19 @@ namespace euromelanoma_api.Controllers
             return new RequestResult<string>(true, adminManager.deleteRequest(idReq), "All good.");
         }
 
+        [HttpGet("GetAllAppointments")]
+        public RequestResult<List<ScheduledAppointments>> GetAllAppointments()
+        {
+            var list = adminManager.GetAllAppointments();
+            return new RequestResult<List<ScheduledAppointments>>(true, list, "Sve ok");
+        }
+
+        [HttpGet("GetAvailableSlotsForCity/{cityId}")]
+        public RequestResult<List<AvailableSlots>> GetAvailableSlotsForCity(int cityId)
+        {
+            var list = adminManager.GetAvailableSlotsForCity(cityId);
+            return new RequestResult<List<AvailableSlots>>(true, list, "Sve ok");
+        }
 
 
     }

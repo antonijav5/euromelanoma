@@ -1,12 +1,9 @@
 ﻿using euromelanoma_api.Models.DTOObjects;
 using euromelanoma_api.Models.EuromelanomaContext;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using MimeKit;
-using SendGrid.Helpers.Mail;
 using SendGrid;
+using SendGrid.Helpers.Mail;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
@@ -157,21 +154,21 @@ namespace euromelanoma_api.Managers
 
 
 
-            var sendGridClient = new SendGridClient("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");
-            var from = new EmailAddress("euromelanomaportal@gmail.com", "Euromelanoma Portal");
+            var sendGridClient = new SendGridClient("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");
+            var from = new EmailAddress("portaleuromelanoma@gmail.com", "Euromelanoma Portal");
             var subject = "Link za promenu lozinke na Euromelanoma portal-u";
             var to = new EmailAddress(emailAdresa);
             var plainContent = "Pozdrav.";
             var htmlContent = messageSubject;
             var mailMessage = MailHelper.CreateSingleEmail(from, to, subject, plainContent, htmlContent);
             sendGridClient.SendEmailAsync(mailMessage);
-            
+
         }
 
 
         public string ForgotPassword([FromBody] PasswordResetRequestDto email)
         {
-            var user =  _context.Users.Where(u => u.Email == email.Email).FirstOrDefault();
+            var user = _context.Users.Where(u => u.Email == email.Email).FirstOrDefault();
 
             if (user == null)
             {
@@ -184,11 +181,11 @@ namespace euromelanoma_api.Managers
             {
                 UserId = user.UserID,
                 Token = token,
-                ExpiryDate = DateTime.Now.AddHours(1) 
+                ExpiryDate = DateTime.Now.AddHours(1)
             };
 
             _context.PasswordResetTokens.Add(passwordReset);
-             _context.SaveChanges();
+            _context.SaveChanges();
 
             SendEmailReset($"http://localhost:4200/reset-password/{token}", user.Email);
 
@@ -202,10 +199,10 @@ namespace euromelanoma_api.Managers
 
 
 
-        public  string ResetPassword(ResetPasswordDto model)
+        public string ResetPassword(ResetPasswordDto model)
         {
             // Pronađi token u bazi
-            var passwordResetToken =  _context.PasswordResetTokens
+            var passwordResetToken = _context.PasswordResetTokens
                 .Where(t => t.Token == model.Token && t.ExpiryDate > DateTime.Now).FirstOrDefault();
 
             if (passwordResetToken == null)
@@ -214,34 +211,34 @@ namespace euromelanoma_api.Managers
             }
 
             // Pronađi korisnika
-            var user =  _context.Users.Where(u => u.UserID == passwordResetToken.UserId).FirstOrDefault();
+            var user = _context.Users.Where(u => u.UserID == passwordResetToken.UserId).FirstOrDefault();
 
             if (user == null)
             {
                 return "Korisnik ne postoji.";
             }
 
-          
+
             var hex = UserManager.GetHashHex(model.NewPassword);
             byte[] bytes = new byte[hex.Length / 2];
             for (int i = 0; i < hex.Length; i += 2)
             {
                 bytes[i / 2] = Convert.ToByte(hex.Substring(i, 2), 16);
             }
-            
+
             user.PasswordHash = bytes;
-            
+
             _context.Users.Update(user);
-             _context.SaveChanges();
+            _context.SaveChanges();
 
             // Obriši token nakon uspešnog resetovanja lozinke
             _context.PasswordResetTokens.Remove(passwordResetToken);
-             _context.SaveChanges();
+            _context.SaveChanges();
 
             return "Lozinka je uspešno resetovana.";
         }
 
 
-   
+
     }
 }

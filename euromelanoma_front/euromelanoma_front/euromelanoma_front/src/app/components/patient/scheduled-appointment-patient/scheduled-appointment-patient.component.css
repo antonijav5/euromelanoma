@@ -363,7 +363,7 @@
 }
 
 .questionnaire-btn {
-  background: linear-gradient(135deg, #4caf50, #388e3c) !important;
+  background: linear-gradient(135deg, #4caf50, #388e3c);
   color: white !important;
   padding: 16px 32px !important;
   font-size: 16px !important;
@@ -381,6 +381,11 @@
   mat-icon {
     margin-right: 8px !important;
     font-size: 20px;
+  }
+  &[disabled] {
+    opacity: 0.6 !important;
+    cursor: not-allowed !important;
+    background-color: inherit;
   }
 }
 

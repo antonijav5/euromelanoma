@@ -9,25 +9,23 @@ const TOKEN_KEY = 'auth-token';
 const USER_KEY = 'auth-user';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
-  private token: string="";
+  private token: string = '';
   private inactivityDuration: number = 3600 * 1000; // 60min * 60s * 1000ms = 1h neaktivnosti
   private activityTimer: any;
-  private isReloading:boolean=false
+  private isReloading: boolean = false;
   private loggedIn: boolean = false;
-  environment:any={
-    apiBaseUrl:"http://localhost:21493"
-  } 
+  environment: any = {
+    apiBaseUrl: 'http://localhost:21493',
+  };
   url: string = this.environment.apiBaseUrl + '/api/User/';
-
 
   constructor(
     private router: Router,
     private http: HttpClient,
     private spinner: NgxSpinnerService
-
   ) {
     ['mousemove', 'mousedown', 'keypress', 'touchstart'].forEach((event) => {
       window.addEventListener(event, this.resetActivityTimer.bind(this));
@@ -36,8 +34,6 @@ export class AuthService {
     // window.addEventListener('beforeunload', this.handleBeforeUnload.bind(this));
   }
 
-
-
   ngOnDestroy(): void {
     ['mousemove', 'mousedown', 'keypress', 'touchstart'].forEach((event) => {
       window.removeEventListener(event, this.resetActivityTimer.bind(this));
@@ -45,9 +41,6 @@ export class AuthService {
 
     // window.removeEventListener('beforeunload', this.handleBeforeUnload.bind(this));
   }
-
-
-
 
   private resetActivityTimer(): void {
     clearTimeout(this.activityTimer);
@@ -91,26 +84,37 @@ export class AuthService {
     return {};
   }
 
-  public (): boolean {
+  public(): boolean {
     if (this.getToken()) {
       return true;
     } else {
       sessionStorage.clear();
       return false;
     }
-    return true
+    return true;
   }
 
   isLoggedIn(): boolean {
     return this.getToken() != null;
   }
 
-  login(username:string, password:string): Observable<any> {
+  login(username: string, password: string): Observable<any> {
     if (username && password) {
-      const reqHeader = new HttpHeaders().set('Content-Type', 'application/json').set('Accept', 'application/json');
+      const reqHeader = new HttpHeaders()
+        .set('Content-Type', 'application/json')
+        .set('Accept', 'application/json');
       this.saveToken(this.token);
-    
-      return this.http.post<any>(this.url + 'Login?' + 'username=' + username + '&password=' + password, { headers: reqHeader })
+
+      return this.http
+        .post<any>(
+          this.url +
+            'Login?' +
+            'username=' +
+            username +
+            '&password=' +
+            password,
+          { headers: reqHeader }
+        )
         .pipe(
           tap(() => {
             this.loggedIn = true;
@@ -120,44 +124,53 @@ export class AuthService {
     return throwError(new Error('Failed to login'));
   }
 
-  reset(modelReset:any): Observable<any> {
+  reset(modelReset: any): Observable<any> {
     if (modelReset) {
-      const reqHeader = new HttpHeaders().set('Content-Type', 'application/json').set('Accept', 'application/json');
+      const reqHeader = new HttpHeaders()
+        .set('Content-Type', 'application/json')
+        .set('Accept', 'application/json');
       this.saveToken(this.token);
-      return this.http.post<any>(this.url + 'ResetPassword?' + 'username=' + modelReset.username + '&oldPassword=' + modelReset.oldPassword + '&newPassword=' + modelReset.newPassword, { headers: reqHeader })
+      return this.http.post<any>(
+        this.url +
+          'ResetPassword?' +
+          'username=' +
+          modelReset.username +
+          '&oldPassword=' +
+          modelReset.oldPassword +
+          '&newPassword=' +
+          modelReset.newPassword,
+        { headers: reqHeader }
+      );
     }
     return throwError(new Error('Failed to reset'));
   }
 
-
-  resetPasswordRequest(email:string) {
-return {}
+  resetPasswordRequest(email: string) {
+    return {};
   }
-  
+
   signOut(): void {
-  
     this.loggedIn = false;
-     sessionStorage.clear();
+    sessionStorage.clear();
     this.router.navigate(['login']);
   }
 
   getUsers() {
-    return this.http.get(this.url+"GetUsers");
+    return this.http.get(this.url + 'GetUsers');
   }
 
   getUserRequests() {
-    return this.http.get("GetUserRequests");
+    return this.http.get(this.url + 'GetUserRequests');
   }
 
   forgotPassword(email: string) {
-    return this.http.post(this.url+'ForgotPassword', { email:email });
+    return this.http.post(this.url + 'ForgotPassword', { email: email });
   }
 
-  resetPassword( token: string, newPassword: string) {
-    console.log(token);
-    console.log(newPassword);
-    
-    
-    return this.http.post(this.url+"ResetPassword", { token:token, newPassword:newPassword });
+  resetPassword(token: string, newPassword: string) {
+    return this.http.post(this.url + 'ResetPassword', {
+      token: token,
+      newPassword: newPassword,
+    });
   }
 }

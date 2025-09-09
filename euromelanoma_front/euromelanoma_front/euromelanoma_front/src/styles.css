@@ -1,11 +1,10 @@
-/* You can add global styles to this file, and also import other style files */
-@import 'node_modules/ngx-toastr/toastr.css';
+@import "node_modules/ngx-toastr/toastr.css";
 
 html,
 body {
   /* height: 100%; */
   /* background-color: rgb(141, 159, 174); */
-  background-color: #023162;
+  background-color: #023162 !important;
 }
 
 body {
@@ -23,7 +22,8 @@ body {
 }
 
 .mat-datepicker-content-container {
-  box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
+  box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2),
+    0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
   display: block;
   border-radius: 4px;
   background-color: var(--mat-datepicker-calendar-container-background-color);
@@ -40,7 +40,12 @@ body {
 }
 
 .mat-calendar-body-cell:hover:not(.mat-calendar-body-disabled) {
-  background-color: rgba(0, 0, 0, 0.1); /* Blagi hover efekat za datume koji nisu disabled */
+  background-color: rgba(
+    0,
+    0,
+    0,
+    0.1
+  ); /* Blagi hover efekat za datume koji nisu disabled */
 }
 
 /* ::ng-deep .mat-radio-button.mat-accent .mat-radio-ripple .mat-ripple-element {
@@ -54,7 +59,6 @@ body {
 ::ng-deep.mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle {
  border-color:blue!important; 
 } */
-
 
 .mat-mdc-radio-button.mat-accent {
   --mdc-radio-disabled-selected-icon-color: black;
@@ -70,7 +74,124 @@ body {
   --mat-radio-checked-ripple-color: #023162;
 }
 
-
 .ngx-toastr {
-font-size:12pt !important;  
+  font-size: 12pt !important;
+}
+.mat-mdc-raised-button.mat-primary,
+.mat-mdc-unelevated-button.mat-primary,
+.mat-mdc-fab.mat-primary,
+.mat-mdc-mini-fab.mat-primary {
+  --mdc-filled-button-container-color: #023162 !important;
+  --mdc-filled-button-label-text-color: white !important;
+}
+
+.mat-mdc-raised-button.mat-primary:hover,
+.mat-mdc-unelevated-button.mat-primary:hover {
+  --mdc-filled-button-container-color: #034a8c !important;
+}
+
+/* Form Field Focus */
+.mat-mdc-form-field.mat-focused .mat-mdc-form-field-outline-thick {
+  color: #023162 !important;
+}
+
+.mat-mdc-form-field.mat-focused .mdc-floating-label {
+  color: #023162 !important;
+}
+
+/* Checkbox */
+.mat-mdc-checkbox.mat-primary
+  .mdc-checkbox__native-control:enabled:checked
+  ~ .mdc-checkbox__background,
+.mat-mdc-checkbox.mat-primary
+  .mdc-checkbox__native-control:enabled:indeterminate
+  ~ .mdc-checkbox__background {
+  background-color: #023162 !important;
+  border-color: #023162 !important;
+}
+
+/* Radio Button */
+.mat-mdc-radio-button.mat-primary
+  .mdc-radio__native-control:enabled:checked
+  + .mdc-radio__background
+  .mdc-radio__outer-circle,
+.mat-mdc-radio-button.mat-primary
+  .mdc-radio__native-control:enabled
+  + .mdc-radio__background
+  .mdc-radio__inner-circle {
+  border-color: #023162 !important;
+}
+
+.mat-mdc-radio-button.mat-primary
+  .mdc-radio__native-control:enabled:checked
+  + .mdc-radio__background
+  .mdc-radio__inner-circle {
+  background-color: #023162 !important;
+}
+
+/* Select Panel */
+.mat-mdc-select-panel
+  .mat-mdc-option.mdc-list-item--selected:not(.mdc-list-item--disabled) {
+  background-color: rgba(2, 49, 98, 0.1) !important;
+  color: #023162 !important;
+}
+
+/* Tabs */
+.mat-mdc-tab-group.mat-primary
+  .mat-mdc-tab-header
+  .mat-mdc-tab-label.mdc-tab--active {
+  color: #023162 !important;
+}
+
+.mat-mdc-tab-group.mat-primary
+  .mat-mdc-tab-header
+  .mdc-tab-indicator__content--underline {
+  border-color: #023162 !important;
+}
+
+/* Progress Bar */
+.mat-mdc-progress-bar.mat-primary .mdc-linear-progress__bar-inner {
+  border-color: #023162 !important;
+}
+
+/* Slider */
+.mat-mdc-slider.mat-primary .mdc-slider__track--active_fill {
+  background-color: #023162 !important;
+}
+
+.mat-mdc-slider.mat-primary .mdc-slider__thumb-knob {
+  background-color: #023162 !important;
+  border-color: #023162 !important;
+}
+
+/* Toggle Button */
+.mat-button-toggle-group.mat-primary .mat-button-toggle-checked {
+  background-color: #023162 !important;
+  color: white !important;
+}
+
+/* Date Picker */
+.mat-datepicker-content.mat-primary .mat-calendar-body-selected {
+  background-color: #023162 !important;
+  color: white !important;
+}
+
+.mat-datepicker-content.mat-primary
+  .mat-calendar-body-today.mat-calendar-body-selected {
+  background-color: #023162 !important;
+  color: white !important;
+}
+
+/* Stepper */
+.mat-step-header.mat-primary .mat-step-icon {
+  background-color: #023162 !important;
+  color: white !important;
+}
+
+.mat-step-header.mat-primary .mat-step-icon-selected {
+  background-color: #023162 !important;
+  color: white !important;
+}
+.mdc-tab__text-label {
+  color: #023162 !important;
 }

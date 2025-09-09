@@ -22,6 +22,10 @@ export class PatientService {
     return this.http.get(this.url + 'GetAppointments/' + id);
   }
 
+  getAppointment(id: number) {
+    return this.http.get(this.url + 'GetAppointment/' + id);
+  }
+
   scheduleAppointment(model: any): Observable<any> {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
     return this.http.post(this.url + 'ScheduleAppointment', model);

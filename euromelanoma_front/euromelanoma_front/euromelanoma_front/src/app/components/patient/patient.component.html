@@ -1,4 +1,6 @@
-<app-questionnaire *ngIf="show == 'questionnaire'"></app-questionnaire>
 <app-scheduled-appointment-patient
-  *ngIf="show == 'appointments'"
+  *ngIf="show == 'appointments' || show == 'both'"
 ></app-scheduled-appointment-patient>
+<app-questionnaire
+  *ngIf="show == 'questionnaire' || show == 'both'"
+></app-questionnaire>

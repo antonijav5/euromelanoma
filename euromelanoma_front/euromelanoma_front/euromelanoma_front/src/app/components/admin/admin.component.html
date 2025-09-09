@@ -1,4 +1,26 @@
-<app-patients-by-city *ngIf="item=='cities'"></app-patients-by-city>
-<app-patients-view-admin *ngIf="item=='view'"></app-patients-view-admin>
-<app-avaliable-slots-insert *ngIf="item=='insert'"></app-avaliable-slots-insert>
-<app-user-requests *ngIf="item=='userrequest'"></app-user-requests>
+<div class="admin-container">
+  <mat-card class="main-card">
+    <mat-card-header class="admin-header">
+      <mat-card-title class="page-title">
+        <mat-icon class="title-icon">admin_panel_settings</mat-icon>
+        Administracijski panel
+      </mat-card-title>
+      <mat-card-subtitle class="page-subtitle">
+        Upravljanje korisnicima, pacijentima i terminima
+      </mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content class="admin-content">
+      <div class="tab-content">
+        <app-patients-view-admin
+          *ngIf="selectedTab === 0"
+        ></app-patients-view-admin>
+        <app-patients-by-city *ngIf="selectedTab === 1"></app-patients-by-city>
+        <app-avaliable-slots-insert
+          *ngIf="selectedTab === 2"
+        ></app-avaliable-slots-insert>
+        <app-user-requests *ngIf="selectedTab === 3"></app-user-requests>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

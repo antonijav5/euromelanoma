@@ -6,72 +6,73 @@ import { AuthService } from 'src/app/services/auth.service';
 @Component({
   selector: 'app-user-requests',
   templateUrl: './user-requests.component.html',
-  styleUrl: './user-requests.component.css'
+  styleUrl: './user-requests.component.css',
 })
 export class UserRequestsComponent {
   requests: any[] = [];
-  displayedColumns: string[] = ['firstname','lastname', 'mail', 'action'];
- 
-  constructor(private authService:AuthService,
-              private adminService:AdminService,
-              private toster:ToastrService
+  displayedColumns: string[] = ['firstname', 'lastname', 'mail', 'action'];
+  processingRequest: boolean = false;
+
+  constructor(
+    private authService: AuthService,
+    private adminService: AdminService,
+    private toster: ToastrService
   ) {}
- 
-  ngOnInit(){
-this.authService.getUserRequests().subscribe((res:any)=>{
-  if (res.success) {
-    this.requests=res.resultList;
-  }
-})
-  }
 
-
-  accept(data:any) {
-    let model={
-      username:data.username,
-      firstName:data.firstName,
-      lastName:data.lastName,
-      email:data.email,
-      password:"", //sad je empty, generise se.
-      userType:"Doctor"
-    }
-this.adminService.RegisterDoctor(model).subscribe((res:any)=>{
-  if (res.success) { 
-    this.adminService.DeleteRequest(data.userID).subscribe((res:any)=>{
-      if (!res.success) {
-        this.toster.error("Nastala je greška.")
+  ngOnInit() {
+    this.authService.getUserRequests().subscribe((res: any) => {
+      if (res.success) {
+        this.requests = res.resultList;
       }
-      else {
-        this.toster.success("Uspešno ste uneli lekara.", "Čestitke!")
-        this.authService.getUserRequests().subscribe((res:any)=>{
-          if (res.success) {
-            this.requests=res.resultList;
+    });
+  }
+  getPendingCount(): number {
+    return this.requests.filter((r) => r.status === 'Pending').length;
+  }
+
+  accept(data: any) {
+    this.processingRequest = true;
+    let model = {
+      username: data.username,
+      firstName: data.firstName,
+      lastName: data.lastName,
+      email: data.email,
+      password: '', //sad je empty, generise se.
+      userType: 'Doctor',
+    };
+    this.adminService.RegisterDoctor(model).subscribe((res: any) => {
+      if (res.success) {
+        this.adminService.DeleteRequest(data.userID).subscribe((res: any) => {
+          if (!res.success) {
+            this.toster.error('Nastala je greška.');
+          } else {
+            this.toster.success('Uspešno ste uneli lekara.', 'Čestitke!');
+            this.authService.getUserRequests().subscribe((res: any) => {
+              if (res.success) {
+                this.requests = res.resultList;
+                this.processingRequest = false;
+              }
+            });
           }
-        })
+        });
+      } else {
+        this.toster.error('Lekar nije unet u sistem.', 'Greška!');
       }
-    })
-
-  }
-  else {
-    this.toster.error("Lekar nije unet u sistem.", "Greška!")
-  }
-})
-
-
+    });
   }
 
-  decline(id:number){
-    this.adminService.DeleteRequest(id).subscribe((res:any)=>{
+  decline(id: number) {
+    this.adminService.DeleteRequest(id).subscribe((res: any) => {
       if (!res.success) {
-        this.toster.error("Nastala je greška.")
+        this.toster.error('Nastala je greška.');
+      } else {
+        this.authService.getUserRequests().subscribe((res: any) => {
+          if (res.success) {
+            this.requests = res.resultList;
+            this.processingRequest = false;
+          }
+        });
       }
-    else {
-      this.authService.getUserRequests().subscribe((res:any)=>{
-        if (res.success) {
-          this.requests=res.resultList;
-        }
-      })
-    }
-    })
+    });
   }
 }

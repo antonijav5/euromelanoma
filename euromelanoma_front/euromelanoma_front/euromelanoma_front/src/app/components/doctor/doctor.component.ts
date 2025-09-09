@@ -82,10 +82,32 @@ export class DoctorComponent {
   }
 
   openQuestionnaire(patientid: number, qid: number) {
-    const dialogRef = this.dialog.open(QuestionnaireComponent, {
+    this.dialog.open(QuestionnaireComponent, {
       width: '910px',
       height: '775px',
       data: { patientId: patientid, whothere: 'doctor', questionnaireId: qid },
     });
+  }
+
+  getTotalQuestionnaires(): number {
+    return this.filteredPatients.reduce(
+      (total, patient) => total + (patient.questionnaires?.length || 0),
+      0
+    );
+  }
+
+  getCompletedQuestionnaires(): number {
+    return this.filteredPatients.reduce(
+      (total, patient) =>
+        total +
+        (patient.questionnaires?.filter((q: any) => q.completeDate).length ||
+          0),
+      0
+    );
+  }
+
+  clearSearch(): void {
+    this.patientId = '';
+    this.searchPatient();
   }
 }

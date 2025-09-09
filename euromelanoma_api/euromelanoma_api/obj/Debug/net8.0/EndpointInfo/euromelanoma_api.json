@@ -355,6 +355,75 @@
         }
       }
     },
+    "/api/Admin/GetAllAppointments": {
+      "get": {
+        "tags": [
+          "Admin"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScheduledAppointmentsListRequestResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScheduledAppointmentsListRequestResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScheduledAppointmentsListRequestResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Admin/GetAvailableSlotsForCity/{cityId}": {
+      "get": {
+        "tags": [
+          "Admin"
+        ],
+        "parameters": [
+          {
+            "name": "cityId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/AvailableSlotsListRequestResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AvailableSlotsListRequestResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AvailableSlotsListRequestResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/Doctor/AddDoctorNotes": {
       "post": {
         "tags": [
@@ -612,6 +681,46 @@
       }
     },
     "/api/Patient/GetAppointments/{id}": {
+      "get": {
+        "tags": [
+          "Patient"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScheduledAppointmentsRequestResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScheduledAppointmentsRequestResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScheduledAppointmentsRequestResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Patient/GetAppointment/{id}": {
       "get": {
         "tags": [
           "Patient"
@@ -1065,6 +1174,46 @@
             "items": {
               "$ref": "#/components/schemas/ScheduledAppointments"
             },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "AvailableSlotsListRequestResult": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "result": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AvailableSlots"
+            },
+            "nullable": true
+          },
+          "resultList": {
+            "type": "array",
+            "items": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/AvailableSlots"
+              }
+            },
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "nullable": true
+          },
+          "recordsFiltered": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "recordsTotal": {
+            "type": "integer",
+            "format": "int32",
             "nullable": true
           }
         },
@@ -2027,6 +2176,46 @@
           },
           "slot": {
             "$ref": "#/components/schemas/AvailableSlots"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ScheduledAppointmentsListRequestResult": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "result": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ScheduledAppointments"
+            },
+            "nullable": true
+          },
+          "resultList": {
+            "type": "array",
+            "items": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/ScheduledAppointments"
+              }
+            },
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "nullable": true
+          },
+          "recordsFiltered": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "recordsTotal": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
           }
         },
         "additionalProperties": false

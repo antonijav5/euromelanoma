@@ -1,132 +1,216 @@
-<mat-card class="mat-card">
-  <mat-form-field appearance="fill">
-    <mat-label>Pretraži pacijenta po ID-u, imenu ili prezimenu</mat-label>
-    <input
-      matInput
-      (keyup)="searchPatient()"
-      (onBlur)="searchPatient()"
-      [(ngModel)]="patientId"
-    />
-  </mat-form-field>
+<!-- doctor-patients.component.html -->
+<div class="patients-container">
+  <mat-card class="main-card">
+    <mat-card-header class="card-header">
+      <mat-card-title class="page-title">
+        <mat-icon class="title-icon">people</mat-icon>
+        Moji pacijenti
+      </mat-card-title>
+      <mat-card-subtitle class="page-subtitle">
+        Pregled svih dodeljenih pacijenata i njihovih upitnika
+      </mat-card-subtitle>
+    </mat-card-header>
 
-  <mat-table [dataSource]="filteredPatients">
-    <ng-container matColumnDef="id">
-      <mat-header-cell *matHeaderCellDef>ID</mat-header-cell>
-      <mat-cell *matCellDef="let patientObject">{{
-        patientObject.patient.userID
-      }}</mat-cell>
-    </ng-container>
-
-    <ng-container matColumnDef="ime">
-      <mat-header-cell *matHeaderCellDef>Ime</mat-header-cell>
-      <mat-cell *matCellDef="let patientObject">{{
-        patientObject.patient.firstName
-      }}</mat-cell>
-    </ng-container>
-
-    <ng-container matColumnDef="prezime">
-      <mat-header-cell *matHeaderCellDef>Prezime</mat-header-cell>
-      <mat-cell *matCellDef="let patientObject">{{
-        patientObject.patient.lastName
-      }}</mat-cell>
-    </ng-container>
-
-    <ng-container matColumnDef="upitnici">
-      <mat-header-cell *matHeaderCellDef>Upitnici</mat-header-cell>
-      <mat-cell *matCellDef="let patientObject" style="padding: 8px">
-        <div
-          *ngIf="
-            patientObject.questionnaires &&
-              patientObject.questionnaires.length > 0;
-            else noQuestionnaires
-          "
-        >
-          <div
-            *ngFor="let q of patientObject.questionnaires; let i = index"
-            style="
-              display: flex;
-              align-items: center;
-              margin-bottom: 4px;
-              padding: 4px;
-              border-radius: 4px;
-            "
-            [style.background-color]="i % 2 === 0 ? '#f5f5f5' : 'white'"
+    <mat-card-content class="card-content">
+      <!-- Search Section -->
+      <div class="search-section">
+        <mat-form-field appearance="outline" class="search-field">
+          <mat-label>
+            <mat-icon matPrefix class="search-icon">search</mat-icon>
+            Pretraži pacijenta po ID-u, imenu ili prezimenu
+          </mat-label>
+          <input
+            matInput
+            (keyup)="searchPatient()"
+            (blur)="searchPatient()"
+            [(ngModel)]="patientId"
+            placeholder="Unesite ID, ime ili prezime..."
+          />
+          <mat-icon
+            matSuffix
+            *ngIf="patientId"
+            (click)="clearSearch()"
+            class="clear-icon"
           >
-            <mat-icon
-              [style.color]="q.completeDate ? 'green' : 'orange'"
-              [matTooltip]="
-                q.completeDate ? 'Upitnik je popunjen' : 'Upitnik nije popunjen'
-              "
-              style="font-size: 18px; margin-right: 8px"
-            >
-              {{ q.completeDate ? "check_circle" : "pending" }}
-            </mat-icon>
+            close
+          </mat-icon>
+        </mat-form-field>
+      </div>
 
-            <button
-              mat-raised-button
-              size="small"
-              (click)="
-                openQuestionnaire(
-                  patientObject.patient.userID,
-                  q.questionnaireID
-                )
-              "
-              [style.background-color]="q.isCompleted ? '#e8f5e8' : '#fff3cd'"
-              [style.color]="q.isCompleted ? '#2e7d32' : '#856404'"
-              [style.border]="
-                q.isCompleted ? '1px solid #c8e6c9' : '1px solid #ffeaa7'
-              "
-              style="
-                font-size: 11px;
-                min-width: auto;
-                padding: 4px 8px;
-                margin-right: 8px;
-              "
-            >
-              <mat-icon style="font-size: 14px; margin-right: 4px"
-                >description</mat-icon
-              >
-              #{{ q.questionnaireID }}
-            </button>
-
-            <span style="font-size: 11px; color: #666">
-              {{ q.createdDate | date : "dd.MM.yyyy" }}
-            </span>
-            <span
-              *ngIf="q.score"
-              style="
-                font-size: 11px;
-                margin-left: 8px;
-                padding: 2px 6px;
-                background-color: #e3f2fd;
-                border-radius: 12px;
-                color: #1976d2;
-              "
-            >
-              Score: {{ q.score }}
-            </span>
+      <!-- Statistics Section -->
+      <div class="stats-section" *ngIf="filteredPatients.length > 0">
+        <div class="stat-card">
+          <mat-icon>people</mat-icon>
+          <div class="stat-content">
+            <span class="stat-number">{{ filteredPatients.length }}</span>
+            <span class="stat-label">Pacijenti</span>
           </div>
         </div>
 
-        <ng-template #noQuestionnaires>
-          <span style="color: #999; font-style: italic; font-size: 12px">
-            Nema upitnika
-          </span>
-        </ng-template>
-      </mat-cell>
-    </ng-container>
+        <div class="stat-card">
+          <mat-icon>assignment</mat-icon>
+          <div class="stat-content">
+            <span class="stat-number">{{ getTotalQuestionnaires() }}</span>
+            <span class="stat-label">Upitnici</span>
+          </div>
+        </div>
 
-    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+        <div class="stat-card">
+          <mat-icon>check_circle</mat-icon>
+          <div class="stat-content">
+            <span class="stat-number">{{ getCompletedQuestionnaires() }}</span>
+            <span class="stat-label">Završeni</span>
+          </div>
+        </div>
+      </div>
 
-    <tr class="mat-row" *matNoDataRow>
-      <td
-        class="mat-cell"
-        [attr.colspan]="displayedColumns.length"
-        style="text-align: center; font-size: 15pt"
-      >
-        <b>Ne postoje podaci.</b>
-      </td>
-    </tr>
-  </mat-table>
-</mat-card>
+      <!-- Table Section -->
+      <div class="table-container">
+        <mat-table [dataSource]="filteredPatients" class="patients-table">
+          <!-- ID Column -->
+          <ng-container matColumnDef="id">
+            <mat-header-cell *matHeaderCellDef class="header-cell">
+              <mat-icon class="column-icon">badge</mat-icon>
+              ID
+            </mat-header-cell>
+            <mat-cell *matCellDef="let patientObject" class="data-cell">
+              <span class="patient-id"
+                >#{{ patientObject.patient.userID }}</span
+              >
+            </mat-cell>
+          </ng-container>
+
+          <!-- Name Column -->
+          <ng-container matColumnDef="ime">
+            <mat-header-cell *matHeaderCellDef class="header-cell">
+              <mat-icon class="column-icon">person</mat-icon>
+              Ime
+            </mat-header-cell>
+            <mat-cell *matCellDef="let patientObject" class="data-cell">
+              <span class="patient-name">{{
+                patientObject.patient.firstName
+              }}</span>
+            </mat-cell>
+          </ng-container>
+
+          <!-- Surname Column -->
+          <ng-container matColumnDef="prezime">
+            <mat-header-cell *matHeaderCellDef class="header-cell">
+              <mat-icon class="column-icon">person_outline</mat-icon>
+              Prezime
+            </mat-header-cell>
+            <mat-cell *matCellDef="let patientObject" class="data-cell">
+              <span class="patient-name">{{
+                patientObject.patient.lastName
+              }}</span>
+            </mat-cell>
+          </ng-container>
+
+          <!-- Questionnaires Column -->
+          <ng-container matColumnDef="upitnici">
+            <mat-header-cell
+              *matHeaderCellDef
+              class="header-cell questionnaires-header"
+            >
+              <mat-icon class="column-icon">assignment</mat-icon>
+              Upitnici
+            </mat-header-cell>
+            <mat-cell
+              *matCellDef="let patientObject"
+              class="data-cell questionnaires-cell"
+            >
+              <div
+                *ngIf="
+                  patientObject.questionnaires &&
+                    patientObject.questionnaires.length > 0;
+                  else noQuestionnaires
+                "
+                class="questionnaires-container"
+              >
+                <div
+                  *ngFor="let q of patientObject.questionnaires; let i = index"
+                  class="questionnaire-item"
+                  [class.completed]="q.completeDate"
+                  [class.pending]="!q.completeDate"
+                >
+                  <!-- Status Icon -->
+                  <div class="status-indicator">
+                    <mat-icon
+                      class="status-icon"
+                      [class.completed]="q.completeDate"
+                      [class.pending]="!q.completeDate"
+                      [matTooltip]="
+                        q.completeDate
+                          ? 'Upitnik je popunjen'
+                          : 'Upitnik nije popunjen'
+                      "
+                    >
+                      {{ q.completeDate ? "check_circle" : "schedule" }}
+                    </mat-icon>
+                  </div>
+
+                  <!-- Questionnaire Button -->
+                  <button
+                    mat-raised-button
+                    class="questionnaire-btn"
+                    [class.completed]="q.completeDate"
+                    [class.pending]="!q.completeDate"
+                    (click)="
+                      openQuestionnaire(
+                        patientObject.patient.userID,
+                        q.questionnaireID
+                      )
+                    "
+                  >
+                    <mat-icon class="btn-icon">description</mat-icon>
+                    <span class="btn-text">ID: {{ q.questionnaireID }}</span>
+                  </button>
+
+                  <!-- Questionnaire Info -->
+                  <div class="questionnaire-info">
+                    <span class="date-info">
+                      <mat-icon class="info-icon">event</mat-icon>
+                      {{ q.createdAt | date : "dd.MM.yyyy" }}
+                    </span>
+
+                    <span *ngIf="q.score" class="score-badge">
+                      <mat-icon class="score-icon">assessment</mat-icon>
+                      {{ q.score }}
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <ng-template #noQuestionnaires>
+                <div class="no-questionnaires">
+                  <mat-icon class="empty-icon">assignment_late</mat-icon>
+                  <span class="empty-text">Nema upitnika</span>
+                </div>
+              </ng-template>
+            </mat-cell>
+          </ng-container>
+
+          <mat-header-row
+            *matHeaderRowDef="displayedColumns"
+            class="table-header"
+          ></mat-header-row>
+          <mat-row
+            *matRowDef="let row; columns: displayedColumns"
+            class="table-row"
+          ></mat-row>
+
+          <!-- No data row -->
+          <tr class="no-data-row" *matNoDataRow>
+            <td class="no-data-cell" [attr.colspan]="displayedColumns.length">
+              <div class="no-data-content">
+                <mat-icon class="no-data-icon">search_off</mat-icon>
+                <h3>Nema rezultata pretrage</h3>
+                <p>Pokušajte sa drugim kriterijumima pretrage</p>
+              </div>
+            </td>
+          </tr>
+        </mat-table>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

@@ -3,6 +3,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import html2canvas from 'html2canvas';
 import * as jspdf from 'jspdf';
 import { PatientService } from 'src/app/services/patient.service';
@@ -20,6 +21,8 @@ export class ProposeSlotComponent implements OnInit {
   isGeneratingPdf: boolean = false;
   today = new Date();
   selectedCityName: string = '';
+  appointments: any[] = [];
+  user: any = {};
 
   statusMapping: { [key: string]: string } = {
     Scheduled: 'Zakazan',
@@ -31,6 +34,8 @@ export class ProposeSlotComponent implements OnInit {
     private fb: FormBuilder,
     private patientService: PatientService,
     private dialogRef: MatDialogRef<ProposeSlotComponent>,
+    private appointmentService: PatientService,
+    private router: Router,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.appointmentForm = this.fb.group({
@@ -40,6 +45,12 @@ export class ProposeSlotComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    let user_help = sessionStorage.getItem('auth-user');
+
+    if (user_help) {
+      this.user = JSON.parse(user_help);
+    }
+
     this.loadCities();
   }
 
@@ -59,7 +70,6 @@ export class ProposeSlotComponent implements OnInit {
         cityId: this.appointmentForm.get('city')?.value,
       };
 
-      // Zapamti naziv grada za PDF
       const selectedCity = this.cities.find(
         (c) => c.cityID === formData.cityId
       );
@@ -68,10 +78,26 @@ export class ProposeSlotComponent implements OnInit {
       this.patientService.scheduleAppointment(formData).subscribe({
         next: (response: any) => {
           if (response.success) {
-            this.appointment = response.result;
-            this.appointmentScheduled = true;
+            console.log(response);
 
-            this.loadDoctorData();
+            this.appointment = response.result;
+            this.appointmentService
+              .getAppointment(this.appointment.id)
+              .subscribe((data: any) => {
+                console.log(data);
+                console.log(this.user);
+
+                if (data.resultList && data.resultList.length > 0) {
+                  let res = data.resultList[0];
+                  this.appointment.startTime = res.startTime;
+                  this.appointment.endTime = res.endTime;
+                  this.appointment.status = res.status;
+                  this.appointment.slotID = res.slotID;
+                }
+                this.appointmentScheduled = true;
+
+                this.loadDoctorData();
+              });
           }
         },
         error: (error) => {
@@ -83,14 +109,17 @@ export class ProposeSlotComponent implements OnInit {
 
   loadDoctorData(): void {
     if (this.appointment && this.appointment.slotID) {
+      console.log(this.appointment.slotID);
+
       this.patientService.getDoctor(this.appointment.slotID).subscribe({
-        next: (doctorResponse: any) => {
-          if (doctorResponse.success && doctorResponse.result) {
+        next: (res: any) => {
+          let doctorResponse = res.resultList[0];
+          if (doctorResponse) {
             this.appointment.doctorFirstName =
-              doctorResponse.result.firstName || 'Dr.';
+              doctorResponse.firstName || 'Dr.';
             this.appointment.doctorLastName =
-              doctorResponse.result.lastName || 'Doktor';
-            this.appointment.doctorId = doctorResponse.result.userID;
+              doctorResponse.lastName || 'Doktor';
+            this.appointment.doctorId = doctorResponse.userID;
           }
         },
         error: (error) => {
@@ -100,6 +129,10 @@ export class ProposeSlotComponent implements OnInit {
         },
       });
     }
+  }
+
+  goHome() {
+    this.router.navigate(['home']);
   }
 
   downloadConfirmation(): void {
@@ -128,15 +161,12 @@ export class ProposeSlotComponent implements OnInit {
           // Dodaj header
           pdf.setFontSize(20);
           pdf.setTextColor(2, 49, 98);
-          pdf.text('POTVRDA O ZAKAZANOM PREGLEDU', pdfWidth / 2, 15, {
-            align: 'center',
-          });
 
           pdf.addImage(imgData, 'PNG', 10, 25, imgWidth, imgHeight);
 
-          const fileName = `Potvrda_Pregleda_${
-            this.appointment.scheduledAppointmentID
-          }_${new Date().toISOString().slice(0, 10)}.pdf`;
+          const fileName = `Potvrda_Pregleda_${this.appointment.id}_${new Date()
+            .toISOString()
+            .slice(0, 10)}.pdf`;
           pdf.save(fileName);
 
           this.isGeneratingPdf = false;

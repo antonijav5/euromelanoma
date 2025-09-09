@@ -74,6 +74,7 @@ namespace euromelanoma_api.Managers
             // Save to database
             _context.doctor_notes.Add(doctorNotes);
             var questionnaire = _context.Questionnaires.FirstOrDefault(a => a.QuestionnaireID == doctorNotes.questionnaireID);
+            if (questionnaire != null) questionnaire.CompleteDate = DateTime.Now;
             var appt = _context.ScheduledAppointments
            .FirstOrDefault(a => a.PatientID == questionnaire.PatientID && a.Status == "Scheduled");
             if (appt != null) { appt.Status = "Finished"; }
@@ -84,14 +85,14 @@ namespace euromelanoma_api.Managers
 
         public List<Users> GetPatientsForDoctor(int doctorId)
         {
-            List<int> listaPacijenata = _context.Questionnaires.Where(a => a.DoctorID == doctorId).Select(b=>b.PatientID).ToList();
+            List<int> listaPacijenata = _context.Questionnaires.Where(a => a.DoctorID == doctorId).Select(b => b.PatientID).ToList();
             return _context.Users.Where(a => listaPacijenata.Contains(a.UserID)).ToList();
         }
 
         public List<Questionnaires> GetQuestionnairesForPatient(int patientId)
         {
-            
-            return _context.Questionnaires.Where(a => a.PatientID==patientId).ToList();
+
+            return _context.Questionnaires.Where(a => a.PatientID == patientId).ToList();
         }
         public List<QuestionnaireDataPatient> GetQuestionnairesById(int questionnaireId) => _context.QuestionnaireDataPatient.Where(a => a.questionnaireID == questionnaireId)?.ToList();
         public List<doctor_notes> GetDoctorNotesByQuestionnaireId(int questionnaireId) => _context.doctor_notes.Where(a => a.questionnaireID == questionnaireId)?.ToList();

@@ -1,1 +1,240 @@
-<p>patients-by-city works!</p>
+<!-- patients-by-city.component.html -->
+<div class="city-overview-container">
+  <div class="header-section">
+    <h2 class="section-title">
+      <mat-icon>location_city</mat-icon>
+      Pregled pacijenata po gradovima
+    </h2>
+    <p class="section-description">
+      Analiza distribucije pacijenata i zakazanih pregleda po lokacijama
+    </p>
+  </div>
+
+  <!-- Summary Cards -->
+  <div class="summary-section">
+    <div class="summary-card total">
+      <mat-icon>public</mat-icon>
+      <div class="summary-content">
+        <span class="summary-number">{{ getTotalCities() }}</span>
+        <span class="summary-label">Aktivnih gradova</span>
+      </div>
+    </div>
+
+    <div class="summary-card patients">
+      <mat-icon>people</mat-icon>
+      <div class="summary-content">
+        <span class="summary-number">{{ getTotalPatients() }}</span>
+        <span class="summary-label">Ukupno pacijenata</span>
+      </div>
+    </div>
+
+    <div class="summary-card appointments">
+      <mat-icon>event</mat-icon>
+      <div class="summary-content">
+        <span class="summary-number">{{ getTotalAppointments() }}</span>
+        <span class="summary-label">Zakazanih pregleda</span>
+      </div>
+    </div>
+
+    <div class="summary-card capacity">
+      <mat-icon>analytics</mat-icon>
+      <div class="summary-content">
+        <span class="summary-number">{{ getAverageUtilization() }}%</span>
+        <span class="summary-label">Prosečna popunjenost</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- City Cards Grid -->
+  <div class="cities-grid">
+    <mat-card
+      *ngFor="let cityData of citiesData"
+      class="city-card"
+      [class.high-activity]="cityData.appointments >= 10"
+      [class.medium-activity]="
+        cityData.appointments >= 5 && cityData.appointments < 10
+      "
+      [class.low-activity]="cityData.appointments < 5"
+    >
+      <mat-card-header class="city-header">
+        <mat-card-title class="city-name">
+          <mat-icon class="city-icon">location_on</mat-icon>
+          {{ cityData.cityName }}
+        </mat-card-title>
+        <mat-card-subtitle class="city-country">
+          {{ cityData.country }}
+        </mat-card-subtitle>
+      </mat-card-header>
+
+      <mat-card-content class="city-content">
+        <!-- Statistics -->
+        <div class="city-stats">
+          <div class="stat-item">
+            <mat-icon class="stat-icon">people</mat-icon>
+            <div class="stat-details">
+              <span class="stat-number">{{ cityData.totalPatients }}</span>
+              <span class="stat-label">Pacijenti</span>
+            </div>
+          </div>
+
+          <div class="stat-item">
+            <mat-icon class="stat-icon">event</mat-icon>
+            <div class="stat-details">
+              <span class="stat-number">{{ cityData.appointments }}</span>
+              <span class="stat-label">Pregledi</span>
+            </div>
+          </div>
+
+          <div class="stat-item">
+            <mat-icon class="stat-icon">local_hospital</mat-icon>
+            <div class="stat-details">
+              <span class="stat-number">{{ cityData.activeDoctors }}</span>
+              <span class="stat-label">Lekari</span>
+            </div>
+          </div>
+
+          <div class="stat-item">
+            <mat-icon class="stat-icon">schedule</mat-icon>
+            <div class="stat-details">
+              <span class="stat-number">{{ cityData.availableSlots }}</span>
+              <span class="stat-label">Slobodni termini</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="utilization-section">
+          <div class="utilization-header">
+            <span class="utilization-label">Popunjenost</span>
+            <span class="utilization-percentage"
+              >{{ getUtilization(cityData) }}%</span
+            >
+          </div>
+          <mat-progress-bar
+            [value]="getUtilization(cityData)"
+            [color]="getProgressColor(getUtilization(cityData))"
+            class="utilization-bar"
+          >
+          </mat-progress-bar>
+        </div>
+
+        <!-- Status Indicators -->
+        <div class="status-indicators">
+          <div class="indicator completed">
+            <mat-icon>check_circle</mat-icon>
+            <span>{{ cityData.completedAppointments }} završeno</span>
+          </div>
+          <div class="indicator pending">
+            <mat-icon>schedule</mat-icon>
+            <span>{{ cityData.pendingAppointments }} na čekanju</span>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <!-- Detailed Table -->
+  <mat-card class="detailed-table-card" *ngIf="showDetailedView">
+    <mat-card-header>
+      <mat-card-title class="table-title">
+        <mat-icon>table_chart</mat-icon>
+        Detaljni pregled po gradovima
+      </mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      <div class="table-controls">
+        <mat-form-field appearance="outline" class="search-field mt-10">
+          <mat-label>Pretraži grad</mat-label>
+          <mat-icon matPrefix>search</mat-icon>
+          <input matInput (keyup)="filterCities($event)" #searchInput />
+        </mat-form-field>
+
+        <button
+          mat-raised-button
+          class="toggle-btn"
+          (click)="showDetailedView = false"
+        >
+          <mat-icon>grid_view</mat-icon>
+          Kartični prikaz
+        </button>
+      </div>
+
+      <div class="table-container">
+        <mat-table [dataSource]="filteredCitiesData" class="cities-table">
+          <ng-container matColumnDef="city">
+            <mat-header-cell *matHeaderCellDef>Grad</mat-header-cell>
+            <mat-cell *matCellDef="let city">
+              <div class="city-cell">
+                <mat-icon class="city-table-icon">location_on</mat-icon>
+                <div>
+                  <div class="city-table-name">{{ city.cityName }}</div>
+                  <div class="city-table-country">{{ city.country }}</div>
+                </div>
+              </div>
+            </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="patients">
+            <mat-header-cell *matHeaderCellDef>Pacijenti</mat-header-cell>
+            <mat-cell *matCellDef="let city">
+              <span class="number-badge patients-badge">{{
+                city.totalPatients
+              }}</span>
+            </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="appointments">
+            <mat-header-cell *matHeaderCellDef>Pregledi</mat-header-cell>
+            <mat-cell *matCellDef="let city">
+              <span class="number-badge appointments-badge">{{
+                city.appointments
+              }}</span>
+            </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="doctors">
+            <mat-header-cell *matHeaderCellDef>Lekari</mat-header-cell>
+            <mat-cell *matCellDef="let city">
+              <span class="number-badge doctors-badge">{{
+                city.activeDoctors
+              }}</span>
+            </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="utilization">
+            <mat-header-cell *matHeaderCellDef>Popunjenost</mat-header-cell>
+            <mat-cell *matCellDef="let city">
+              <div class="utilization-cell">
+                <div class="mini-progress">
+                  <mat-progress-bar
+                    [value]="getUtilization(city)"
+                    [color]="getProgressColor(getUtilization(city))"
+                  >
+                  </mat-progress-bar>
+                </div>
+                <span class="utilization-text"
+                  >{{ getUtilization(city) }}%</span
+                >
+              </div>
+            </mat-cell>
+          </ng-container>
+          <mat-header-row *matHeaderRowDef="tableColumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: tableColumns"></mat-row>
+        </mat-table>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Toggle View Button -->
+  <div class="view-toggle" *ngIf="!showDetailedView">
+    <button
+      mat-raised-button
+      class="toggle-btn"
+      (click)="showDetailedView = true"
+    >
+      <mat-icon>table_chart</mat-icon>
+      Detaljni tabelarni prikaz
+    </button>
+  </div>
+</div>

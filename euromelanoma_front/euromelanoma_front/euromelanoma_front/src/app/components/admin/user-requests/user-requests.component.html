@@ -1,36 +1,116 @@
-<mat-card class="mat-card">
-    <mat-card-header>
-      <mat-card-title>Pregled Pacijenata</mat-card-title>
-    </mat-card-header>
-    <mat-card-content style="   margin-top: 10px;">
-      <mat-table [dataSource]="requests" class="mat-elevation-z8" style="text-align: center;">
-        <ng-container matColumnDef="firstname">
-          <mat-header-cell *matHeaderCellDef> Ime </mat-header-cell>
-          <mat-cell *matCellDef="let request">{{ request.firstName }}</mat-cell>
-        </ng-container>
+<div class="requests-container">
+  <div class="header-section">
+    <h2 class="section-title">
+      <mat-icon>person_add</mat-icon>
+      Zahtevi za registraciju lekara
+    </h2>
+    <p class="section-description">
+      Pregled i upravljanje zahtevima za registraciju novih lekara u sistemu
+    </p>
+  </div>
 
-        <ng-container matColumnDef="lastname">
-            <mat-header-cell *matHeaderCellDef> Prezime </mat-header-cell>
-            <mat-cell *matCellDef="let request">{{ request.lastName }}</mat-cell>
+  <!-- Statistics Cards -->
+  <div class="stats-section">
+    <div class="stat-card pending">
+      <mat-icon>pending</mat-icon>
+      <div class="stat-content">
+        <span class="stat-number">{{ getPendingCount() }}</span>
+        <span class="stat-label">Na čekanju</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Table Section -->
+  <mat-card class="table-card">
+    <mat-card-content>
+      <div
+        class="table-container"
+        *ngIf="requests.length > 0; else noDataTemplate"
+      >
+        <mat-table [dataSource]="requests" class="requests-table">
+          <ng-container matColumnDef="firstname">
+            <mat-header-cell *matHeaderCellDef class="header-cell">
+              <mat-icon class="column-icon">person</mat-icon>
+              Ime
+            </mat-header-cell>
+            <mat-cell *matCellDef="let request" class="data-cell">
+              <span class="name-text">{{ request.firstName }}</span>
+            </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="lastname">
+            <mat-header-cell *matHeaderCellDef class="header-cell">
+              <mat-icon class="column-icon">person_outline</mat-icon>
+              Prezime
+            </mat-header-cell>
+            <mat-cell *matCellDef="let request" class="data-cell">
+              <span class="name-text">{{ request.lastName }}</span>
+            </mat-cell>
           </ng-container>
 
           <ng-container matColumnDef="mail">
-            <mat-header-cell *matHeaderCellDef> E-mail adresa </mat-header-cell>
-            <mat-cell *matCellDef="let request">{{ request.email }}</mat-cell>
+            <mat-header-cell *matHeaderCellDef class="header-cell">
+              <mat-icon class="column-icon">email</mat-icon>
+              E-mail adresa
+            </mat-header-cell>
+            <mat-cell *matCellDef="let request" class="data-cell">
+              <span class="email-text">{{ request.email }}</span>
+            </mat-cell>
           </ng-container>
-  
-        <ng-container matColumnDef="action">
-          <mat-header-cell *matHeaderCellDef>Prihvatite zahtev</mat-header-cell>
-          <mat-cell *matCellDef="let request">
-            <button mat-button (click)="accept(request)" style="background-color:none; color:rgb(51, 172, 51)" ><i class="bi bi-check"></i></button>
-            <button mat-button  (click)="decline(request.userID)" style="background-color:none; color:#cd1c1c" ><i class="bi bi-x"></i></button>
-          </mat-cell>
-        </ng-container>
-  
-        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-      </mat-table>
+
+          <ng-container matColumnDef="action">
+            <mat-header-cell
+              *matHeaderCellDef
+              class="header-cell action-header"
+            >
+              <mat-icon class="column-icon">settings</mat-icon>
+              Akcije
+            </mat-header-cell>
+            <mat-cell *matCellDef="let request" class="data-cell action-cell">
+              <div class="action-buttons">
+                <button
+                  mat-raised-button
+                  class="accept-btn"
+                  (click)="accept(request)"
+                  [disabled]="processingRequest"
+                  matTooltip="Prihvati zahtev"
+                >
+                  <mat-icon>check</mat-icon>
+                  Prihvati
+                </button>
+                <button
+                  mat-raised-button
+                  class="decline-btn"
+                  (click)="decline(request.userID)"
+                  [disabled]="processingRequest"
+                  matTooltip="Odbaci zahtev"
+                >
+                  <mat-icon>close</mat-icon>
+                  Odbaci
+                </button>
+              </div>
+            </mat-cell>
+          </ng-container>
+
+          <mat-header-row
+            *matHeaderRowDef="displayedColumns"
+            class="table-header"
+          ></mat-header-row>
+          <mat-row
+            *matRowDef="let row; columns: displayedColumns"
+            class="table-row"
+          ></mat-row>
+        </mat-table>
+      </div>
+      <ng-template #noDataTemplate>
+        <div class="no-data-standalone">
+          <div class="no-data-content">
+            <mat-icon class="no-data-icon">inbox</mat-icon>
+            <h3>Nema novih zahteva</h3>
+            <p>Trenutno nema zahteva za registraciju koji čekaju na obradu</p>
+          </div>
+        </div>
+      </ng-template>
     </mat-card-content>
- 
   </mat-card>
-  
+</div>

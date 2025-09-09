@@ -103,12 +103,24 @@
 
         <mat-form-field appearance="outline">
           <mat-label>Težina (Kg)</mat-label>
-          <input matInput type="number" formControlName="weight" [min]="1" />
+          <input
+            matInput
+            type="number"
+            formControlName="weight"
+            [min]="1"
+            [max]="300"
+          />
         </mat-form-field>
 
         <mat-form-field appearance="outline">
           <mat-label>Visina (cm)</mat-label>
-          <input matInput type="number" formControlName="height" [min]="1" />
+          <input
+            matInput
+            type="number"
+            formControlName="height"
+            [min]="1"
+            [max]="300"
+          />
         </mat-form-field>
       </div>
 
@@ -1191,7 +1203,7 @@
       <mat-icon style="color: green; vertical-align: middle"
         >check_circle</mat-icon
       >
-      <span style="margin-left: 8px; color: #2e7d32"
+      <span style="margin-left: 8px; color: #2e7d32; width: 100%"
         >Doktorske beleške su već unete za ovaj upitnik.</span
       >
     </div>

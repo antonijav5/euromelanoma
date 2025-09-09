@@ -1,37 +1,183 @@
-<mat-card class="mat-card">
-    <mat-card-header>
-      <mat-card-title>Pregled Pacijenata</mat-card-title>
-    </mat-card-header>
-    <mat-card-content style="   margin-top: 10px;">
-      <mat-table [dataSource]="patients" class="mat-elevation-z8" style="text-align: center;">
-        <ng-container matColumnDef="firstname">
-          <mat-header-cell *matHeaderCellDef> Ime </mat-header-cell>
-          <mat-cell *matCellDef="let patient">{{ patient.firstName }}</mat-cell>
-        </ng-container>
+<div class="patients-container">
+  <div class="top-section">
+    <div class="stats-section">
+      <div class="stat-card">
+        <mat-icon>people</mat-icon>
+        <div class="stat-content">
+          <span class="stat-number">{{ patients.length }}</span>
+          <span class="stat-label">Pacijenti</span>
+        </div>
+      </div>
 
-        <ng-container matColumnDef="lastname">
-            <mat-header-cell *matHeaderCellDef> Prezime </mat-header-cell>
-            <mat-cell *matCellDef="let patient">{{ patient.lastName }}</mat-cell>
+      <div class="stat-card">
+        <mat-icon>assignment</mat-icon>
+        <div class="stat-content">
+          <span class="stat-number">{{ getTotalQuestionnaires() }}</span>
+          <span class="stat-label">Upitnici</span>
+        </div>
+      </div>
+    </div>
+    <div class="header-section">
+      <h2 class="section-title">
+        <mat-icon>people</mat-icon>
+        Pregled svih pacijenata
+      </h2>
+      <p class="section-description">
+        Kompletna lista registrovanih pacijenata sa pristupom upitnicima
+      </p>
+    </div>
+    <div class="actions-section">
+      <button
+        mat-raised-button
+        class="export-btn"
+        (click)="exportToExcel()"
+        [disabled]="isExporting"
+      >
+        <mat-icon *ngIf="!isExporting">file_download</mat-icon>
+        <mat-icon *ngIf="isExporting" class="spinning"
+          >hourglass_empty</mat-icon
+        >
+        {{ isExporting ? "Izvozi se..." : "Izvezi u Excel" }}
+      </button>
+    </div>
+  </div>
+
+  <!-- Table Section -->
+  <mat-card class="table-card">
+    <mat-card-content>
+      <div class="table-container">
+        <mat-table [dataSource]="patients" class="patients-table">
+          <ng-container matColumnDef="firstname">
+            <mat-header-cell *matHeaderCellDef class="header-cell">
+              <mat-icon class="column-icon">person</mat-icon>
+              Ime
+            </mat-header-cell>
+            <mat-cell *matCellDef="let patient" class="data-cell">
+              <span class="name-text">{{ patient.firstName }}</span>
+            </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="lastname">
+            <mat-header-cell *matHeaderCellDef class="header-cell">
+              <mat-icon class="column-icon">person_outline</mat-icon>
+              Prezime
+            </mat-header-cell>
+            <mat-cell *matCellDef="let patient" class="data-cell">
+              <span class="name-text">{{ patient.lastName }}</span>
+            </mat-cell>
           </ng-container>
 
           <ng-container matColumnDef="mail">
-            <mat-header-cell *matHeaderCellDef> E-mail adresa </mat-header-cell>
-            <mat-cell *matCellDef="let patient">{{ patient.email }}</mat-cell>
+            <mat-header-cell *matHeaderCellDef class="header-cell">
+              <mat-icon class="column-icon">email</mat-icon>
+              E-mail adresa
+            </mat-header-cell>
+            <mat-cell *matCellDef="let patient" class="data-cell">
+              <span class="email-text">{{ patient.email }}</span>
+            </mat-cell>
           </ng-container>
-  
-        <ng-container matColumnDef="action">
-          <mat-header-cell *matHeaderCellDef>Pregledajte upitnik </mat-header-cell>
-          <mat-cell *matCellDef="let patient">
-            <button mat-button (click)="openQuestionnairesDialog(patient)" style="background-color:none; color:#023162" ><i class="bi bi-journal-medical"></i></button>
-          </mat-cell>
-        </ng-container>
-  
-        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-      </mat-table>
+
+          <ng-container matColumnDef="action">
+            <mat-header-cell
+              *matHeaderCellDef
+              class="header-cell questionnaires-header"
+            >
+              <mat-icon class="column-icon">assignment</mat-icon>
+              Upitnici
+            </mat-header-cell>
+            <mat-cell
+              *matCellDef="let patient"
+              class="data-cell questionnaires-cell"
+            >
+              <div
+                *ngIf="
+                  patient.questionnaires && patient.questionnaires.length > 0;
+                  else noQuestionnaires
+                "
+                class="questionnaires-container"
+              >
+                <div
+                  *ngFor="let q of patient.questionnaires; let i = index"
+                  class="questionnaire-item"
+                  [class.not-completed]="!q.completeDate"
+                  [class.completed-waiting]="q.completeDate && !q.doctorID"
+                  [class.doctor-reviewed]="q.completeDate && q.doctorID"
+                >
+                  <!-- Status Icon -->
+                  <div class="status-indicator">
+                    <mat-icon
+                      class="status-icon"
+                      [class.not-completed]="!q.completeDate"
+                      [class.completed-waiting]="q.completeDate && !q.doctorID"
+                      [class.doctor-reviewed]="q.completeDate && q.doctorID"
+                      [matTooltip]="getStatusTooltip(q)"
+                    >
+                      {{ getStatusIcon(q) }}
+                    </mat-icon>
+                  </div>
+
+                  <!-- Questionnaire Button -->
+                  <button
+                    mat-raised-button
+                    class="questionnaire-btn"
+                    [class.not-completed]="!q.completeDate"
+                    [class.completed-waiting]="q.completeDate && !q.doctorID"
+                    [class.doctor-reviewed]="q.completeDate && q.doctorID"
+                    (click)="
+                      openQuestionnairesDialog(patient, q.questionnaireID)
+                    "
+                  >
+                    <mat-icon class="btn-icon">description</mat-icon>
+                    <span class="btn-text">ID: {{ q.questionnaireID }}</span>
+                  </button>
+
+                  <!-- Questionnaire Info -->
+                  <div class="questionnaire-info">
+                    <span class="date-info">
+                      <mat-icon class="info-icon">event</mat-icon>
+                      {{ q.createdAt | date : "dd.MM.yyyy" }}
+                    </span>
+
+                    <span *ngIf="q.score" class="score-badge">
+                      <mat-icon class="score-icon">assessment</mat-icon>
+                      {{ q.score }}
+                    </span>
+
+                    <!-- NOVO: Status Badge -->
+                    <span
+                      class="status-badge"
+                      [class.not-completed]="!q.completeDate"
+                      [class.completed-waiting]="q.completeDate && !q.doctorID"
+                      [class.doctor-reviewed]="q.completeDate && q.doctorID"
+                    >
+                      <mat-icon class="status-icon">{{
+                        getStatusIcon(q)
+                      }}</mat-icon>
+                      {{ getStatusText(q) }}
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <ng-template #noQuestionnaires>
+                <div class="no-questionnaires">
+                  <mat-icon class="empty-icon">assignment_late</mat-icon>
+                  <span class="empty-text">Nema upitnika</span>
+                </div>
+              </ng-template>
+            </mat-cell>
+          </ng-container>
+
+          <mat-header-row
+            *matHeaderRowDef="displayedColumns"
+            class="table-header"
+          ></mat-header-row>
+          <mat-row
+            *matRowDef="let row; columns: displayedColumns"
+            class="table-row"
+          ></mat-row>
+        </mat-table>
+      </div>
     </mat-card-content>
-    <mat-card-actions style="text-align: center; align-items: center; justify-content: center; ">
-      <button mat-raised-button (click)="exportToExcel()" style="background-color: #023162; color: white;">Izvezi u Excel</button>
-    </mat-card-actions>
   </mat-card>
-  
+</div>

@@ -1,8 +1,7 @@
 ﻿
 using euromelanoma_api.Models.EuromelanomaContext;
-using MimeKit;
-using SendGrid.Helpers.Mail;
 using SendGrid;
+using SendGrid.Helpers.Mail;
 using System.Text;
 using static euromelanoma_api.Models.DTOObjects.AdminClasses;
 
@@ -21,7 +20,8 @@ namespace euromelanoma_api.Managers
             _config = config;
         }
 
-        public void RegisterUser(RegisterUserModel model) {
+        public void RegisterUser(RegisterUserModel model)
+        {
             var hex = UserManager.GetHashHex(model.Password);
             byte[] bytes = new byte[hex.Length / 2];
             for (int i = 0; i < hex.Length; i += 2)
@@ -29,31 +29,22 @@ namespace euromelanoma_api.Managers
                 bytes[i / 2] = Convert.ToByte(hex.Substring(i, 2), 16);
             }
             Users newUser = new Users
-                {
-                  Username=model.Username,
-                  FirstName=model.FirstName,
-                  LastName=model.LastName,
-                  Email=model.Email,
-                  UserType=model.UserType,
-                  PasswordHash=bytes
-                };
-            try { 
+            {
+                Username = model.Username,
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                Email = model.Email,
+                UserType = model.UserType,
+                PasswordHash = bytes
+            };
+            try
+            {
                 _context.Users.Add(newUser);
                 _context.SaveChanges();
 
 
                 if (model.UserType == "Doctor")
                 {
-
-                    var email = new MimeMessage();
-                    var builder = new BodyBuilder();
-                    // SLANJE MEJLA
-                    email.From.Add(new MailboxAddress("Dobijanje privremene lozinke za prijavu na Euromelanoma Portal", "euromelanomaportal@gmail.com"));
-                    email.To.Add(new MailboxAddress("Antonija Vasiljevic", "euromelanomaportal@gmail.com"));
-                    email.Subject = "Dobijanje privremene lozinke za prijavu na sistem";
-
-                    var fields = new List<string>();
-
                     var messageSubject = $@"
                  <!DOCTYPE html>
                  <html>
@@ -72,7 +63,7 @@ namespace euromelanoma_api.Managers
                  </head>
                  <body>
                      <div class=""container"">
-                         <div class=""header"">Generisanje privremene lozinke za novog korisnika sistema</b></div>
+                         <div class=""header"">Generisanje privremene lozinke za novog korisnika sistema sa korisničkim imenom: {model.Username}.</b></div>
                Vaša nova privremena lozinka je {model.Password}. Izmenite je u što kraćem roku.
        
                      </div>
@@ -81,10 +72,10 @@ namespace euromelanoma_api.Managers
 
 
 
-                    var sendGridClient = new SendGridClient("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");
-                    var from = new EmailAddress("euromelanomaportal@gmail.com", "Euromelanoma Portal");
+                    var sendGridClient = new SendGridClient("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");
+                    var from = new EmailAddress("portaleuromelanoma@gmail.com", "Euromelanoma Portal");
                     var subject = "Dobijanje privremene lozinke za prijavu na sistem";
-                    var to = new EmailAddress("euromelanomaportal@gmail.com");
+                    var to = new EmailAddress("portaleuromelanoma@gmail.com");
                     var plainContent = "Pozdrav.";
                     var htmlContent = messageSubject;
                     var mailMessage = MailHelper.CreateSingleEmail(from, to, subject, plainContent, htmlContent);
@@ -93,11 +84,11 @@ namespace euromelanoma_api.Managers
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.InnerException.Message); 
-            }  
-          
+                Console.WriteLine(ex.InnerException.Message);
+            }
 
-  
+
+
         }
 
 
@@ -111,13 +102,11 @@ namespace euromelanoma_api.Managers
                 throw new ArgumentException("Password length must be at least 8 characters.");
             }
 
-            // Definisanje karaktera za svaku kategoriju
             const string lowerCase = "abcdefghijklmnopqrstuvwxyz";
             const string upperCase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
             const string numbers = "0123456789";
             const string specialChars = "!@#$%^&*()_+-=[]{}|;:'\",.<>?/";
 
-            // Generisanje po jednog karaktera iz svake kategorije
             Random random = new Random();
             StringBuilder password = new StringBuilder();
             password.Append(lowerCase[random.Next(lowerCase.Length)]);
@@ -125,18 +114,17 @@ namespace euromelanoma_api.Managers
             password.Append(numbers[random.Next(numbers.Length)]);
             password.Append(specialChars[random.Next(specialChars.Length)]);
 
-            // Kombinovanje svih karaktera i generisanje ostatka lozinke
+
             string allChars = lowerCase + upperCase + numbers + specialChars;
             for (int i = password.Length; i < length; i++)
             {
                 password.Append(allChars[random.Next(allChars.Length)]);
             }
 
-            // Mešanje karaktera da bi se izbegla predvidljivost
             return new string(password.ToString().OrderBy(_ => random.Next()).ToArray());
         }
 
-        public List<UserRequests> CreateDoctorRegisterRequest (RegisterUserModel model)
+        public List<UserRequests> CreateDoctorRegisterRequest(RegisterUserModel model)
         {
             UserRequests req = new UserRequests
             {
@@ -144,7 +132,7 @@ namespace euromelanoma_api.Managers
                 FirstName = model.FirstName,
                 LastName = model.LastName,
                 Username = model.Username,
-                Status="Pending"
+                Status = "Pending"
 
             };
             _context.Add(req);
@@ -158,20 +146,18 @@ namespace euromelanoma_api.Managers
             {
                 DoctorID = appointmentDto.DoctorId,
                 CityID = appointmentDto.CityId,
-                StartTime =appointmentDto.StartTime,
+                StartTime = appointmentDto.StartTime,
                 EndTime = appointmentDto.EndTime,
                 MaxPatients = appointmentDto.MaxPatients
             };
 
             _context.AvailableSlots.Add(appointment);
-             _context.SaveChanges();
+            _context.SaveChanges();
             return "Ok";
         }
-    
-    public string deleteRequest(int reqId)
-        {
 
-            //izbrisati iz Request
+        public string deleteRequest(int reqId)
+        {
             UserRequests req = _context.UserRequests.Where(a => a.UserID == reqId).FirstOrDefault();
             _context.UserRequests.Remove(req);
             _context.SaveChanges();
@@ -179,5 +165,26 @@ namespace euromelanoma_api.Managers
             return "All good.";
 
         }
+        public List<ScheduledAppointments> GetAllAppointments()
+        {
+            return _context.ScheduledAppointments.ToList();
+        }
+
+        public List<AvailableSlots> GetAvailableSlotsForCity(int cityId)
+        {
+            var result = _context.AvailableSlots
+                .Where(s => s.CityID == cityId && s.StartTime > DateTime.Now)
+                .GroupJoin(
+                    _context.ScheduledAppointments,
+                    s => s.SlotID,
+                    a => a.SlotID,
+                    (s, appts) => new { Slot = s, BookedCount = appts.Count() }
+                )
+                .Where(x => x.BookedCount < x.Slot.MaxPatients)
+                .Select(x => x.Slot)
+                .ToList();
+
+            return result;
+        }
     }
-    }
+}

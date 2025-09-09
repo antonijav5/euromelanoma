@@ -1,23 +1,50 @@
+@import "../admin.component.css";
 .appointment-card {
-    max-width: 600px;
-    margin: 20px auto;
-    padding: 20px;
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 20px;
+}
+
+.form-field {
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+mat-card-header {
+  background-color: #023162;
+  color: white;
+  border-radius: 5px;
+}
+
+button {
+  background-color: #023162 !important;
+  display: block;
+  margin: 20px auto 0;
+}
+
+.form-title {
+  mat-icon {
+    font-size: 25px !important;
   }
-  
-  .form-field {
-    width: 100%;
-    margin-bottom: 16px;
-  }
-  
-  mat-card-header {
-    background-color: #023162;
-    color: white;
-    border-radius: 5px;
-  }
-  
-  button {
-    background-color: #023162 !important;
-    display: block;
-    margin: 20px auto 0;
-  }
-  
+}
+
+.ml-7 {
+  margin-left: 7px;
+}
+
+.doctor-email {
+  font-size: 16px;
+  font-weight: 300;
+}
+
+.ml-10 {
+  margin-left: 10px;
+}
+
+.pd-fix {
+  padding: 8px 32px !important;
+}
+
+.mt-4 {
+  margin-top: 4px !important;
+}
