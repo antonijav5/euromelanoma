@@ -78,15 +78,10 @@ export class ProposeSlotComponent implements OnInit {
       this.patientService.scheduleAppointment(formData).subscribe({
         next: (response: any) => {
           if (response.success) {
-            console.log(response);
-
             this.appointment = response.result;
             this.appointmentService
               .getAppointment(this.appointment.id)
               .subscribe((data: any) => {
-                console.log(data);
-                console.log(this.user);
-
                 if (data.resultList && data.resultList.length > 0) {
                   let res = data.resultList[0];
                   this.appointment.startTime = res.startTime;
@@ -109,8 +104,6 @@ export class ProposeSlotComponent implements OnInit {
 
   loadDoctorData(): void {
     if (this.appointment && this.appointment.slotID) {
-      console.log(this.appointment.slotID);
-
       this.patientService.getDoctor(this.appointment.slotID).subscribe({
         next: (res: any) => {
           let doctorResponse = res.resultList[0];

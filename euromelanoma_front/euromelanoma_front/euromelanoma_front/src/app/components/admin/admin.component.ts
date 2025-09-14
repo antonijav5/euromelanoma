@@ -15,16 +15,10 @@ import { AuthService } from 'src/app/services/auth.service';
   templateUrl: './admin.component.html',
   styleUrl: './admin.component.css',
 })
-export class AdminComponent implements OnChanges {
+export class AdminComponent {
   @Input() item = 'view';
   constructor(private authService: AuthService) {}
   @Input() selectedTab: number = 0; // Prima tab index od home komponente
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['selectedTab']) {
-      console.log('Admin received tab change:', this.selectedTab);
-    }
-  }
 
   getCurrentComponent(): string {
     switch (this.selectedTab) {

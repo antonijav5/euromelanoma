@@ -37,11 +37,7 @@ export class PatientComponent {
         this.appointments = data.resultList;
         this.route.queryParams.subscribe((params) => {
           if (this.appointments.length > 0) {
-            console.log(params['show']);
-
             if (params['show'] == 'questionnaire') {
-              console.log('da?');
-
               this.show = 'both';
             } else {
               this.show = 'appointments';

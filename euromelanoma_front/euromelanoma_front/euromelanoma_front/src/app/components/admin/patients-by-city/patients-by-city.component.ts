@@ -73,7 +73,6 @@ export class PatientsByCityComponent implements OnInit {
             const cityDoctors = doctors.filter(
               (doc: any) => doc.cityID === city.cityID
             );
-            console.log(cityAppointments);
 
             return {
               cityID: city.cityID,
@@ -170,15 +169,5 @@ export class PatientsByCityComponent implements OnInit {
   filterCities(event: Event): void {
     const filterValue = (event.target as HTMLInputElement).value;
     this.filteredCitiesData.filter = filterValue.trim().toLowerCase();
-  }
-
-  viewCityDetails(cityData: CityData): void {
-    console.log('Pregled detalja za grad:', cityData);
-    // Implementiraj modal ili navigaciju za detalje grada
-  }
-
-  exportCityData(cityData: CityData): void {
-    console.log('Izvoz podataka za grad:', cityData);
-    // Implementiraj export funkcionalnost
   }
 }

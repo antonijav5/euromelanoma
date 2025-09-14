@@ -159,7 +159,7 @@ namespace euromelanoma_api.Managers
                 score += 4; // Veći rizik zbog boravka u sunčanim zemljama
             }
 
-            return 5;
+            return score;
         }
 
         public List<ScheduledAppointments> GetAppointments(int patientId)

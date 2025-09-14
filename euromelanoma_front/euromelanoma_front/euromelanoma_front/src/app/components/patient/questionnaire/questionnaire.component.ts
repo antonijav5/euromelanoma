@@ -609,8 +609,6 @@ export class QuestionnaireComponent implements OnInit {
     ) => {
       const checkbox = form.get(checkboxName);
       checkbox!.valueChanges.subscribe((checked) => {
-        console.log(checked);
-
         fields.forEach((fieldName) => {
           const field = form.get(fieldName);
           if (checked) {
@@ -744,8 +742,6 @@ export class QuestionnaireComponent implements OnInit {
   }
 
   loadQuestionnaireData() {
-    console.log(this.data);
-
     this.doctorService
       .GetQuestionnairesById(this.data.questionnaireId)
       .subscribe((response: any) => {
@@ -784,8 +780,6 @@ export class QuestionnaireComponent implements OnInit {
   }
 
   populateDoctorForm(data: any) {
-    console.log(data);
-
     this.questionnaireFormDoctor.patchValue({
       patientPurpose: data.patient_purpose,
       otherPurpose: data.other_purpose || '',
@@ -949,8 +943,6 @@ export class QuestionnaireComponent implements OnInit {
           shadeFrequencyIntentional: intentional.info.shadeFrequency,
         });
       }
-
-      console.log(form.controls);
     } catch (error) {
       console.error('Error parsing exposure data:', error);
     }
@@ -1335,8 +1327,6 @@ export class QuestionnaireComponent implements OnInit {
               ? this.questionnaireFormDoctor.get('exSmoker')?.value === 'yes'
               : null,
         };
-
-        console.log('Slanje podataka:', model);
 
         this.doctorService.AddDoctorNotes(model).subscribe({
           next: (res: any) => {

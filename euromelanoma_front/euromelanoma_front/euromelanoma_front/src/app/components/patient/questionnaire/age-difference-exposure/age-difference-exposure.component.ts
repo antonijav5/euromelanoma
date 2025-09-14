@@ -116,8 +116,6 @@ export class AgeDifferenceExposureComponent
     });
   }
   private populateFormsWithData() {
-    console.log(this.exposureData);
-
     if (!this.exposureData) return;
 
     const dataMap = {
@@ -132,7 +130,6 @@ export class AgeDifferenceExposureComponent
 
     Object.keys(dataMap).forEach((key) => {
       const typedKey = key as FormKeys;
-      console.log({ dataMap, typedKey });
 
       if (dataMap[typedKey] && this.forms[typedKey]) {
         this.populateExposureForm(this.forms[typedKey], dataMap[typedKey]);
@@ -153,7 +150,6 @@ export class AgeDifferenceExposureComponent
       const intentional = exposureData.find(
         (item: any) => item.name === 'intentional_exposure'
       );
-      console.log(exposureData);
 
       if (occupational) {
         form.patchValue({

@@ -18,7 +18,6 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
       this.section = params.get('section') || undefined;
-      console.log(this.section);
     });
     this.loadUserData();
   }
@@ -34,7 +33,6 @@ export class HomeComponent implements OnInit {
 
   onTabChange(event: any): void {
     this.selectedTabIndex = event.index;
-    console.log('Selected tab index:', this.selectedTabIndex);
   }
 
   getUserRoleText(userType: string): string {
