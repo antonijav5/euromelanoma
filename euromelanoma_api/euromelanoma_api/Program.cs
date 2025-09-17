@@ -10,9 +10,10 @@ IConfigurationRoot? config = new ConfigurationBuilder()
                                 .AddJsonFile("appsettings.json")
                                 .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true)
                                 .Build();
-
+builder.Configuration.AddEnvironmentVariables();
 // Uzmi konekcioni string iz odgovarajuceg appsettings.json-a
 string? defaultConnectionString = builder.Configuration.GetConnectionString("Default");
+var sendGridApiKey = builder.Configuration["SENDGRID_API_KEY"];
 
 // Sinhronizovane operacije nisu dozvoljene. Pozovite ReadAsync ili postavite AllowSynchronousIO na true umesto toga.
 builder.Services.Configure<IISServerOptions>(options =>
@@ -20,7 +21,10 @@ builder.Services.Configure<IISServerOptions>(options =>
     options.AllowSynchronousIO = true;
 });
 
-
+builder.Configuration["SendGrid:ApiKey"] = sendGridApiKey;
+var jwtKey = builder.Configuration["Jwt:Key"];
+var jwtIssuer = builder.Configuration["Jwt:Issuer"];
+var jwtAudience = builder.Configuration["Jwt:Audience"];
 // Dodaj servis za koriscenje kontrolera u objekat bilder aplikacije
 builder.Services.AddControllers().AddJsonOptions(x =>
                 x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);

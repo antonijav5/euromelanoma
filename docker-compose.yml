@@ -52,7 +52,11 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
       - ASPNETCORE_URLS=http://+:8080
-      - ConnectionStrings__Default=Server=sqlserver,1433;Initial Catalog=EUROMELANOMA;User Id=sa;Password=YourStrong@Password123;Trust Server Certificate=true;Command Timeout=100000
+      - ConnectionStrings__Default=Server=sqlserver,1433;Initial Catalog=EUROMELANOMA;User Id=sa;Password=${DB_PASSWORD:-Password};Trust Server Certificate=true;Command Timeout=100000
+      - SENDGRID_API_KEY=${SENDGRID_API_KEY}      
+      - Jwt__Key=${JWT_SECRET_KEY:-development-fallback-key-32-characters-long}
+      - Jwt__Issuer=${JWT_ISSUER:-EuromelanomPortal}
+      - Jwt__Audience=${JWT_AUDIENCE:-EuromelanomUsers}
     depends_on:
       sqlserver:
         condition: service_healthy

@@ -15,7 +15,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("euromelanoma_api")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f8d17dd3de02d61596674ff618b43a0624ae3201")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f329a76d85731b79116a636637bfdee27ec8b864")]
 [assembly: System.Reflection.AssemblyProductAttribute("euromelanoma_api")]
 [assembly: System.Reflection.AssemblyTitleAttribute("euromelanoma_api")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

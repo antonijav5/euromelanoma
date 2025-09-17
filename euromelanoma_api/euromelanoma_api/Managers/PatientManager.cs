@@ -22,7 +22,6 @@ namespace euromelanoma_api.Managers
         {
 
             int score = CalculateRiskScore(model);
-            //za sada je doctor null,dok se ne zakaze pregled
 
             var questionnaire = new Questionnaires
             {
@@ -93,11 +92,6 @@ namespace euromelanoma_api.Managers
 
             return questionnaire;
         }
-
-
-
-
-
 
         public int CalculateRiskScore(QuestionnaireDataPatientInsertModel model)
         {

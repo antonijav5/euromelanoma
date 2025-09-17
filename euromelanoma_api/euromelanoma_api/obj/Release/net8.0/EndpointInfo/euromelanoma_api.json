@@ -1,0 +1,2911 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "My API",
+    "version": "V1"
+  },
+  "paths": {
+    "/api/Admin/RegisterPatient": {
+      "post": {
+        "tags": [
+          "Admin"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterUserModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterUserModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterUserModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/UsersRequestResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UsersRequestResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UsersRequestResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Admin/GetMe": {
+      "get": {
+        "tags": [
+          "Admin"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Admin/RegisterDoctor": {
+      "post": {
+        "tags": [
+          "Admin"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterUserModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterUserModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterUserModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UsersRequestResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Admin/CreateDoctorRegisterRequest": {
+      "post": {
+        "tags": [
+          "Admin"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterUserModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterUserModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterUserModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UsersRequestResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Admin/AddAppointment": {
+      "post": {
+        "tags": [
+          "Admin"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AppointmentDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AppointmentDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/AppointmentDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/StringRequestResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StringRequestResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StringRequestResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Admin/GetDoctors": {
+      "get": {
+        "tags": [
+          "Admin"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/UsersListRequestResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UsersListRequestResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UsersListRequestResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Admin/GetCities": {
+      "get": {
+        "tags": [
+          "Admin"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/CitiesListRequestResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CitiesListRequestResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CitiesListRequestResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Admin/GetPatients": {
+      "get": {
+        "tags": [
+          "Admin"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/UsersListRequestResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UsersListRequestResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UsersListRequestResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Admin/GetQuestionnairesByPatient/{patientId}": {
+      "get": {
+        "tags": [
+          "Admin"
+        ],
+        "parameters": [
+          {
+            "name": "patientId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/QuestionnairesListRequestResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QuestionnairesListRequestResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QuestionnairesListRequestResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Admin/ExportExcel": {
+      "post": {
+        "tags": [
+          "Admin"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Admin/DeleteRequest": {
+      "post": {
+        "tags": [
+          "Admin"
+        ],
+        "parameters": [
+          {
+            "name": "idReq",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/StringRequestResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StringRequestResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StringRequestResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Admin/GetAllAppointments": {
+      "get": {
+        "tags": [
+          "Admin"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScheduledAppointmentsListRequestResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScheduledAppointmentsListRequestResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScheduledAppointmentsListRequestResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Admin/GetAvailableSlotsForCity/{cityId}": {
+      "get": {
+        "tags": [
+          "Admin"
+        ],
+        "parameters": [
+          {
+            "name": "cityId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/AvailableSlotsListRequestResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AvailableSlotsListRequestResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AvailableSlotsListRequestResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Doctor/AddDoctorNotes": {
+      "post": {
+        "tags": [
+          "Doctor"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DoctorNotesDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DoctorNotesDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/DoctorNotesDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/StringRequestResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StringRequestResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StringRequestResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Doctor/GetPatientsForDoctor/{doctorId}": {
+      "get": {
+        "tags": [
+          "Doctor"
+        ],
+        "parameters": [
+          {
+            "name": "doctorId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/UsersRequestResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UsersRequestResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UsersRequestResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Doctor/GetQuestionnairesForPatient/{patientId}": {
+      "get": {
+        "tags": [
+          "Doctor"
+        ],
+        "parameters": [
+          {
+            "name": "patientId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/QuestionnairesRequestResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QuestionnairesRequestResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QuestionnairesRequestResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Doctor/GetQuestionnairesById/{questionnaireId}": {
+      "get": {
+        "tags": [
+          "Doctor"
+        ],
+        "parameters": [
+          {
+            "name": "questionnaireId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/QuestionnaireDataPatientRequestResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QuestionnaireDataPatientRequestResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QuestionnaireDataPatientRequestResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Doctor/GetDoctorNotesByQuestionnaireId/{questionnaireId}": {
+      "get": {
+        "tags": [
+          "Doctor"
+        ],
+        "parameters": [
+          {
+            "name": "questionnaireId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/doctor_notesRequestResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/doctor_notesRequestResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/doctor_notesRequestResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Patient/InsertQuestionnaire": {
+      "post": {
+        "tags": [
+          "Patient"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/QuestionnaireDataPatientInsertModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/QuestionnaireDataPatientInsertModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/QuestionnaireDataPatientInsertModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/QuestionnairesRequestResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QuestionnairesRequestResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QuestionnairesRequestResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Patient/GetAppointments/{id}": {
+      "get": {
+        "tags": [
+          "Patient"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScheduledAppointmentsRequestResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScheduledAppointmentsRequestResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScheduledAppointmentsRequestResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Patient/GetAppointment/{id}": {
+      "get": {
+        "tags": [
+          "Patient"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScheduledAppointmentsRequestResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScheduledAppointmentsRequestResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScheduledAppointmentsRequestResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Patient/GetAvaliableCities": {
+      "get": {
+        "tags": [
+          "Patient"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/CitiesListRequestResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CitiesListRequestResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CitiesListRequestResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Patient/ScheduleAppointment": {
+      "post": {
+        "tags": [
+          "Patient"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ScheduleAppointmentRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ScheduleAppointmentRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ScheduleAppointmentRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/SchedulePatientAppointmentResultRequestResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SchedulePatientAppointmentResultRequestResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SchedulePatientAppointmentResultRequestResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Patient/GetDoctor/{slotId}": {
+      "get": {
+        "tags": [
+          "Patient"
+        ],
+        "parameters": [
+          {
+            "name": "slotId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/UsersRequestResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UsersRequestResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UsersRequestResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/User/Login": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "parameters": [
+          {
+            "name": "username",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "password",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserModelRequestResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserModelRequestResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserModelRequestResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/User/CreateHash": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "string"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "string"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/User/GetUsers": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/UsersRequestResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UsersRequestResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UsersRequestResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/User/GetUserRequests": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserRequestsRequestResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserRequestsRequestResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserRequestsRequestResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/User/ForgotPassword": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PasswordResetRequestDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PasswordResetRequestDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PasswordResetRequestDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/StringRequestResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StringRequestResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StringRequestResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/User/ResetPassword": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ResetPasswordDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ResetPasswordDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ResetPasswordDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/StringRequestResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StringRequestResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StringRequestResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AppointmentDto": {
+        "type": "object",
+        "properties": {
+          "doctorId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "cityId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "startTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "endTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "maxPatients": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "AvailableSlots": {
+        "type": "object",
+        "properties": {
+          "slotID": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "doctorID": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "startTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "endTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "maxPatients": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "cityID": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "city": {
+            "$ref": "#/components/schemas/Cities"
+          },
+          "doctor": {
+            "$ref": "#/components/schemas/Users"
+          },
+          "scheduledAppointments": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ScheduledAppointments"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "AvailableSlotsListRequestResult": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "result": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AvailableSlots"
+            },
+            "nullable": true
+          },
+          "resultList": {
+            "type": "array",
+            "items": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/AvailableSlots"
+              }
+            },
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "nullable": true
+          },
+          "recordsFiltered": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "recordsTotal": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Cities": {
+        "required": [
+          "country",
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "cityID": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "country": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "availableSlots": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AvailableSlots"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CitiesListRequestResult": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "result": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Cities"
+            },
+            "nullable": true
+          },
+          "resultList": {
+            "type": "array",
+            "items": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/Cities"
+              }
+            },
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "nullable": true
+          },
+          "recordsFiltered": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "recordsTotal": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "DoctorNotesDto": {
+        "type": "object",
+        "properties": {
+          "questionnaireID": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "patientPurpose": {
+            "type": "string",
+            "nullable": true
+          },
+          "familyHistoryMelanoma": {
+            "type": "string",
+            "nullable": true
+          },
+          "familyHistoryNonMelanoma": {
+            "type": "string",
+            "nullable": true
+          },
+          "personalHistoryMelanoma": {
+            "type": "string",
+            "nullable": true
+          },
+          "melanomaCount": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "personalHistoryCarcinoma": {
+            "type": "string",
+            "nullable": true
+          },
+          "bccCount": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "sccCount": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "otherCarcinomaDescription": {
+            "type": "string",
+            "nullable": true
+          },
+          "skinExaminationToday": {
+            "type": "string",
+            "nullable": true
+          },
+          "dermoscopyPerformed": {
+            "type": "boolean"
+          },
+          "nevusCount": {
+            "type": "string",
+            "nullable": true
+          },
+          "moreThanTwentyNevusOnHands": {
+            "type": "boolean"
+          },
+          "atypicalNeviPresence": {
+            "type": "boolean"
+          },
+          "atypicalNeviCount": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "congenitalNeviMediumSize": {
+            "type": "boolean"
+          },
+          "congenitalNeviMediumLocation": {
+            "type": "string",
+            "nullable": true
+          },
+          "congenitalNeviGiantSize": {
+            "type": "boolean"
+          },
+          "congenitalNeviGiantLocation": {
+            "type": "string",
+            "nullable": true
+          },
+          "solarLentigo": {
+            "type": "boolean"
+          },
+          "suspiciousMelanoma": {
+            "type": "boolean"
+          },
+          "suspiciousMelanomaCount": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "melanomaDetectedBy": {
+            "type": "string",
+            "nullable": true
+          },
+          "suspiciousBcc": {
+            "type": "boolean"
+          },
+          "suspiciousBccCount": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "bccDetectedBy": {
+            "type": "string",
+            "nullable": true
+          },
+          "suspiciousScc": {
+            "type": "boolean"
+          },
+          "suspiciousSccCount": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "sccDetectedBy": {
+            "type": "string",
+            "nullable": true
+          },
+          "actinicKeratosis": {
+            "type": "boolean"
+          },
+          "actinicKeratosisNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "actinicKeratosisCount": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "actinicKeratosisDetectedBy": {
+            "type": "string",
+            "nullable": true
+          },
+          "otherLesions": {
+            "type": "boolean"
+          },
+          "otherLesionsDescription": {
+            "type": "string",
+            "nullable": true
+          },
+          "hematologicalDecease": {
+            "type": "boolean"
+          },
+          "hivDecease": {
+            "type": "boolean"
+          },
+          "otherImmunosuppresion": {
+            "type": "boolean"
+          },
+          "otherImmunosuppresionReason": {
+            "type": "string",
+            "nullable": true
+          },
+          "otherDeceases": {
+            "type": "boolean"
+          },
+          "otherDeceasesName": {
+            "type": "string",
+            "nullable": true
+          },
+          "smoking": {
+            "type": "boolean"
+          },
+          "exSmoker": {
+            "type": "boolean",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "DoctorPrivileges": {
+        "type": "object",
+        "properties": {
+          "doctorId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "privilegeLevel": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "doctor": {
+            "$ref": "#/components/schemas/Users"
+          }
+        },
+        "additionalProperties": false
+      },
+      "PasswordResetRequestDto": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PasswordResetTokens": {
+        "required": [
+          "token"
+        ],
+        "type": "object",
+        "properties": {
+          "tokenId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "userId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "token": {
+            "maxLength": 256,
+            "minLength": 0,
+            "type": "string"
+          },
+          "expiryDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "user": {
+            "$ref": "#/components/schemas/Users"
+          }
+        },
+        "additionalProperties": false
+      },
+      "QuestionnaireDataPatient": {
+        "required": [
+          "birth_place",
+          "education_level",
+          "ethnicity",
+          "full_body_check_done",
+          "gender",
+          "had_adolescence_burns",
+          "had_burns_after_80",
+          "had_burns_between_20_40",
+          "had_burns_between_40_60",
+          "had_burns_between_60_80",
+          "had_childhood_burns",
+          "hair_color",
+          "how_much_freckles",
+          "living_alone",
+          "reason_exam",
+          "residence",
+          "sun_reaction",
+          "sunExposureAfterAge80",
+          "sunExposureFromAge0to12",
+          "sunExposureFromAge13to19",
+          "sunExposureFromAge20to40",
+          "sunExposureFromAge40to60",
+          "sunExposureFromAge60to80",
+          "sunny_country_exposure",
+          "tanning_exposure",
+          "used_solarium"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "questionnaireID": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "gender": {
+            "maxLength": 10,
+            "minLength": 0,
+            "type": "string"
+          },
+          "birth_year": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "birth_place": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string"
+          },
+          "residence": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string"
+          },
+          "weight": {
+            "type": "number",
+            "format": "double"
+          },
+          "height": {
+            "type": "number",
+            "format": "double"
+          },
+          "ethnicity": {
+            "maxLength": 50,
+            "minLength": 0,
+            "type": "string"
+          },
+          "other_ethnicity": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "education_level": {
+            "maxLength": 50,
+            "minLength": 0,
+            "type": "string"
+          },
+          "living_alone": {
+            "maxLength": 50,
+            "minLength": 0,
+            "type": "string"
+          },
+          "reason_exam": {
+            "maxLength": 200,
+            "minLength": 0,
+            "type": "string"
+          },
+          "full_body_check_done": {
+            "maxLength": 50,
+            "minLength": 0,
+            "type": "string"
+          },
+          "hair_color": {
+            "maxLength": 50,
+            "minLength": 0,
+            "type": "string"
+          },
+          "how_much_freckles": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string"
+          },
+          "sun_reaction": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string"
+          },
+          "sunExposureFromAge0to12": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "sunExposureFromAge13to19": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "sunExposureFromAge20to40": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "sunExposureFromAge40to60": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "sunExposureFromAge60to80": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "sunExposureAfterAge80": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "tanning_exposure": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string"
+          },
+          "sunny_country_exposure": {
+            "maxLength": 50,
+            "minLength": 0,
+            "type": "string"
+          },
+          "years_before_18": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "location_before_18": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "years_after_18": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "location_after_18": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "used_solarium": {
+            "maxLength": 50,
+            "minLength": 0,
+            "type": "string"
+          },
+          "total_visits": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "first_visit_age": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "last_visit_age": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "had_childhood_burns": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string"
+          },
+          "had_adolescence_burns": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string"
+          },
+          "had_burns_between_20_40": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string"
+          },
+          "had_burns_between_40_60": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string"
+          },
+          "had_burns_between_60_80": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string"
+          },
+          "had_burns_after_80": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string"
+          },
+          "questionnaire": {
+            "$ref": "#/components/schemas/Questionnaires"
+          }
+        },
+        "additionalProperties": false
+      },
+      "QuestionnaireDataPatientInsertModel": {
+        "type": "object",
+        "properties": {
+          "patientId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "date": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "consent": {
+            "type": "boolean"
+          },
+          "gender": {
+            "type": "string",
+            "nullable": true
+          },
+          "birthYear": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "birthPlace": {
+            "type": "string",
+            "nullable": true
+          },
+          "residence": {
+            "type": "string",
+            "nullable": true
+          },
+          "weight": {
+            "type": "number",
+            "format": "double"
+          },
+          "height": {
+            "type": "number",
+            "format": "double"
+          },
+          "ethnicity": {
+            "type": "string",
+            "nullable": true
+          },
+          "otherEthnicity": {
+            "type": "string",
+            "nullable": true
+          },
+          "educationLevel": {
+            "type": "string",
+            "nullable": true
+          },
+          "livingAlone": {
+            "type": "string",
+            "nullable": true
+          },
+          "reasonForComing": {
+            "type": "string",
+            "nullable": true
+          },
+          "fullBodyCheck": {
+            "type": "string",
+            "nullable": true
+          },
+          "hairColor": {
+            "type": "string",
+            "nullable": true
+          },
+          "freckles": {
+            "type": "string",
+            "nullable": true
+          },
+          "sunReaction": {
+            "type": "string",
+            "nullable": true
+          },
+          "tanningExposure": {
+            "type": "string",
+            "nullable": true
+          },
+          "sunnyCountryExposure": {
+            "$ref": "#/components/schemas/SunnyCountryExposure"
+          },
+          "solariumUse": {
+            "$ref": "#/components/schemas/SolariumUse"
+          },
+          "sunburns": {
+            "$ref": "#/components/schemas/Sunburns"
+          },
+          "sunExposureFromAge0to12": {
+            "type": "string",
+            "nullable": true
+          },
+          "sunExposureFromAge13to19": {
+            "type": "string",
+            "nullable": true
+          },
+          "sunExposureFromAge20to40": {
+            "type": "string",
+            "nullable": true
+          },
+          "sunExposureFromAge40to60": {
+            "type": "string",
+            "nullable": true
+          },
+          "sunExposureFromAge60to80": {
+            "type": "string",
+            "nullable": true
+          },
+          "sunExposureAfterAge80": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "QuestionnaireDataPatientRequestResult": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "result": {
+            "$ref": "#/components/schemas/QuestionnaireDataPatient"
+          },
+          "resultList": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/QuestionnaireDataPatient"
+            },
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "nullable": true
+          },
+          "recordsFiltered": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "recordsTotal": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Questionnaires": {
+        "type": "object",
+        "properties": {
+          "questionnaireID": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "patientID": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "doctorID": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "score": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "consent": {
+            "type": "boolean"
+          },
+          "completeDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "questionnaireDataPatient": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/QuestionnaireDataPatient"
+            },
+            "nullable": true
+          },
+          "doctor_notes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/doctor_notes"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "QuestionnairesListRequestResult": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "result": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Questionnaires"
+            },
+            "nullable": true
+          },
+          "resultList": {
+            "type": "array",
+            "items": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/Questionnaires"
+              }
+            },
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "nullable": true
+          },
+          "recordsFiltered": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "recordsTotal": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "QuestionnairesRequestResult": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "result": {
+            "$ref": "#/components/schemas/Questionnaires"
+          },
+          "resultList": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Questionnaires"
+            },
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "nullable": true
+          },
+          "recordsFiltered": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "recordsTotal": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "RegisterUserModel": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string",
+            "nullable": true
+          },
+          "firstName": {
+            "type": "string",
+            "nullable": true
+          },
+          "lastName": {
+            "type": "string",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "password": {
+            "type": "string",
+            "nullable": true
+          },
+          "userType": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ResetPasswordDto": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "nullable": true
+          },
+          "newPassword": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ScheduleAppointmentRequest": {
+        "type": "object",
+        "properties": {
+          "patientId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "phoneNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "cityId": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "SchedulePatientAppointmentResult": {
+        "type": "object",
+        "properties": {
+          "poruka": {
+            "maxLength": 23,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "SchedulePatientAppointmentResultRequestResult": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "result": {
+            "$ref": "#/components/schemas/SchedulePatientAppointmentResult"
+          },
+          "resultList": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SchedulePatientAppointmentResult"
+            },
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "nullable": true
+          },
+          "recordsFiltered": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "recordsTotal": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ScheduledAppointments": {
+        "required": [
+          "status"
+        ],
+        "type": "object",
+        "properties": {
+          "scheduledAppointmentID": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "slotID": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "patientID": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "status": {
+            "maxLength": 50,
+            "minLength": 0,
+            "type": "string"
+          },
+          "phoneNumber": {
+            "maxLength": 15,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "cityID": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "startTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "endTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "patient": {
+            "$ref": "#/components/schemas/Users"
+          },
+          "slot": {
+            "$ref": "#/components/schemas/AvailableSlots"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ScheduledAppointmentsListRequestResult": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "result": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ScheduledAppointments"
+            },
+            "nullable": true
+          },
+          "resultList": {
+            "type": "array",
+            "items": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/ScheduledAppointments"
+              }
+            },
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "nullable": true
+          },
+          "recordsFiltered": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "recordsTotal": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ScheduledAppointmentsRequestResult": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "result": {
+            "$ref": "#/components/schemas/ScheduledAppointments"
+          },
+          "resultList": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ScheduledAppointments"
+            },
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "nullable": true
+          },
+          "recordsFiltered": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "recordsTotal": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "SolariumUse": {
+        "type": "object",
+        "properties": {
+          "usedSolarium": {
+            "type": "string",
+            "nullable": true
+          },
+          "totalVisits": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "firstVisitAge": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "lastVisitAge": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "StringRequestResult": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "result": {
+            "type": "string",
+            "nullable": true
+          },
+          "resultList": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "nullable": true
+          },
+          "recordsFiltered": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "recordsTotal": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Sunburns": {
+        "type": "object",
+        "properties": {
+          "childhood": {
+            "type": "string",
+            "nullable": true
+          },
+          "adolescence": {
+            "type": "string",
+            "nullable": true
+          },
+          "between20and40": {
+            "type": "string",
+            "nullable": true
+          },
+          "between40and60": {
+            "type": "string",
+            "nullable": true
+          },
+          "between60and80": {
+            "type": "string",
+            "nullable": true
+          },
+          "after80": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "SunnyCountryExposure": {
+        "type": "object",
+        "properties": {
+          "exposure": {
+            "type": "string",
+            "nullable": true
+          },
+          "yearsBefore18": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "locationBefore18": {
+            "type": "string",
+            "nullable": true
+          },
+          "yearsAfter18": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "locationAfter18": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "UserModel": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "username": {
+            "type": "string",
+            "nullable": true
+          },
+          "nazivUsera": {
+            "type": "string",
+            "nullable": true
+          },
+          "userType": {
+            "type": "string",
+            "nullable": true
+          },
+          "token": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "UserModelRequestResult": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "result": {
+            "$ref": "#/components/schemas/UserModel"
+          },
+          "resultList": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UserModel"
+            },
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "nullable": true
+          },
+          "recordsFiltered": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "recordsTotal": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "UserRequests": {
+        "required": [
+          "email",
+          "firstName",
+          "lastName",
+          "status",
+          "username"
+        ],
+        "type": "object",
+        "properties": {
+          "userID": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "firstName": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string"
+          },
+          "lastName": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string"
+          },
+          "email": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string"
+          },
+          "username": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string"
+          },
+          "status": {
+            "maxLength": 30,
+            "minLength": 0,
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "UserRequestsRequestResult": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "result": {
+            "$ref": "#/components/schemas/UserRequests"
+          },
+          "resultList": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UserRequests"
+            },
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "nullable": true
+          },
+          "recordsFiltered": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "recordsTotal": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Users": {
+        "required": [
+          "email",
+          "passwordHash",
+          "userType"
+        ],
+        "type": "object",
+        "properties": {
+          "userID": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "username": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "firstName": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "lastName": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "email": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string"
+          },
+          "passwordHash": {
+            "maxLength": 500,
+            "type": "string",
+            "format": "byte"
+          },
+          "userType": {
+            "maxLength": 50,
+            "minLength": 0,
+            "type": "string"
+          },
+          "availableSlots": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AvailableSlots"
+            },
+            "nullable": true
+          },
+          "doctorPrivileges": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DoctorPrivileges"
+            },
+            "nullable": true
+          },
+          "passwordResetTokens": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PasswordResetTokens"
+            },
+            "nullable": true
+          },
+          "scheduledAppointments": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ScheduledAppointments"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "UsersListRequestResult": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "result": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Users"
+            },
+            "nullable": true
+          },
+          "resultList": {
+            "type": "array",
+            "items": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/Users"
+              }
+            },
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "nullable": true
+          },
+          "recordsFiltered": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "recordsTotal": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "UsersRequestResult": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "result": {
+            "$ref": "#/components/schemas/Users"
+          },
+          "resultList": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Users"
+            },
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "nullable": true
+          },
+          "recordsFiltered": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "recordsTotal": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "doctor_notes": {
+        "required": [
+          "actinic_keratosis_detected_by",
+          "bcc_detected_by",
+          "family_history_melanoma",
+          "family_history_non_melanoma",
+          "melanoma_detected_by",
+          "other_carcinoma_description",
+          "patient_purpose",
+          "personal_history_carcinoma",
+          "personal_history_melanoma",
+          "scc_detected_by",
+          "skin_examination_today"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "questionnaireID": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "patient_purpose": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string"
+          },
+          "family_history_melanoma": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string"
+          },
+          "family_history_non_melanoma": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string"
+          },
+          "personal_history_melanoma": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string"
+          },
+          "melanoma_count": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "personal_history_carcinoma": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string"
+          },
+          "bcc_count": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "scc_count": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "other_carcinoma_description": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "skin_examination_today": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string"
+          },
+          "dermoscopy_performed": {
+            "type": "boolean"
+          },
+          "nevus_count": {
+            "maxLength": 50,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "more_than_twenty_nevus_on_hands": {
+            "type": "boolean"
+          },
+          "atypical_nevi_presence": {
+            "type": "boolean"
+          },
+          "atypical_nevi_count": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "congenital_nevi_medium_size": {
+            "type": "boolean"
+          },
+          "congenital_nevi_medium_location": {
+            "type": "string",
+            "nullable": true
+          },
+          "congenital_nevi_giant_size": {
+            "type": "boolean"
+          },
+          "congenital_nevi_giant_location": {
+            "type": "string",
+            "nullable": true
+          },
+          "solar_lentigo": {
+            "type": "boolean"
+          },
+          "suspicious_melanoma": {
+            "type": "boolean"
+          },
+          "suspicious_melanoma_count": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "melanoma_detected_by": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string"
+          },
+          "suspicious_bcc": {
+            "type": "boolean"
+          },
+          "suspicious_bcc_count": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "bcc_detected_by": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string"
+          },
+          "suspicious_scc": {
+            "type": "boolean"
+          },
+          "suspicious_scc_count": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "scc_detected_by": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string"
+          },
+          "actinic_keratosis": {
+            "type": "boolean"
+          },
+          "actinic_keratosis_number": {
+            "maxLength": 5,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "actinic_keratosis_count": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "actinic_keratosis_detected_by": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string"
+          },
+          "other_lesions": {
+            "type": "boolean"
+          },
+          "other_lesions_description": {
+            "type": "string",
+            "nullable": true
+          },
+          "hematological_decease": {
+            "type": "boolean"
+          },
+          "hiv_decease": {
+            "type": "boolean"
+          },
+          "other_immunosuppresion": {
+            "type": "boolean"
+          },
+          "other_immunosuppresion_reason": {
+            "type": "string",
+            "nullable": true
+          },
+          "other_deceases": {
+            "type": "boolean"
+          },
+          "other_deceases_name": {
+            "type": "string",
+            "nullable": true
+          },
+          "smoking": {
+            "type": "boolean"
+          },
+          "ex_smoker": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "questionnaire": {
+            "$ref": "#/components/schemas/Questionnaires"
+          }
+        },
+        "additionalProperties": false
+      },
+      "doctor_notesRequestResult": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "result": {
+            "$ref": "#/components/schemas/doctor_notes"
+          },
+          "resultList": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/doctor_notes"
+            },
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "nullable": true
+          },
+          "recordsFiltered": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "recordsTotal": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  }
+}

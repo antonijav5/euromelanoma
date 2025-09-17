@@ -153,8 +153,8 @@ namespace euromelanoma_api.Managers
                  </html>";
 
 
-
-            var sendGridClient = new SendGridClient("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");
+            var sendGridApiKey = _config["SendGrid:ApiKey"];
+            var sendGridClient = new SendGridClient(sendGridApiKey);
             var from = new EmailAddress("portaleuromelanoma@gmail.com", "Euromelanoma Portal");
             var subject = "Link za promenu lozinke na Euromelanoma portal-u";
             var to = new EmailAddress(emailAdresa);
@@ -168,11 +168,11 @@ namespace euromelanoma_api.Managers
 
         public string ForgotPassword([FromBody] PasswordResetRequestDto email)
         {
-            var user = _context.Users.Where(u => u.Email == email.Email).FirstOrDefault();
+            var user = _context.Users.Where(u => u.Email == email.Email)?.FirstOrDefault();
 
             if (user == null)
             {
-                return "Korisnik sa ovim email-om ne postoji.";
+                return "Korisnik sa ovom e-mail adresom ne postoji.";
             }
 
             var token = GeneratePasswordResetToken();

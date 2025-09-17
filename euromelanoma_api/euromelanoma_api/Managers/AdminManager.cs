@@ -71,11 +71,11 @@ namespace euromelanoma_api.Managers
                  </html>";
 
 
-
-                    var sendGridClient = new SendGridClient("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");
+                    var sendGridApiKey = _config["SendGrid:ApiKey"];
+                    var sendGridClient = new SendGridClient(sendGridApiKey);
                     var from = new EmailAddress("portaleuromelanoma@gmail.com", "Euromelanoma Portal");
                     var subject = "Dobijanje privremene lozinke za prijavu na sistem";
-                    var to = new EmailAddress("portaleuromelanoma@gmail.com");
+                    var to = new EmailAddress(model.Email);
                     var plainContent = "Pozdrav.";
                     var htmlContent = messageSubject;
                     var mailMessage = MailHelper.CreateSingleEmail(from, to, subject, plainContent, htmlContent);

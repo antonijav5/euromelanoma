@@ -1,13 +1,7 @@
 ﻿using euromelanoma_api.Managers;
 using euromelanoma_api.Models.DTOObjects;
 using euromelanoma_api.Models.EuromelanomaContext;
-using Irony.Parsing;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.Text;
 
 namespace euromelanoma_api.Controllers
 {
@@ -70,9 +64,9 @@ namespace euromelanoma_api.Controllers
         }
 
         [HttpGet("GetUsers")]
-       public RequestResult<Users> GetUsers()
+        public RequestResult<Users> GetUsers()
         {
-            return new RequestResult<Users>(true, userManager.GetUsers(), "All good.", null,null);
+            return new RequestResult<Users>(true, userManager.GetUsers(), "All good.", null, null);
         }
 
         [HttpGet("GetUserRequests")]
@@ -85,14 +79,16 @@ namespace euromelanoma_api.Controllers
         [HttpPost("ForgotPassword")]
         public RequestResult<string> ResetPassword([FromBody] PasswordResetRequestDto email)
         {
-            return new RequestResult<string>(true, userManager.ForgotPassword(email), "All good.");
+            string msg = userManager.ForgotPassword(email);
+            bool success = !msg.Equals("Korisnik sa ovim email-om ne postoji.");
+            return new RequestResult<string>(success, msg, "All good.");
         }
 
 
         [HttpPost("ResetPassword")]
-        public  RequestResult<string> ResetPassword([FromBody] ResetPasswordDto model)
+        public RequestResult<string> ResetPassword([FromBody] ResetPasswordDto model)
         {
-   return new RequestResult<string>(true,userManager.ResetPassword(model),"All good.");
+            return new RequestResult<string>(true, userManager.ResetPassword(model), "All good.");
         }
 
 
