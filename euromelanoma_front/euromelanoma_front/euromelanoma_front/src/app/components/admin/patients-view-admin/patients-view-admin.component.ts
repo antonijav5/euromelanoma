@@ -25,7 +25,6 @@ export class PatientsViewAdminComponent {
   }
 
   loadPatientsWithQuestionnaires(): void {
-    // Prvo učitaj pacijente
     this.adminService.GetPatients().subscribe((patientsResponse: any) => {
       if (patientsResponse.success) {
         const patientsData = patientsResponse.result;
@@ -92,11 +91,11 @@ export class PatientsViewAdminComponent {
 
   getStatusIcon(questionnaire: any): string {
     if (!questionnaire.completeDate) {
-      return 'pending'; // Crveni - nije popunjen
+      return 'pending';
     } else if (questionnaire.completeDate && !questionnaire.doctorID) {
-      return 'schedule'; // Narandžasti - čeka pregled
+      return 'schedule';
     } else {
-      return 'check_circle'; // Zeleni - pregled završen
+      return 'check_circle';
     }
   }
 
@@ -120,7 +119,6 @@ export class PatientsViewAdminComponent {
     }
   }
 
-  // Dodaj statistike za novu logiku
   getCompletedQuestionnaires(): number {
     return this.patients.reduce((total, patient) => {
       return (

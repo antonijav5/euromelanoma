@@ -67,7 +67,7 @@ import { AboutUsComponent } from './components/about-us/about-us.component';
 
 const MY_DATE_FORMATS = {
   parse: {
-    dateInput: 'DD.MM.YYYY', // Format za unos datuma
+    dateInput: 'DD.MM.YYYY',
   },
   display: {
     dateInput: 'DD.MM.YYYY',

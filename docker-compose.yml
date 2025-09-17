@@ -1,0 +1,85 @@
+version: '3.8'
+
+services:
+  # SQL Server
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: euromelanoma-sql
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=YourStrong@Password123
+      - MSSQL_PID=Express
+    ports:
+      - "1433:1433"
+    volumes:
+      - sql-data:/var/opt/mssql
+      - ./database:/scripts:ro
+    networks:
+      - euromelanoma-net
+    healthcheck:
+      test: /opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P YourStrong@Password123 -Q "SELECT 1" -C
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+    restart: unless-stopped
+
+  # SQL Init Service
+  sql-init:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    depends_on:
+      sqlserver:
+        condition: service_healthy
+    volumes:
+      - ./database:/scripts:ro
+    networks:
+      - euromelanoma-net
+    command: >
+      /bin/bash -c "
+      sleep 15;
+      /opt/mssql-tools18/bin/sqlcmd -S sqlserver -U sa -P YourStrong@Password123 -i /scripts/init.sql -C;
+      "
+    restart: "no"
+
+
+  backend:
+    build:
+      context: ./euromelanoma_api
+      dockerfile: euromelanoma_api/Dockerfile
+    container_name: euromelanoma-backend
+    ports:
+      - "5000:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_URLS=http://+:8080
+      - ConnectionStrings__Default=Server=sqlserver,1433;Initial Catalog=EUROMELANOMA;User Id=sa;Password=YourStrong@Password123;Trust Server Certificate=true;Command Timeout=100000
+    depends_on:
+      sqlserver:
+        condition: service_healthy
+      sql-init:
+        condition: service_completed_successfully
+    networks:
+      - euromelanoma-net
+    restart: unless-stopped
+
+
+  frontend:
+    build:
+      context: ./euromelanoma_front/euromelanoma_front/euromelanoma_front
+      dockerfile: Dockerfile
+    container_name: euromelanoma-frontend
+    ports:
+      - "4200:80"
+    depends_on:
+      - backend
+    networks:
+      - euromelanoma-net
+    restart: unless-stopped
+
+volumes:
+  sql-data:
+    driver: local
+
+networks:
+  euromelanoma-net:
+    driver: bridge

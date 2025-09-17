@@ -657,32 +657,38 @@ export class QuestionnaireComponent implements OnInit {
 
     return form;
   }
-  childFormsValidation: { [key: string]: boolean } = {};
+
+  childFormsValidation: { [key: string]: boolean } = {
+    '012': true,
+    '1319': true,
+    '2040': true,
+    '4060': true,
+    '6080': true,
+    '80plus': true,
+  };
 
   onChildFormValidation(event: { valid: boolean; formName: string }) {
     this.childFormsValidation[event.formName] = event.valid;
   }
+
+  formNames = ['012', '1319', '2040', '4060', '6080', '80plus'];
+
   nextPage() {
-    // Provjeri validaciju za current page
     if (this.currentPage >= 5 && this.currentPage <= 10 && !this.data) {
-      const formNames = ['012', '1319', '2040', '4060', '6080', '80plus'];
-      const currentFormName = formNames[this.currentPage - 5];
+      const currentFormName = this.formNames[this.currentPage - 5];
 
       if (!this.childFormsValidation[currentFormName]) {
         this.toster.error(
-          'Niste popunili sva obavezna polja u ovom delu upitnika!'
+          'Niste popunili sva obavezna poljaAAAAAAAA Au ovom delu upitnika!'
         );
-        // return;
       }
     } else {
-      // postojeća validacija za ostale forme
       const currentForm = this.formsMap[this.currentPage];
       if (currentForm && currentForm.invalid && !this.data) {
         currentForm.markAllAsTouched();
         this.toster.error(
           'Niste popunili sva obavezna polja u ovom delu upitnika!'
         );
-        // return;
       }
     }
 
@@ -974,8 +980,6 @@ export class QuestionnaireComponent implements OnInit {
         this.toster.error('Niste popunili sva polja!');
         return;
       } else {
-        // salji za pacijenta.
-        //kreira se questionnaire i QuestionnaireDataPatient
         const formData: any = {
           patientId: this.user.id,
           date: null,

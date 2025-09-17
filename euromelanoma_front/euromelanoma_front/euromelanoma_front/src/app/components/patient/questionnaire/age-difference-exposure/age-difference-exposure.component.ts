@@ -28,7 +28,6 @@ export class AgeDifferenceExposureComponent
   currentForm: FormGroup | null = null;
   private subscriptions: Subscription[] = [];
 
-  // Organizuj forme u objekat
   private forms: AgeRangeForm = {};
 
   @Input() currPage: number = 5;
@@ -402,10 +401,6 @@ export class AgeDifferenceExposureComponent
 
   get questionnaireForm80plus() {
     return this.forms['80plus'];
-  }
-
-  onSubmit() {
-    // Implementation if needed
   }
 
   ngOnDestroy() {

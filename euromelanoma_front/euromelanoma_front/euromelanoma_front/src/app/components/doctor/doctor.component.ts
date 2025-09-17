@@ -76,7 +76,6 @@ export class DoctorComponent {
         );
       });
     } else {
-      // Ako polje za unos pretrage nije popunjeno, prikaži sve pacijente
       this.filteredPatients = this.patients;
     }
   }

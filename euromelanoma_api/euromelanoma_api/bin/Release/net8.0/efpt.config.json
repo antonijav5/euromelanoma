@@ -1,0 +1,94 @@
+﻿{
+   "CodeGenerationMode": 4,
+   "ContextClassName": "EUROMELANOMAContext",
+   "ContextNamespace": null,
+   "FilterSchemas": false,
+   "IncludeConnectionString": false,
+   "MinimumProductVersion": "2.6.0",
+   "ModelNamespace": null,
+   "OutputContextPath": null,
+   "OutputPath": "Models\/EuromelanomaContext",
+   "PreserveCasingWithRegex": true,
+   "ProjectRootNamespace": "euromelanoma_api",
+   "Schemas": null,
+   "SelectedHandlebarsLanguage": 2,
+   "SelectedToBeGenerated": 0,
+   "T4TemplatePath": null,
+   "Tables": [
+      {
+         "Name": "[dbo].[AvailableSlots]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Cities]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[doctor_notes]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[DoctorPrivileges]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[PasswordResetTokens]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[QuestionnaireDataPatient]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Questionnaires]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[ScheduledAppointments]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[UserRequests]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Users]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[GetAvailableSlots]",
+         "ObjectType": 1
+      },
+      {
+         "Name": "[dbo].[SchedulePatientAppointment]",
+         "ObjectType": 1
+      }
+   ],
+   "UiHint": null,
+   "UncountableWords": null,
+   "UseAsyncStoredProcedureCalls": true,
+   "UseBoolPropertiesWithoutDefaultSql": false,
+   "UseDatabaseNames": true,
+   "UseDatabaseNamesForRoutines": true,
+   "UseDateOnlyTimeOnly": false,
+   "UseDbContextSplitting": false,
+   "UseDecimalDataAnnotationForSprocResult": true,
+   "UseFluentApiOnly": false,
+   "UseHandleBars": false,
+   "UseHierarchyId": false,
+   "UseInflector": false,
+   "UseInternalAccessModifiersForSprocsAndFunctions": false,
+   "UseLegacyPluralizer": false,
+   "UseManyToManyEntity": true,
+   "UseNoDefaultConstructor": false,
+   "UseNoNavigations": false,
+   "UseNoObjectFilter": false,
+   "UseNodaTime": false,
+   "UseNullableReferences": false,
+   "UsePrefixNavigationNaming": false,
+   "UseSchemaFolders": false,
+   "UseSchemaNamespaces": false,
+   "UseSpatial": false,
+   "UseT4": false,
+   "UseT4Split": false
+}

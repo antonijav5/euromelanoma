@@ -33,6 +33,14 @@ namespace euromelanoma_api.Controllers
 
         }
 
+        [HttpGet("GetMe")]
+        // Obican insert u bazu. Koristice se u svakom slucaju, ili nakon odobravanja od strane admina ili pri registraciji pacijenta.
+        public IActionResult GetMe()
+        {
+            return Ok();
+
+        }
+
         [HttpPost("RegisterDoctor"), Produces("application/json")]
         public RequestResult<Users> RegisterDoctor([FromBody] RegisterUserModel model)
         {

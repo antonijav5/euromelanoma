@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { tap } from 'rxjs/operators';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { environment } from 'src/environments/environment';
 
 const TOKEN_KEY = 'auth-token';
 const USER_KEY = 'auth-user';
@@ -17,10 +18,8 @@ export class AuthService {
   private activityTimer: any;
   private isReloading: boolean = false;
   private loggedIn: boolean = false;
-  environment: any = {
-    apiBaseUrl: 'http://localhost:21493',
-  };
-  url: string = this.environment.apiBaseUrl + '/api/User/';
+
+  private url = `${environment.apiBaseUrl}/User/`;
 
   constructor(
     private router: Router,
@@ -38,8 +37,6 @@ export class AuthService {
     ['mousemove', 'mousedown', 'keypress', 'touchstart'].forEach((event) => {
       window.removeEventListener(event, this.resetActivityTimer.bind(this));
     });
-
-    // window.removeEventListener('beforeunload', this.handleBeforeUnload.bind(this));
   }
 
   private resetActivityTimer(): void {

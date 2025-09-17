@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "dTnmoaFMIkI=",
+  "dgSpecHash": "iJxO/mpOvdQ=",
   "success": true,
   "projectFilePath": "C:\\Users\\Antonija\\Desktop\\euromelanoma\\euromelanoma_api\\euromelanoma_api\\euromelanoma_api.csproj",
   "expectedPackageFiles": [
@@ -125,6 +125,7 @@
     "C:\\Users\\Antonija\\.nuget\\packages\\microsoft.netcore.targets\\1.1.3\\microsoft.netcore.targets.1.1.3.nupkg.sha512",
     "C:\\Users\\Antonija\\.nuget\\packages\\microsoft.openapi\\1.2.3\\microsoft.openapi.1.2.3.nupkg.sha512",
     "C:\\Users\\Antonija\\.nuget\\packages\\microsoft.sqlserver.server\\1.0.0\\microsoft.sqlserver.server.1.0.0.nupkg.sha512",
+    "C:\\Users\\Antonija\\.nuget\\packages\\microsoft.visualstudio.azure.containers.tools.targets\\1.22.1\\microsoft.visualstudio.azure.containers.tools.targets.1.22.1.nupkg.sha512",
     "C:\\Users\\Antonija\\.nuget\\packages\\microsoft.visualstudio.web.codegeneration\\9.0.0\\microsoft.visualstudio.web.codegeneration.9.0.0.nupkg.sha512",
     "C:\\Users\\Antonija\\.nuget\\packages\\microsoft.visualstudio.web.codegeneration.core\\9.0.0\\microsoft.visualstudio.web.codegeneration.core.9.0.0.nupkg.sha512",
     "C:\\Users\\Antonija\\.nuget\\packages\\microsoft.visualstudio.web.codegeneration.design\\9.0.0\\microsoft.visualstudio.web.codegeneration.design.9.0.0.nupkg.sha512",

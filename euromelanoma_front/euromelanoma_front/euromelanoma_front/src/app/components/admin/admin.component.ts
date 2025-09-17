@@ -18,7 +18,7 @@ import { AuthService } from 'src/app/services/auth.service';
 export class AdminComponent {
   @Input() item = 'view';
   constructor(private authService: AuthService) {}
-  @Input() selectedTab: number = 0; // Prima tab index od home komponente
+  @Input() selectedTab: number = 0;
 
   getCurrentComponent(): string {
     switch (this.selectedTab) {

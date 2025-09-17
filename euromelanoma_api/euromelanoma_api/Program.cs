@@ -1,8 +1,6 @@
 ﻿using euromelanoma_api.Models.EuromelanomaContext;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.OpenApi.Models;
-using System.Reflection;
 using System.Text.Json.Serialization;
 
 WebApplicationBuilder? builder = WebApplication.CreateBuilder(args);

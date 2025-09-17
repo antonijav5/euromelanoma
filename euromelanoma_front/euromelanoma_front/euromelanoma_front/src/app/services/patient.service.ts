@@ -1,17 +1,15 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PatientService {
-  environment: any = {
-    apiBaseUrl: 'http://localhost:21493',
-  };
   constructor(private http: HttpClient) {}
 
-  url: string = this.environment.apiBaseUrl + '/api/Patient/';
+  private url = `${environment.apiBaseUrl}/Patient/`;
 
   insertPatientData(model: any): Observable<any> {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');

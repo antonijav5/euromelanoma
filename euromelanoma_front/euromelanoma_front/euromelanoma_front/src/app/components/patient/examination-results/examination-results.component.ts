@@ -27,8 +27,7 @@ export class ExaminationResultsComponent {
   ) {}
 
   ngOnInit(): void {
-    // Pretpostavimo da je riskScore izračunat na osnovu unosa
-    this.riskScore = this.data.score; // primer visokog rizika
+    this.riskScore = this.data.score;
     this.patientService.getAvaliableCities().subscribe((res: any) => {
       if (res.success) {
         this.cities = res.resultList;
