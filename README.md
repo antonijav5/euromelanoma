@@ -1,139 +1,228 @@
-# Euromelanoma Portal - Master Rad
+# Euromelanoma Portal -- Master's Thesis Project
 
-Ovaj projekat predstavlja web portal za procenu rizika od melanoma i zakazivanje dermatoloških pregleda, razvijen kao deo master rada.
+This project is a web-based portal for melanoma risk assessment and
+dermatological appointment scheduling, developed as part of a master's
+thesis.
 
-## 🚀 Pokretanje aplikacije
+------------------------------------------------------------------------
 
-### Preduslovi
-- Docker Desktop
-- Docker Compose
+## Overview
 
-### Koraci za pokretanje
+The system enables:
 
-1. **Klonirajte/ekstraktujte projekat** u željeni folder
+-   Melanoma risk assessment through a structured questionnaire\
+-   Patient registration and management\
+-   Dermatology appointment scheduling\
+-   Administrative system management
 
-2. **Environment konfiguracija**
-   - U nastavku email-a nalazi se `.env` fajl
-   - Sačuvajte `.env` fajl u root folder projekta (na istom nivou gde se nalazi `docker-compose.yml`)
-   
-   Struktura foldera treba da izgleda ovako:
-   ```
-   euromelanoma/
-   ├── euromelanoma_api/
-   ├── euromelanoma_front/
-   ├── database/
-   ├── docker-compose.yml
-   └── .env                    
-   ```
+The application is fully containerized using Docker.
 
-3. **Pokretanje sistema**
-   ```bash
-   docker-compose up -d
-   ```
+------------------------------------------------------------------------
 
-4. **Čekanje da se sistem pokrene** (može potrajati 2-3 minuta pri prvom pokretanju)
+## System Requirements
 
-5. **Pristup aplikaciji**
-   - **Frontend:** http://localhost:4200
-   - **Backend API/Swagger:** http://localhost:5000/swagger
-   - **Baza podataka:** localhost,1433 (korisnik: sa, lozinka: nalazi se u .env fajlu)
+-   Docker Desktop\
+-   Docker Compose
 
-## 📋 Test nalozi
+------------------------------------------------------------------------
 
-Sistem automatski kreira sledeće test naloge:
+## Getting Started
 
-- **Administrator:**
-  - Username: `admin`
-  - Password: `Lozinka_123`
+### 1. Project Setup
 
-- **Lekar:**
-  - Username: `jelena01`
-  - Password: `Lozinka_123!`
+Clone or extract the project into your desired directory.
 
-- **Pacijent:**
-  - Username: `anci`
-  - Password: `Lozinka_123!`
+### 2. Environment Configuration
 
-## 🔧 Upravljanje sistemom
+An `.env` file is provided in the email attachment.
 
-### Osnovne komande
-```bash
-# Pokretanje
+Save the `.env` file in the project root directory (same level as
+`docker-compose.yml`).
+
+The folder structure should look like:
+
+    euromelanoma/
+    ├── euromelanoma_api/
+    ├── euromelanoma_front/
+    ├── database/
+    ├── docker-compose.yml
+    └── .env
+
+### 3. Start the System
+
+``` bash
 docker-compose up -d
+```
 
-# Zaustavljanje
+### 4. Initial Startup
+
+The first startup may take 2--3 minutes while images are built and
+services initialize.
+
+------------------------------------------------------------------------
+
+## Accessing the Application
+
+-   **Frontend:** http://localhost:4200\
+-   **Backend API / Swagger:** http://localhost:5000/swagger\
+-   **Database:** localhost,1433
+
+Database credentials:
+
+-   Username: `sa`\
+-   Password: defined in the `.env` file
+
+------------------------------------------------------------------------
+
+## Test Accounts
+
+The system automatically creates the following test accounts:
+
+### Administrator
+
+-   Username: `admin`
+-   Password: `Lozinka_123`
+
+### Doctor
+
+-   Username: `jelena01`
+-   Password: `Lozinka_123!`
+
+### Patient
+
+-   Username: `anci`
+-   Password: `Lozinka_123!`
+
+------------------------------------------------------------------------
+
+## System Management
+
+### Basic Commands
+
+Start services:
+
+``` bash
+docker-compose up -d
+```
+
+Stop services:
+
+``` bash
 docker-compose down
+```
 
-# Pregled statusa
+Check service status:
+
+``` bash
 docker-compose ps
+```
 
-# Pregled logova
+View logs:
+
+``` bash
 docker-compose logs -f backend
 docker-compose logs -f frontend
 ```
 
-### Restartovanje pojedinačnih komponenti
-```bash
-# Restart backend-a (nakon izmena koda)
-docker-compose restart backend
+------------------------------------------------------------------------
 
-# Rebuild i restart frontend-a
+### Restart Specific Services
+
+Restart backend:
+
+``` bash
+docker-compose restart backend
+```
+
+Rebuild and restart frontend:
+
+``` bash
 docker-compose build frontend
 docker-compose up -d frontend
 ```
 
-## 🗄️ Baza podataka
+------------------------------------------------------------------------
 
-- **Server:** localhost,1433
-- **Database:** EUROMELANOMA
-- **Username:** sa
-- **Password:** nalazi se u .env fajlu
+## Database
 
-Baza se automatski kreira sa potrebnim tabelama i test podacima pri prvom pokretanju.
+-   Server: localhost,1433\
+-   Database: EUROMELANOMA\
+-   Username: sa\
+-   Password: defined in `.env`
 
-## 📧 Email funkcionalnost
+The database is automatically created and seeded with required tables
+and test data during the first startup.
 
-Sistem koristi SendGrid za slanje email-ova. Ukoliko se ne postaviti SendGrid API ključ, sistem će raditi normalno ali email-ovi neće biti poslati (biće samo logovani).
+------------------------------------------------------------------------
 
-## 🏗️ Arhitektura sistema
+## Email Functionality
 
-Sistem se sastoji od:
-- **Frontend:** Angular aplikacija (port 4200)
-- **Backend:** .NET 8 Web API (port 5000)
-- **Baza:** MS SQL Server (port 1433)
+The system uses SendGrid for email delivery.
 
-Svi servisi su kontejnerizovani i komuniciraju preko Docker mreže.
+If a SendGrid API key is not configured, the system will function
+normally; however, emails will not be sent and will instead be logged
+internally.
 
-## 🔍 Rešavanje problema
+------------------------------------------------------------------------
 
-### Ako aplikacija ne radi:
+## System Architecture
 
-1. **Proverite Docker status:**
-   ```bash
-   docker-compose ps
-   ```
+The application consists of:
 
-2. **Pogledajte logove:**
-   ```bash
-   docker-compose logs
-   ```
+-   **Frontend:** Angular (Port 4200)\
+-   **Backend:** .NET 8 Web API (Port 5000)\
+-   **Database:** Microsoft SQL Server (Port 1433)
 
-3. **Restartujte sistem:**
-   ```bash
-   docker-compose down
-   docker-compose up -d
-   ```
+All services are containerized and communicate via an internal Docker
+network.
 
-4. **Očistite Docker cache (ako je potrebno):**
-   ```bash
-   docker system prune -f
-   docker-compose build --no-cache
-   docker-compose up -d
-   ```
+------------------------------------------------------------------------
 
-### Česti problemi:
-- **Port zauzet:** Proverite da portovi 4200, 5000, i 1433 nisu zauzeti
-- **.env fajl:** Proverite da je `.env` fajl na pravom mestu
-- **Windows Docker:** Možda treba da omogućite file sharing u Docker Desktop settings
+## Troubleshooting
 
-**Napomena:** `.env` fajl se nalazi u prilogu email-a iz bezbednosnih razloga i ne treba da bude deo javnog repositorijuma.
+### If the application is not working:
+
+1.  Check container status:
+
+    ``` bash
+    docker-compose ps
+    ```
+
+2.  Inspect logs:
+
+    ``` bash
+    docker-compose logs
+    ```
+
+3.  Restart the system:
+
+    ``` bash
+    docker-compose down
+    docker-compose up -d
+    ```
+
+4.  Clear Docker cache (if necessary):
+
+    ``` bash
+    docker system prune -f
+    docker-compose build --no-cache
+    docker-compose up -d
+    ```
+
+------------------------------------------------------------------------
+
+### Common Issues
+
+-   **Port conflicts:** Ensure ports 4200, 5000, and 1433 are not in
+    use.
+-   **Missing `.env` file:** Confirm the file is placed in the root
+    directory.
+-   **Windows Docker configuration:** File sharing may need to be
+    enabled in Docker Desktop settings.
+
+------------------------------------------------------------------------
+
+## Security Notice
+
+The `.env` file is intentionally excluded from the public repository for
+security reasons and is provided separately via email.
